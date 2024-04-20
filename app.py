@@ -12,3 +12,4 @@ def page_not_found(e):
     @app.route("/404")
     def page_404():
         return render_template('404.html')
+    
