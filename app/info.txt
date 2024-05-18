@@ -1,6 +1,6 @@
 Plan d'organisation de fichier avec Flask
 
-/home/user/Projects/flask-tutorial
+/app/
 ├── flaskr/
 │   ├── __init__.py
 │   ├── db.py
