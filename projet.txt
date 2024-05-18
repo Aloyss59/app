@@ -1,0 +1,16 @@
+Fonctionnalitées:
+-créer un groupe de discussions et ajouter des membres
+-création du groupe:  possibilité d'activer ou non certaines fonctionnalitées suplémentaire (citer plus loin)
+-acceder  aux parametre du groupe afin de gérer les fonctionnalitées, les membre et les trucs CLASSIQUE
+acces aux parametre de son profil pour gere les classique parametre (exemple: notifications)
+
+idées pour les fonctionnalitées:
+-programmer des évènements dans le chat (choisir la date et hheure et tout les cb de temps sa se passe ou laisser en random)(voir apres)
+-écouter de la musqiue en commun ave les membres du groupes et gerer la file d'attente ensemble
+-jeux avec membres du groupe
+
+
+idées pour evenements aléatoires:
+-un systeme similaire à Bereal
+-un systeme anonyme on ne voit pas qui envoie les message
+-
