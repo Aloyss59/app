@@ -1,21 +1,21 @@
 function handleReglageClick() {
-    window.location.href = '/parametre';
+    window.location.href = '../templates/reglage.html';
 }  
 function redirectToChatPage() {
-    window.location.href = "/";
+    window.location.href = "../templates/discussion.html";
 }
 function pagealbum() {
-    window.location.href = "/album";
+    window.location.href = "../templates/album.html";
 }
 function pageamis() {
-    window.location.href = "/amis";
+    window.location.href = "../templates/amis.html";
 }
 function pagecam() {
-    window.location.href = "/appareil-photo";
+    window.location.href = "../templates/photo.html";
 }
 function pagechat() {
-    window.location.href = "/discussion";
+    window.location.href = "../templates/chat.html";
 }
 function pageparametre() {
-    window.location.href = "/discussion/parametre";
+    window.location.href = "../templates/parametres.html";
 }
