@@ -19,3 +19,9 @@ function pagechat() {
 function pageparametre() {
     window.location.href = "../templates/parametres.html";
 }
+function redirectToChatPage() {
+    document.body.classList.add('slide-out');
+    setTimeout(function() {
+        window.location.href = "../templates/pagediscussion.html";
+    }, 500); // Attendre la fin de l'animation (0.5s)
+}
