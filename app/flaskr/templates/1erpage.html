@@ -7,6 +7,7 @@
     <title>E-Spirit 1er page</title>
     <link rel="stylesheet" type="text/css" href="../static/css/1er page.css">
     <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="../static/1erpage.js"></script>
 </head>
 <body>
     <header>
@@ -16,21 +17,21 @@
 
 
     <ul class="conversation">
-        <button class="chat">
+        <div class="chat" onclick="redirectToChatPage()">
             <img src="pasla" alt="pp" class="profilespictures">
             <div class="chat-info">
                 <span class="chat-name">Jena Dupont 😾</span>
                 <div class="no-wrap">
-                    <span class="chat-temps">temps/</span>
-                    <span class="chat-message">Cet endroit corespo...</span>
+                    <span class="chat-temps">temps</span>
+                    <span class="chat-message">/ Cet endroit corespo...</span>
                 </div>
-                <button class="reglage-button">
-                    <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
-                </button>
             </div>
-        </button>
-
-        
+            <div class="reglage-button" onclick="handleReglageClick()">
+                <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
+            </div>
+        </div>
+    </ul>
+    
     <footer>
         <button class="footer-button"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
         <button class="footer-button"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
@@ -38,5 +39,16 @@
         <button class="footer-button"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
         <button class="footer-button"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
+
+    <script>
+        function handleReglageClick() {
+            window.location.href = '../templates/pagereglagediscussion.html';
+        }  
+        function redirectToChatPage() {
+            window.location.href = "../templates/pagediscussion.html";
+        }
+             
+    </script>
+    
 </body>
 </html>
