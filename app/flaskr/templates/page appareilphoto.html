@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Spirit appareil photo</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/1er page.css">
+    <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="../static/1erpage.js"></script>
+</head>
+<body>
+    <header>
+        <img src="" alt="Photo" class="ta-pp">
+        <div class="Name-page">Appareil Photo</div>
+    </header>
+
+
+    
+    
+    <footer>
+        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+    </footer>
+
+    <script>
+        function handleReglageClick() {
+            window.location.href = '../templates/pagereglagediscussion.html';
+        }  
+        function redirectToChatPage() {
+            window.location.href = "../templates/pagediscussion.html";
+        }
+        function pagealbum() {
+            window.location.href = "../templates/pagealbum.html";
+        }
+        function pageamis() {
+            window.location.href = "../templates/page listeamis.html";
+        }
+        function pagecam() {
+            window.location.href = "../templates/page appareilphoto.html";
+        }
+        function pagechat() {
+            window.location.href = "../templates/page chat.html";
+        }
+        function pageparametre() {
+            window.location.href = "../templates/pageparametres.html";
+        }
+             
+    </script>
+    
+</body>
+</html>
