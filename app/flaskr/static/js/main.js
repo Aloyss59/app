@@ -14,7 +14,7 @@ function pagecam() {
     window.location.href = "/appareil-photo";
 }
 function pagechat() {
-    window.location.href = "/discussion";
+    window.location.href = "/";
 }
 function pageparametre() {
     window.location.href = "/discussion/parametre";
