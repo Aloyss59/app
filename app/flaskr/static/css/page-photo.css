@@ -5,27 +5,25 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f4f4f4;
 }
-#camera, #photo {
-    display: none;
-}
+  
 .container {
     text-align: center;
 }
-.btn {
-    display: block;
-    margin: 10px auto;
+  
+video {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+  
+button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
 }
-.btn:disabled {
-    background-color: #cccccc;
-}
-.uploaded-image {
-    margin-top: 20px;
+  
+canvas {
+    display: none;
 }
