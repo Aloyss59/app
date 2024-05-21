@@ -1,127 +1,55 @@
-(() => {
-  
-    const width = 320; // On met à l'échelle la photo pour avoir cette largeur
-    let height = 0; // On calcule cette valeur ensuite selon le flux d'entrée
-  
-    // |streaming| indique si le flux vidéo est en cours
-    // Lorsqu'on commence, ce n'est pas le cas (false).
-  
-    let streaming = false;
-  
-    // On référence les éléments HTML qu'il faudra configurer ou contrôler.
-    // Ils seront définis lors de la fonction startup().
-  
-    let video = null;
-    let canvas = null;
-    let photo = null;
-    let startbutton = null;
-  
-    function showViewLiveResultButton() {
-      if (window.self !== window.top) {
-        // On s'assure que si notre document est dans une iframe,
-        // on invite la personne à ouvrir l'exemple dans un onglet
-        // ou une fenêtre séparée. Sinon, le navigateur n'envoie
-        // pas la demande d'accès à la caméra.
-        document.querySelector(".contentarea").remove();
-        const button = document.createElement("button");
-        button.textContent =
-          "Voir le résultat de l'exemple dont le code est présenté avant";
-        document.body.append(button);
-        button.addEventListener("click", () => window.open(location.href));
-        return true;
-      }
-      return false;
-    }
-  
-    function startup() {
-      if (showViewLiveResultButton()) {
-        return;
-      }
-      video = document.getElementById("video");
-      canvas = document.getElementById("canvas");
-      photo = document.getElementById("photo");
-      startbutton = document.getElementById("startbutton");
-  
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: false })
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const snapButton = document.getElementById('snap');
+    const uploadButton = document.getElementById('upload');
+    const uploadedImage = document.getElementById('uploadedImage');
+    const constraints = {
+        video: true
+    };
+
+    // Accéder à la caméra
+    navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
-          video.srcObject = stream;
-          video.play();
+            video.srcObject = stream;
         })
         .catch((err) => {
-          console.error(`Une erreur est survenue : ${err}`);
+            console.error('Error accessing media devices.', err);
         });
-  
-      video.addEventListener(
-        "canplay",
-        (ev) => {
-          if (!streaming) {
-            height = video.videoHeight / (video.videoWidth / width);
-  
-            // Firefox a un bug où la hauteur ne peut pas être lue
-            // à partir de la vidéo. On prend des précautions.
-  
-            if (isNaN(height)) {
-              height = width / (4 / 3);
+
+    // Prendre une photo
+    snapButton.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // Afficher le canvas
+        canvas.style.display = 'block';
+        uploadButton.disabled = false; // Activer le bouton d'upload
+    });
+
+    // Uploader la photo
+    uploadButton.addEventListener('click', () => {
+        const dataUrl = canvas.toDataURL('image/png');
+        fetch('/upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image: dataUrl })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.url) {
+                uploadedImage.src = data.url;
+                uploadedImage.style.display = 'block';
+                canvas.style.display = 'none'; // Masquer le canvas
+            } else {
+                console.error('Error uploading image:', data.error);
             }
-  
-            video.setAttribute("width", width);
-            video.setAttribute("height", height);
-            canvas.setAttribute("width", width);
-            canvas.setAttribute("height", height);
-            streaming = true;
-          }
-        },
-        false,
-      );
-  
-      startbutton.addEventListener(
-        "click",
-        (ev) => {
-          takepicture();
-          ev.preventDefault();
-        },
-        false,
-      );
-  
-      clearphoto();
-    }
-  
-    // On remplit le cadre de la photo pour indiquer l'absence
-    // d'image capturée.
-  
-    function clearphoto() {
-      const context = canvas.getContext("2d");
-      context.fillStyle = "#AAA";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-  
-      const data = canvas.toDataURL("image/png");
-      photo.setAttribute("src", data);
-    }
-  
-    // On capture une photo en récupérant le contenu courant de la
-    // vidéo, qu'on dessine dans un canevas puis qu'on convertit
-    // en une URL de données contenant l'image au format PNG.
-    // En utilisant un canevas en dehors de l'écran, on peut
-    // modifier sa taille et/ou appliquer d'autres modifications
-    // avant de l'afficher à l'écran.
-  
-    function takepicture() {
-      const context = canvas.getContext("2d");
-      if (width && height) {
-        canvas.width = width;
-        canvas.height = height;
-        context.drawImage(video, 0, 0, width, height);
-  
-        const data = canvas.toDataURL("image/png");
-        photo.setAttribute("src", data);
-      } else {
-        clearphoto();
-      }
-    }
-  
-    // On met en place un gestionnaire d'évènement pour exécuter
-    // le code lorsque le chargement du document est terminé.
-    window.addEventListener("load", startup, false);
-  })();
-  
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});

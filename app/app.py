@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify
 import os
 import uuid
+import base64
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
@@ -44,22 +45,19 @@ def login():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    if 'image' not in request.files:
+    data = request.get_json()
+    if 'image' not in data:
         return jsonify({'error': 'No image part in the request'}), 400
+
+    image_data = data['image'].split(",")[1]
+    file_data = base64.b64decode(image_data)
+    filename = f"{uuid.uuid4().hex}.png"
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+    with open(file_path, "wb") as f:
+        f.write(file_data)
     
-    file = request.files['image']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-    
-    if file:
-        filename = f"{uuid.uuid4().hex}.png"
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-        return jsonify({'url': f"../static/uploads/{filename}"}), 200
-    
-@app.route('/register')
-def register():
-    return render_template('./auth/register.html')
+    return jsonify({'url': f"../static/uploads/{filename}"}), 200
 
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):

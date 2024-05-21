@@ -6,8 +6,8 @@
     <title>E-Spirit appareil photo</title>
     <link rel="stylesheet" type="text/css" href="../static/css/1er page.css">
     <link rel="stylesheet" href="../static/css/page-photo.css">
-    <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.ico">
-    <script src="../static/js/main.js"></script>
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="../static/js/appareil-photo.js" defer></script>
 </head>
 <body class="slide-out" data-page="page2">
     <header>
@@ -15,20 +15,14 @@
         <div class="Name-page">Appareil Photo</div>
     </header>
     <div class="container">
-        <div class="container">
-        <video id="camera" width="320" height="240" autoplay></video>
-        <canvas id="photo" width="320" height="240"></canvas>
+        <video id="video" width="320" height="240" autoplay></video>
+        <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
         <button id="snap" class="btn">Prendre une photo</button>
         <button id="upload" class="btn" disabled>Uploader la photo</button>
         <div class="uploaded-image">
             <img id="uploadedImage" src="" alt="Uploaded Image" style="display: none;">
         </div>
     </div>
-    <script src="../static/js/appareil-photo.js"></script>
-
-
-    
-    
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
         <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
@@ -36,8 +30,5 @@
         <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
-
-    <script src="../static/js/main.js"></script>   
-    
 </body>
 </html>
