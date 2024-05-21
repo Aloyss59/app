@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit appareil photo</title>
     <link rel="stylesheet" type="text/css" href="../static/css/1er page.css">
+    <link rel="stylesheet" href="../static/css/page-photo.css">
     <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.ico">
     <script src="../static/js/main.js"></script>
 </head>
@@ -13,6 +14,16 @@
         <img src="" alt="Photo" class="ta-pp">
         <div class="Name-page">Appareil Photo</div>
     </header>
+    <div class="container">
+        <video id="camera" width="320" height="240" autoplay></video>
+        <canvas id="photo" width="320" height="240"></canvas>
+        <button id="snap" class="btn">Prendre une photo</button>
+        <button id="upload" class="btn" disabled>Uploader la photo</button>
+        <div class="uploaded-image">
+            <img id="uploadedImage" src="" alt="Uploaded Image" style="display: none;">
+        </div>
+    </div>
+    <script src="../static/js/appareil-photo.js"></script>
 
 
     
@@ -25,8 +36,7 @@
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
-    <script src="../static/js/main.js"></script>
-   
+    <script src="../static/js/main.js"></script>   
     
 </body>
 </html>

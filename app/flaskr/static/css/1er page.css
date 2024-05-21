@@ -50,16 +50,12 @@ header {
     font-weight: bold; /* ajustez le poids de la police à votre convenance */
     color: #333; /* ajustez la couleur du texte à votre convenance */
 }
+
 .ta-pp{
 	margin-left: 5%;
 	height: 30px;
 	width: 30px;
 }
-
-
-
-
-
 
 footer {
     bottom: 0; /* Ajouté pour que le footer soit en bas de page */
@@ -88,20 +84,6 @@ footer {
 .icone-friends:hover,.icone-cam:hover,.icone-discu:hover,.icone-album:hover,.icone-setting:hover {
     transform: scale(1.5); /* Augmente légèrement la taille au survol */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .conversation {
     display: flex;
@@ -135,7 +117,6 @@ footer {
     flex: 1; /* Prend tout l'espace disponible */
 }
 
-  
 .chat-name {
 	font-weight: bold;
 	font-size: 18px;
@@ -226,4 +207,3 @@ footer {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
-
