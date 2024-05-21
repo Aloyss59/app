@@ -207,3 +207,24 @@ footer {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
+
+.listealbum {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    width: 100%;
+    gap: 10px; /* Optionnel : pour ajouter de l'espace entre les éléments */
+}
+
+.grid-item {
+    background-color: #ffffff;
+    border-radius: 15px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
