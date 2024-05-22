@@ -14,27 +14,28 @@ body{
 }
 
 header, footer {
-    background-color: #ffffff;
+    background-color: #f0f0f0;
     color: #000000;
     padding: 18px 0;
     text-align: left;
     position: fixed;
     width: 100%;
+    box-shadow: 0 2px 80px rgba(24, 24, 24, 0.1);
     z-index: 1000;
 }
 
 header {
     top: 0;
-    border-bottom: 1px solid #a59999;
+    /* border-bottom: 1px solid #a59999; */
 	overflow: hidden;
 	border-radius: 0 0 30px 30px;
-
+    
 }
 
 .header-rectangle {
     width: 40px; /* ajustez la largeur à votre convenance */
     height: 35px; /* ajustez la hauteur à votre convenance */
-    background-color: #000000; /* ajustez la couleur de fond à votre convenance */
+    background-color: #000000; 
     border-radius: 6px; /* ajustez le rayon de courbure à votre convenance */
     position: absolute;
     top: 5px; /* ajustez la position à votre convenance */
@@ -51,23 +52,18 @@ header {
     color: #333; /* ajustez la couleur du texte à votre convenance */
 }
 
-.ta-pp{
-	margin-left: 5%;
-	height: 30px;
-	width: 30px;
-}
-
 footer {
     bottom: 0; /* Ajouté pour que le footer soit en bas de page */
     border-radius: 30px 30px 0 0; /* Arrondi les deux angles supérieurs */
     overflow: hidden;
-	border-top: 1px solid #a59999;
+	/* border-top: 1px solid #a59999; */
 	display: flex;
 	justify-content: space-between 5px;
 	align-items: center;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+    
 }
 
   
@@ -79,6 +75,8 @@ footer {
 	padding-left: 10px;
 	padding-right: 10PX;
 	transition: transform 0.2s ease-in-out;
+    opacity: 50%;
+    
 }
   
 .icone-friends:hover,.icone-cam:hover,.icone-discu:hover,.icone-album:hover,.icone-setting:hover {
@@ -227,82 +225,4 @@ footer {
     font-weight: bold;
     color: #333;
     text-align: center;
-}
-
-.settings-list {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.setting-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.setting-item:last-child {
-    border-bottom: none;
-}
-
-.setting-name {
-    font-size: 18px;
-    color: #333;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 24px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    transform: translateX(16px);
-}
-
-.slider.round {
-    border-radius: 24px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
 }
