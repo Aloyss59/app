@@ -1,5 +1,5 @@
 body{
-	background-color: #f0f0f0;
+	background-color: #a8a8a8;
 	font-family: Arial, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -14,7 +14,7 @@ body{
 }
 
 header, footer {
-    background-color: #ffffff;
+    background-color: #a8a8a8;
     color: #000000;
     padding: 18px 0;
     text-align: left;
@@ -25,7 +25,7 @@ header, footer {
 
 header {
     top: 0;
-    border-bottom: 1px solid #a59999;
+    /* border-bottom: 1px solid #a59999; */
 	overflow: hidden;
 	border-radius: 0 0 30px 30px;
 
@@ -34,7 +34,7 @@ header {
 .header-rectangle {
     width: 40px; /* ajustez la largeur à votre convenance */
     height: 35px; /* ajustez la hauteur à votre convenance */
-    background-color: #000000; /* ajustez la couleur de fond à votre convenance */
+    background-color: #000000;
     border-radius: 6px; /* ajustez le rayon de courbure à votre convenance */
     position: absolute;
     top: 5px; /* ajustez la position à votre convenance */
@@ -61,7 +61,7 @@ footer {
     bottom: 0; /* Ajouté pour que le footer soit en bas de page */
     border-radius: 30px 30px 0 0; /* Arrondi les deux angles supérieurs */
     overflow: hidden;
-	border-top: 1px solid #a59999;
+	/* border-top: 1px solid #a59999; */
 	display: flex;
 	justify-content: space-between 5px;
 	align-items: center;
@@ -213,10 +213,11 @@ footer {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     width: 100%;
     gap: 10px; /* Optionnel : pour ajouter de l'espace entre les éléments */
+    
 }
 
 .grid-item {
-    background-color: #ffffff;
+    background-color: #312e2e;
     border-radius: 15px;
     height: 150px;
     display: flex;
@@ -227,4 +228,6 @@ footer {
     font-weight: bold;
     color: #333;
     text-align: center;
+    border: 1px solid #a59999;
+    color: #ffffff;
 }
