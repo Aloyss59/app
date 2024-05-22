@@ -20,7 +20,7 @@ header, footer {
     text-align: left;
     position: fixed;
     width: 100%;
-    box-shadow: 0 2px 80px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 80px rgba(24, 24, 24, 0.1);
     z-index: 1000;
 }
 
@@ -201,21 +201,6 @@ footer {
     cursor: pointer;
 }
 
-input[type="search"] {
-    width: calc(100% - 40px); /* Ajuste la largeur pour laisser un espace de 20px de chaque côté */
-    margin: 10px 20px; /* Espace de 10px en haut et en bas, et 20px à gauche et à droite */
-    padding: 10px; /* Ajoute du rembourrage interne */
-    font-size: 16px; /* Ajustez la taille de la police selon vos besoins */
-    border: 1px solid #ccc; /* Bordure grise claire */
-    border-radius: 20px; /* Bordure légèrement arrondie */
-    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
-}
-
-input[type="search"]::placeholder {
-    color: #999; /* Couleur du placeholder */
-    font-style: italic; /* Style du texte du placeholder */
-}
-
 .rechercheamis {
     border-radius: 50%; /* ajustez le rayon de courbure à votre convenance */
     margin: 0 10px;
@@ -225,6 +210,44 @@ input[type="search"]::placeholder {
     position: relative;
     height: 20px;
     width: 20px;
-    left: 265px;
+    left: 92%;
     top: 50%;
+}
+
+.barrerecherche{
+    display: flex;
+    align-items: center;
+    width: calc(100% - 40px); /* Presque toute la largeur de la page, ajustez la marge selon vos besoins */
+    margin: 20px auto; /* Centre le conteneur avec une marge sur les côtés */
+    position: relative;
+}
+
+input[type="search"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+input[type="search"]::placeholder {
+    color: #999;
+    font-style: italic;
+    font-size: 70%;
+}
+
+.search-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.search-button img {
+    width: 20px; /* Ajustez la largeur selon vos besoins */
+    height: 20px; /* Ajustez la hauteur selon vos besoins */
 }
