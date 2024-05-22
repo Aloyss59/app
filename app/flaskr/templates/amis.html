@@ -18,7 +18,37 @@
         <input type="search" name="rechercheamis" placeholder="Taper le nom de votre ami ou ajouter un ami avec le +"/>
         <button class="search-button"><img src="../static/img/ajouteramis.png" alt="search icon"></button>
     </div>
-    
+    <div class="ligne-sous-barre"></div>
+
+    <div class="listeamis">
+        <div class="bonhomme-button"><span class="button-text">A</span></div>
+        <div class="bonhomme-button"><span class="button-text">B</span></div>
+        <div class="bonhomme-button"><span class="button-text">C</span></div>
+        <div class="bonhomme-button"><span class="button-text">D</span></div>
+        <div class="bonhomme-button"><span class="button-text">E</span></div>
+        <div class="bonhomme-button"><span class="button-text">F</span></div>
+        <div class="bonhomme-button"><span class="button-text">G</span></div>
+        <div class="bonhomme-button"><span class="button-text">H</span></div>
+        <div class="bonhomme-button"><span class="button-text">I</span></div>
+        <div class="bonhomme-button"><span class="button-text">J</span></div>
+        <div class="bonhomme-button"><span class="button-text">K</span></div>
+        <div class="bonhomme-button"><span class="button-text">L</span></div>
+        <div class="bonhomme-button"><span class="button-text">M</span></div>
+        <div class="bonhomme-button"><span class="button-text">N</span></div>
+        <div class="bonhomme-button"><span class="button-text">O</span></div>
+        <div class="bonhomme-button"><span class="button-text">P</span></div>
+        <div class="bonhomme-button"><span class="button-text">Q</span></div>
+        <div class="bonhomme-button"><span class="button-text">R</span></div>
+        <div class="bonhomme-button"><span class="button-text">S</span></div>
+        <div class="bonhomme-button"><span class="button-text">T</span></div>
+        <div class="bonhomme-button"><span class="button-text">U</span></div>
+        <div class="bonhomme-button"><span class="button-text">V</span></div>
+        <div class="bonhomme-button"><span class="button-text">W</span></div>
+        <div class="bonhomme-button"><span class="button-text">X</span></div>
+        <div class="bonhomme-button"><span class="button-text">Y</span></div>
+        <div class="bonhomme-button"><span class="button-text">Z</span></div>
+    </div>
+
 
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
@@ -28,7 +58,23 @@
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
-    <script src="../static/js/main.js"></script>
+    <script src="../static/js/main.js">
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        window.onload = function() {
+            var buttons = document.querySelectorAll('.bonhomme-button');
+            buttons.forEach(function(button) {
+                button.style.backgroundColor = getRandomColor();
+            });
+        };
+    </script>
 
     
 </body>

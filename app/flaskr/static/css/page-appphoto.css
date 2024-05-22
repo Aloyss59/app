@@ -14,27 +14,28 @@ body{
 }
 
 header, footer {
-    background-color: #ffffff;
+    background-color: #f0f0f0;
     color: #000000;
     padding: 18px 0;
     text-align: left;
     position: fixed;
     width: 100%;
+    box-shadow: 0 2px 80px rgba(24, 24, 24, 0.1);
     z-index: 1000;
 }
 
 header {
     top: 0;
-    border-bottom: 1px solid #a59999;
+    /* border-bottom: 1px solid #a59999; */
 	overflow: hidden;
 	border-radius: 0 0 30px 30px;
-
+    
 }
 
 .header-rectangle {
     width: 40px; /* ajustez la largeur à votre convenance */
     height: 35px; /* ajustez la hauteur à votre convenance */
-    background-color: #000000; /* ajustez la couleur de fond à votre convenance */
+    background-color: #000000; 
     border-radius: 6px; /* ajustez le rayon de courbure à votre convenance */
     position: absolute;
     top: 5px; /* ajustez la position à votre convenance */
@@ -51,23 +52,18 @@ header {
     color: #333; /* ajustez la couleur du texte à votre convenance */
 }
 
-.ta-pp{
-	margin-left: 5%;
-	height: 30px;
-	width: 30px;
-}
-
 footer {
     bottom: 0; /* Ajouté pour que le footer soit en bas de page */
     border-radius: 30px 30px 0 0; /* Arrondi les deux angles supérieurs */
     overflow: hidden;
-	border-top: 1px solid #a59999;
+	/* border-top: 1px solid #a59999; */
 	display: flex;
 	justify-content: space-between 5px;
 	align-items: center;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+    
 }
 
   
@@ -79,6 +75,8 @@ footer {
 	padding-left: 10px;
 	padding-right: 10PX;
 	transition: transform 0.2s ease-in-out;
+    opacity: 50%;
+    
 }
   
 .icone-friends:hover,.icone-cam:hover,.icone-discu:hover,.icone-album:hover,.icone-setting:hover {
@@ -196,35 +194,4 @@ footer {
     padding: 0;
     margin: 0;
     cursor: pointer;
-}
-
-.fade-in {
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.fade-out {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.listealbum {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    width: 100%;
-    gap: 10px; /* Optionnel : pour ajouter de l'espace entre les éléments */
-}
-
-.grid-item {
-    background-color: #ffffff;
-    border-radius: 15px;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
 }
