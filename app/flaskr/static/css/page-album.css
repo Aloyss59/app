@@ -1,5 +1,5 @@
 body{
-	background-color: #a8a8a8;
+	background-color: #f0f0f0;
 	font-family: Arial, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -14,7 +14,7 @@ body{
 }
 
 header, footer {
-    background-color: #a8a8a8;
+    background-color: #f0f0f0;
     color: #000000;
     padding: 18px 0;
     text-align: left;
@@ -217,7 +217,7 @@ footer {
 }
 
 .grid-item {
-    background-color: #312e2e;
+    background-color: #0000002a;
     border-radius: 15px;
     height: 150px;
     display: flex;
@@ -230,4 +230,5 @@ footer {
     text-align: center;
     border: 1px solid #a59999;
     color: #ffffff;
+    margin: 0 10px;
 }
