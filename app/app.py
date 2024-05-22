@@ -11,6 +11,14 @@ app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
 def home():
     return render_template("chat.html")
 
+@app.route('/login')
+def login():
+    return render_template('./auth/login.html')
+
+@app.route('/sing-up')
+def register():
+    return render_template('./auth/signup.html')
+
 @app.route('/appareil-photo')
 def appareil_photo():
     return render_template("photo.html")
@@ -38,10 +46,6 @@ def reglage():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html')
-
-@app.route('/login')
-def login():
-    return render_template('./auth/login.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
