@@ -83,91 +83,6 @@ footer {
     transform: scale(1.5); /* Augmente légèrement la taille au survol */
 }
 
-.conversation {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 10px 0;
-    justify-content: center;
-}
-
-.chat {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-top: 1px solid #dadada;
-    border-bottom: 1px solid #dadada;
-    border-left: none;
-    border-right: none;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    height: 75px;
-    position: relative;
-    padding-right: 40px; /* Assurez-vous qu'il y a de l'espace pour le bouton réglage */
-}
-.chat-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1; /* Prend tout l'espace disponible */
-}
-
-.chat-name {
-	font-weight: bold;
-	font-size: 18px;
-	text-align: left;
-}
-  
-.chat-message {
-	font-size: 16px;
-	color: #666;
-	text-align: left;
-	white-space: nowrap; /* empêche le texte de s'enrouler à la ligne suivante */
-	overflow: hidden; /* cache le texte qui dépasse */
-	text-overflow: ellipsis; /* remplace le texte qui dépasse par des points de suspension */
-	width: 100%; /* définir une largeur maximale pour l'élément */
-	display: inline-block;
-}
-
-.chat-temps {
-	font-size: 16px;
-	color: #8d8ef5;
-	text-align: left;
-	white-space: nowrap; /* empêche le texte de s'enrouler à la ligne suivante */
-	overflow: hidden; /* cache le texte qui dépasse */
-	text-overflow: ellipsis; /* remplace le texte qui dépasse par des points de suspension */
-	width: 100%; /* définir une largeur maximale pour l'élément */
-	display: inline-block;
-}
-
-.chat:hover {
-    background-color: #dfdfdf;
-}
-
-.no-wrap {
-	white-space: nowrap;
-}
-.no-wrap span {
-	margin: 0; /* Supprimer les marges */
-	padding: 0; /* Supprimer les rembourrages */
-	display: inline; /* Assurer qu'ils sont des éléments en ligne */
-}
-
-.profilespictures {
-    width: 30px; /* ajustez la largeur à votre convenance */
-    height: 30px; /* ajustez la hauteur à votre convenance */
-    border-radius: 20%; /* ajustez le rayon de courbure à votre convenance */
-    margin: 0 10px;
-
-}
-
-.reglage {
-    width: 25px; /* ajustez la largeur à votre convenance */
-    height: 25px; /* ajustez la hauteur à votre convenance */
-}
 
 .footer-button{
 	background: none;
@@ -180,21 +95,6 @@ footer {
     width: 30px; /* ajustez la largeur à votre convenance */
     height: 30px; /* ajustez la hauteur à votre convenance */
     transition: transform 0.2s ease-in-out;
-}
-/* .footer-button img:hover,.reglage-button img:hover {
-	background-color: #8d8ef5;
-} */
-.reglage-button {
-    position: absolute;
-    right: 10px;
-    top: 50%; 
-    transform: translateY(-50%);
-    z-index: 1; /* S'assure que le bouton est au-dessus des autres éléments */
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
 }
 
 

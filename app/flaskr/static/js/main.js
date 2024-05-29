@@ -1,9 +1,4 @@
-function handleReglageClick() {
-    window.location.href = '/parametre';
-}  
-function redirectToChatPage() {
-    window.location.href = "/";
-}
+
 function pagealbum() {
     window.location.href = "/album";
 }
@@ -17,7 +12,7 @@ function pagechat() {
     window.location.href = "/";
 }
 function pageparametre() {
-    window.location.href = "/discussion/parametre";
+    window.location.href = "/parametre";
 }
 
 // Ajoutez ici le code pour le toggle switch

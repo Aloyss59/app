@@ -183,9 +183,6 @@ footer {
     cursor: pointer;
 }
 
-/* .footer-button img:hover,.reglage-button img:hover {
-	background-color: #8d8ef5;
-} */
 .reglage-button {
     position: absolute;
     right: 10px;

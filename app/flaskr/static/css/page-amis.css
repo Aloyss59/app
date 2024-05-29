@@ -88,90 +88,6 @@ footer {
     transform: scale(1.5); /* Augmente légèrement la taille au survol */
 }
 
-.conversation {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 10px 0;
-    justify-content: center;
-}
-
-.chat {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-top: 1px solid #dadada;
-    border-bottom: 1px solid #dadada;
-    border-left: none;
-    border-right: none;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    height: 75px;
-    position: relative;
-    padding-right: 40px; /* Assurez-vous qu'il y a de l'espace pour le bouton réglage */
-}
-.chat-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1; /* Prend tout l'espace disponible */
-}
-
-.chat-name {
-	font-weight: bold;
-	font-size: 18px;
-	text-align: left;
-}
-  
-.chat-message {
-	font-size: 16px;
-	color: #666;
-	text-align: left;
-	white-space: nowrap; /* empêche le texte de s'enrouler à la ligne suivante */
-	overflow: hidden; /* cache le texte qui dépasse */
-	text-overflow: ellipsis; /* remplace le texte qui dépasse par des points de suspension */
-	width: 100%; /* définir une largeur maximale pour l'élément */
-	display: inline-block;
-}
-
-.chat-temps {
-	font-size: 16px;
-	color: #8d8ef5;
-	text-align: left;
-	white-space: nowrap; /* empêche le texte de s'enrouler à la ligne suivante */
-	overflow: hidden; /* cache le texte qui dépasse */
-	text-overflow: ellipsis; /* remplace le texte qui dépasse par des points de suspension */
-	width: 100%; /* définir une largeur maximale pour l'élément */
-	display: inline-block;
-}
-
-.chat:hover {
-    background-color: #dfdfdf;
-}
-
-.no-wrap {
-	white-space: nowrap;
-}
-.no-wrap span {
-	margin: 0; /* Supprimer les marges */
-	padding: 0; /* Supprimer les rembourrages */
-	display: inline; /* Assurer qu'ils sont des éléments en ligne */
-}
-
-.profilespictures {
-    width: 50px; /* ajustez la largeur à votre convenance */
-    height: 50px; /* ajustez la hauteur à votre convenance */
-    border-radius: 50%; /* ajustez le rayon de courbure à votre convenance */
-    margin: 0 10px;
-}
-
-.reglage {
-    width: 25px; /* ajustez la largeur à votre convenance */
-    height: 25px; /* ajustez la hauteur à votre convenance */
-}
 
 .footer-button{
 	background: none;
@@ -237,9 +153,74 @@ input[type="search"]::placeholder {
     height: 20px; /* Ajustez la hauteur selon vos besoins */
 }
 
-.ligne-sous-barre {
-    width: 97%; /* Ajustez cette valeur selon la longueur souhaitée */
-    height: 2px; /* Ajustez l'épaisseur de la ligne */
-    background-color: #c4c4c452; /* Couleur de la ligne */
-    margin:1px auto; /* Centre la ligne et ajoute une marge au-dessus et au-dessous */
+/* .ligne-sous-barre { */
+    /* width: 97%; /* Ajustez cette valeur selon la longueur souhaitée */
+    /* height: 2px; /* Ajustez l'épaisseur de la ligne */
+    /* background-color: #c4c4c452; Couleur de la ligne */
+    /* margin:1px auto; Centre la ligne et ajoute une marge au-dessus et au-dessous
+}  */
+
+.amitemps {
+	font-size: 16px;
+	color: #666;
+	text-align: left;
+	overflow: hidden; /* cache le texte qui dépasse */
+	text-overflow: ellipsis; /* remplace le texte qui dépasse par des points de suspension */
+	width: 100%; /* définir une largeur maximale pour l'élément */
+	display: inline-block;
+}
+.ami {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid #dadada;
+    border-bottom: 1px solid #dadada;
+    border-left: none;
+    border-right: none;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    height: 75px;
+    position: relative;
+    padding-right: 40px; /* Assurez-vous qu'il y a de l'espace pour le bouton réglage */
+}
+.amis-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1; /* Prend tout l'espace disponible */
+}
+
+.aminame {
+	font-weight: bold;
+	font-size: 18px;
+	text-align: left;
+}
+.ami:hover {
+    background-color: #dfdfdf;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+.no-wrap span {
+	margin: 0; /* Supprimer les marges */
+	padding: 0; /* Supprimer les rembourrages */
+	display: inline; /* Assurer qu'ils sont des éléments en ligne */
+}
+
+.profilespictures {
+    width: 30px; /* ajustez la largeur à votre convenance */
+    height: 30px; /* ajustez la hauteur à votre convenance */
+    border-radius: 20%; /* ajustez le rayon de courbure à votre convenance */
+    margin: 0 10px;
+}
+.listeamis {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 0;
+    justify-content: center;
 }
