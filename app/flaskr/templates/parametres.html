@@ -16,23 +16,88 @@
     </header>
     <div class="settings-list">
         <div class="setting-item">
-            <span class="setting-name">Mode Avion</span>
+            <span class="setting-name">Mode Sombre</span>
             <label class="switch">
-                <input type="checkbox" id="airplane-mode">
+                <input type="checkbox" id="dark-mode">
                 <span class="slider round"></span>
             </label>
         </div>
         <div class="setting-item">
-            <span class="setting-name">Wi-Fi</span>
+            <span class="setting-name">Géolocalisation</span>
             <label class="switch">
-                <input type="checkbox" id="wifi">
+                <input type="checkbox" id="localisation">
                 <span class="slider round"></span>
             </label>
         </div>
         <div class="setting-item">
-            <span class="setting-name">Bluetooth</span>
+            <span class="setting-name">Demande d'Amis</span>
             <label class="switch">
-                <input type="checkbox" id="bluetooth">
+                <input type="checkbox" id="friends-requests">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Notification</span>
+            <label class="switch">
+                <input type="checkbox" id="notification">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="dropdown-content"></div>
+            <div class="setting-item">
+                <span class="setting-name">E-Mail</span>
+                <label class="switch">
+                    <input type="checkbox" id="emailToggle">
+                    <span class="slider round"></span>
+                </label>
+                <div id="emailInputContainer" style="display: none;">
+                    <form id="emailForm">
+                        <label for="email">Adresse Email:</label>
+                        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Entrez votre email">
+                        <button type="submit">Soumettre</button>
+                    </form>
+                    <p id="message"></p>
+                </div>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Numéro de Téléphone</span>
+            <label class="switch">
+                <input type="checkbox" id="Numéro-de-Téléphone">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Authentification a 2 facteur</span>
+            <label class="switch">
+                <input type="checkbox" id="Authentification a 2 facteur">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Date de Naissance</span>
+            <label class="switch">
+                <input type="checkbox" id="Date de Naissance">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Pseudo</span>
+            <label class="switch">
+                <input type="checkbox" id="Pseudo">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Mot de Passe</span>
+            <label class="switch">
+                <input type="checkbox" id="Mot de Passe">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="setting-item">
+            <span class="setting-name">Langue</span>
+            <label class="switch">
+                <input type="checkbox" id="Langue">
                 <span class="slider round"></span>
             </label>
         </div>
@@ -45,8 +110,6 @@
         <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
-
-    <script src="../static/js/main.js"></script>
     
 </body>
 </html>
