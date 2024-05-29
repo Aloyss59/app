@@ -1,55 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const snapButton = document.getElementById('snap');
-    const uploadButton = document.getElementById('upload');
-    const uploadedImage = document.getElementById('uploadedImage');
-    const constraints = {
-        video: true
-    };
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('camera-stream');
 
-    // Accéder à la caméra
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-            video.srcObject = stream;
-        })
-        .catch((err) => {
-            console.error('Error accessing media devices.', err);
-        });
+    // Vérifiez si le navigateur prend en charge l'API de la caméra
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        console.log('getUserMedia est supporté par votre navigateur.');
 
-    // Prendre une photo
-    snapButton.addEventListener('click', () => {
-        const context = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        // Afficher le canvas
-        canvas.style.display = 'block';
-        uploadButton.disabled = false; // Activer le bouton d'upload
-    });
-
-    // Uploader la photo
-    uploadButton.addEventListener('click', () => {
-        const dataUrl = canvas.toDataURL('image/png');
-        fetch('/upload', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ image: dataUrl })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.url) {
-                uploadedImage.src = data.url;
-                uploadedImage.style.display = 'block';
-                canvas.style.display = 'none'; // Masquer le canvas
-            } else {
-                console.error('Error uploading image:', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
+        // Demande l'accès à la caméra
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                console.log('Accès à la caméra accordé.');
+                // Affiche le flux de la caméra dans l'élément vidéo
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.error('Erreur lors de l\'accès à la caméra :', error);
+            });
+    } else {
+        console.error('Votre navigateur ne supporte pas l\'API getUserMedia');
+    }
 });
+
+function handleReglageClick() {
+    window.location.href = '/parametre';
+}  
+
+function redirectToChatPage() {
+    window.location.href = "/";
+}
+
+function pagealbum() {
+    window.location.href = "/album";
+}
+
+function pageamis() {
+    window.location.href = "/amis";
+}
+
+function pagecam() {
+    window.location.href = "/appareil-photo";
+}
+
+function pagechat() {
+    window.location.href = "/";
+}
+
+function pageparametre() {
+    window.location.href = "/discussion/parametre";
+}

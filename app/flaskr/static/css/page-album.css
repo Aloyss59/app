@@ -26,20 +26,20 @@ header, footer {
 
 header {
     top: 0;
-    /* border-bottom: 1px solid #a59999; */
-	overflow: hidden;
-	border-radius: 0 0 30px 30px;
-    
+    overflow: hidden;
+    border-radius: 0 0 30px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjust the alignment to properly place elements */
+    padding: 10px 20px; /* Add padding for some spacing inside the header */
 }
 
-.header-rectangle {
-    width: 40px; /* ajustez la largeur à votre convenance */
-    height: 35px; /* ajustez la hauteur à votre convenance */
-    background-color: #000000; 
-    border-radius: 6px; /* ajustez le rayon de courbure à votre convenance */
-    position: absolute;
-    top: 5px; /* ajustez la position à votre convenance */
-    left: 10px; /* ajustez la position à votre convenance */
+header img.ta-pp {
+    width: 35px; /* Set the desired width */
+    height: 35px; /* Set the desired height */
+    border-radius: 20%; /* Round the corners */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    margin-left: 1%;
 }
 
 .Name-page {
@@ -157,10 +157,11 @@ footer {
 }
 
 .profilespictures {
-    width: 50px; /* ajustez la largeur à votre convenance */
-    height: 50px; /* ajustez la hauteur à votre convenance */
-    border-radius: 50%; /* ajustez le rayon de courbure à votre convenance */
+    width: 30px; /* ajustez la largeur à votre convenance */
+    height: 30px; /* ajustez la hauteur à votre convenance */
+    border-radius: 20%; /* ajustez le rayon de courbure à votre convenance */
     margin: 0 10px;
+
 }
 
 .reglage {
@@ -195,6 +196,7 @@ footer {
     margin: 0;
     cursor: pointer;
 }
+
 
 .listealbum {
     display: grid;

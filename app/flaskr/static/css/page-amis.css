@@ -26,20 +26,20 @@ header, footer {
 
 header {
     top: 0;
-    /* border-bottom: 1px solid #a59999; */
-	overflow: hidden;
-	border-radius: 0 0 30px 30px;
-    
+    overflow: hidden;
+    border-radius: 0 0 30px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adjust the alignment to properly place elements */
+    padding: 10px 20px; /* Add padding for some spacing inside the header */
 }
 
-.header-rectangle {
-    width: 40px; /* ajustez la largeur à votre convenance */
-    height: 35px; /* ajustez la hauteur à votre convenance */
-    background-color: #000000; 
-    border-radius: 6px; /* ajustez le rayon de courbure à votre convenance */
-    position: absolute;
-    top: 5px; /* ajustez la position à votre convenance */
-    left: 10px; /* ajustez la position à votre convenance */
+header img.ta-pp {
+    width: 35px; /* Set the desired width */
+    height: 35px; /* Set the desired height */
+    border-radius: 30%; /* Round the corners */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    margin-left: 1%;
 }
 
 .Name-page {
@@ -185,21 +185,6 @@ footer {
     height: 30px; /* ajustez la hauteur à votre convenance */
     transition: transform 0.2s ease-in-out;
 }
-/* .footer-button img:hover,.reglage-button img:hover {
-	background-color: #8d8ef5;
-} */
-.reglage-button {
-    position: absolute;
-    right: 10px;
-    top: 50%; 
-    transform: translateY(-50%);
-    z-index: 1; /* S'assure que le bouton est au-dessus des autres éléments */
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-}
 
 .rechercheamis {
     border-radius: 50%; /* ajustez le rayon de courbure à votre convenance */
@@ -258,59 +243,3 @@ input[type="search"]::placeholder {
     background-color: #c4c4c452; /* Couleur de la ligne */
     margin:1px auto; /* Centre la ligne et ajoute une marge au-dessus et au-dessous */
 }
-
-
-.listeamis {
-    display: flex;
-    flex-wrap: wrap; /* Pour que les boutons passent à la ligne lorsque l'écran est trop petit */
-    justify-content: center; /* Pour aligner les boutons au centre */
-}
-
-.bonhomme-button {
-    position: relative;
-    width: 60px;
-    height: 100px;
-    background-color: #ffffff;
-    border-radius: 50% 50% 0 0;
-    margin-top: 50px;
-    cursor: pointer;
-    text-align: center;
-    margin-left: 10px;
-}
-
-
-
-.bonhomme-button::before {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    content: '';
-    position: absolute;
-    background-color: #ffffff;
-}
-
-
-.button-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: rgb(0, 0, 0);
-    font-size: 14px;
-    pointer-events: none;
-    font-weight: 150%;
-}
-
-.bonhomme-button-before {
-    position: absolute; /* Positionnement absolu par rapport à son parent .bonhomme-button */
-    top: 0; /* Position au-dessus du bouton */
-    left: 0; /* Position à gauche du bouton */
-    width: 100%; /* Largeur égale à celle du bouton */
-    height: 100%; /* Hauteur égale à celle du bouton */
-    border-radius: inherit; /* Prend le même rayon de bordure que le bouton */
-    z-index: -1; /* Place le pseudo-élément derrière le contenu du bouton */
-}
- 

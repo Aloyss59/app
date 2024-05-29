@@ -5,24 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit appareil photo</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-appphoto.css">
-    <link rel="stylesheet" href="../static/css/page-photo.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
-    <script src="../static/js/main.js"></script>
     <script src="../static/js/appareil-photo.js" defer></script>
+
 </head>
 <body class="slide-out" data-page="page2">
-    <header>
-        <img src="" alt="Photo" class="ta-pp">
-        <div class="Name-page">Appareil Photo</div>
-    </header>
-    <div class="container">
-        <video id="video" width="320" height="240" autoplay></video>
-        <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-        <button id="snap" class="btn">Prendre une photo</button>
-        <button id="upload" class="btn" disabled>Uploader la photo</button>
-        <div class="uploaded-image">
-            <img id="uploadedImage" src="" alt="Uploaded Image" style="display: none;">
-        </div>
+    <div class="camera-container">
+        <video id="camera-stream" autoplay playsinline></video>
     </div>
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
