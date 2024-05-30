@@ -1,49 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const video = document.getElementById('camera-stream');
+    const video = document.getElementById('video');
 
-    // Vérifiez si le navigateur prend en charge l'API de la caméra
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        console.log('getUserMedia est supporté par votre navigateur.');
-
-        // Demande l'accès à la caméra
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(function(stream) {
-                console.log('Accès à la caméra accordé.');
-                // Affiche le flux de la caméra dans l'élément vidéo
                 video.srcObject = stream;
+                video.play();
             })
-            .catch(function(error) {
-                console.error('Erreur lors de l\'accès à la caméra :', error);
+            .catch(function(err) {
+                console.error("Error accessing the camera: " + err);
             });
     } else {
-        console.error('Votre navigateur ne supporte pas l\'API getUserMedia');
+        alert('getUserMedia is not supported in this browser.');
     }
 });
 
-function handleReglageClick() {
-    window.location.href = '/parametre';
-}  
-
-function redirectToChatPage() {
-    window.location.href = "/";
-}
-
-function pagealbum() {
-    window.location.href = "/album";
-}
-
 function pageamis() {
-    window.location.href = "/amis";
+    // Code pour changer de page vers la section amis
 }
 
 function pagecam() {
-    window.location.href = "/appareil-photo";
+    // Code pour changer de page vers la section caméra
 }
 
 function pagechat() {
-    window.location.href = "/";
+    // Code pour changer de page vers la section chat
+}
+
+function pagealbum() {
+    // Code pour changer de page vers la section album
 }
 
 function pageparametre() {
-    window.location.href = "/discussion/parametre";
+    // Code pour changer de page vers la s
 }
