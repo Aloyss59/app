@@ -41,7 +41,7 @@ def parametre():
 
 @app.route('/parametre')
 def reglage():
-    return render_template("reglage.html")
+    return render_template("parametres.html")
 
 @app.errorhandler(404)
 def page_not_found(e):

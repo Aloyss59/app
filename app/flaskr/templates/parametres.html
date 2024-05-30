@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit paramètre</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-parametre.css">
-    <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.ico">
+    <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.png">
     <script src="../static/js/main.js"></script>
-
+    <script src="../static/js/reglage.js"></script>
 </head>
 <body class="slide-out" data-page="page5">
     <header>
         <img src="../static/img/imagespp.jpeg" alt="Photo" class="ta-pp">
         <div class="Name-page">Paramètre</div>
     </header>
+
     <div class="settings-list">
+
         <div class="setting-item">
-            <span class="setting-name">Mode Sombre</span>
-            <label class="switch">
-                <input type="checkbox" id="dark-mode">
-                <span class="slider round"></span>
-            </label>
+            <span class="setting-name">Apparence</span>
+            <select id="color-page">
+                <option value="white">Clair</option>
+                <option value="dark">Foncé</option>
+            </select>
         </div>
+    
         <div class="setting-item">
             <span class="setting-name">Géolocalisation</span>
             <label class="switch">
@@ -29,6 +32,7 @@
                 <span class="slider round"></span>
             </label>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Demande d'Amis</span>
             <label class="switch">
@@ -36,6 +40,7 @@
                 <span class="slider round"></span>
             </label>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Notification</span>
             <label class="switch">
@@ -43,66 +48,44 @@
                 <span class="slider round"></span>
             </label>
         </div>
-        <div class="dropdown-content"></div>
-            <div class="setting-item">
-                <span class="setting-name">E-Mail</span>
-                <label class="switch">
-                    <input type="checkbox" id="emailToggle">
-                    <span class="slider round"></span>
-                </label>
-                <div id="emailInputContainer" style="display: none;">
-                    <form id="emailForm">
-                        <label for="email">Adresse Email:</label>
-                        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Entrez votre email">
-                        <button type="submit">Soumettre</button>
-                    </form>
-                    <p id="message"></p>
-                </div>
+
+        <div class="setting-item">
+            <span class="setting-name">E-Mail</span>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Numéro de Téléphone</span>
-            <label class="switch">
-                <input type="checkbox" id="Numéro-de-Téléphone">
-                <span class="slider round"></span>
-            </label>
         </div>
+
         <div class="setting-item">
-            <span class="setting-name">Authentification a 2 facteur</span>
+            <span class="setting-name">Authentification à 2 Facteur</span>
             <label class="switch">
                 <input type="checkbox" id="Authentification a 2 facteur">
                 <span class="slider round"></span>
             </label>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Date de Naissance</span>
-            <label class="switch">
-                <input type="checkbox" id="Date de Naissance">
-                <span class="slider round"></span>
-            </label>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Pseudo</span>
-            <label class="switch">
-                <input type="checkbox" id="Pseudo">
-                <span class="slider round"></span>
-            </label>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Mot de Passe</span>
-            <label class="switch">
-                <input type="checkbox" id="Mot de Passe">
-                <span class="slider round"></span>
-            </label>
         </div>
+
         <div class="setting-item">
             <span class="setting-name">Langue</span>
-            <label class="switch">
-                <input type="checkbox" id="Langue">
-                <span class="slider round"></span>
-            </label>
         </div>
+
         <!-- Ajoutez plus de paramètres ici -->
     </div>    
+    <div class="save-btn">
+        <button id="saveSettings">Sauvegarder les réglages</button>
+    </div>
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
         <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
