@@ -1,16 +1,16 @@
-body{
-	background-color: #f0f0f0;
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	margin-top: 2px;
-	padding-top: 60px; /* Ajuste la hauteur du contenu pour tenir compte du header */
-	padding-bottom: 60px; /* Ajuste la hauteur du contenu pour tenir compte du footer */
-	overflow-y: auto; /* Permet le défilement vertical si le contenu est plus grand que l'écran */
-	height: calc(100% - 120px); /* Ajuste la hauteur pour prendre en compte le header et le footer */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    overflow-y: auto;
+    height: calc(100% - 120px);
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -30,87 +30,62 @@ body.dark header, body.dark footer {
     box-shadow: 0 2px 20px rgba(244, 242, 242, 0.123);
 }
 
-
 header {
     top: 0;
     overflow: hidden;
     border-radius: 0 0 30px 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Adjust the alignment to properly place elements */
-    padding: 10px 20px; /* Add padding for some spacing inside the header */
+    justify-content: space-between;
+    padding: 10px 20px;
 }
 
 header img.ta-pp {
-    width: 35px; /* Set the desired width */
-    height: 35px; /* Set the desired height */
-    border-radius: 20%; /* Round the corners */
-    object-fit: cover; /* Ensure the image covers the area without distortion */
+    width: 35px;
+    height: 35px;
+    border-radius: 20%;
+    object-fit: cover;
     margin-left: 1%;
 }
 
 .Name-page {
     position: absolute;
-    top: 50%; /* centre verticalement */
-    left: 50%; /* centre horizontalement */
-    transform: translate(-50%, -50%); /* ajuste la position pour centrer le texte */
-    font-size: 30px; /* ajustez la taille de la police à votre convenance */
-    font-weight: bold; /* ajustez le poids de la police à votre convenance */
-    color: #333; /* ajustez la couleur du texte à votre convenance */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
 }
 
 body.dark .Name-page {
-    color: #fff; /* ajustez la couleur du texte à votre convenance */
+    color: #fff;
 }
 
 footer {
-    bottom: 0; /* Ajouté pour que le footer soit en bas de page */
-    border-radius: 30px 30px 0 0; /* Arrondi les deux angles supérieurs */
+    bottom: 0;
+    border-radius: 30px 30px 0 0;
     overflow: hidden;
-	/* border-top: 1px solid #a59999; */
-	display: flex;
-	justify-content: space-between 5px;
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.icone-friends,.icone-cam,.icone-discu,.icone-album,.icone-setting {
-	width: 30px; /* ajustez la largeur à votre convenance */
-	height: 30px; /* ajustez la hauteur à votre convenance */
-	/* border-radius: 100%; */
-	margin: 0 10px;
-	padding-left: 10px;
-	padding-right: 10PX;
-	transition: transform 0.2s ease-in-out;
+.icone-friends, .icone-cam, .icone-discu, .icone-album, .icone-setting {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: transform 0.2s ease-in-out;
     opacity: 50%;
 }
-  
-.icone-friends:hover,.icone-cam:hover,.icone-discu:hover,.icone-album:hover,.icone-setting:hover {
-    transform: scale(1.5); /* Augmente légèrement la taille au survol */
+
+.icone-friends:hover, .icone-cam:hover, .icone-discu:hover, .icone-album:hover, .icone-setting:hover {
+    transform: scale(1.5);
 }
 
-.footer-button{
-	background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-}
-
-.footer-button img,.reglage-button img {
-    width: 30px; /* ajustez la largeur à votre convenance */
-    height: 30px; /* ajustez la hauteur à votre convenance */
-    transition: transform 0.2s ease-in-out;
-}
-
-.reglage-button {
-    position: absolute;
-    right: 10px;
-    top: 50%; 
-    transform: translateY(-50%);
-    z-index: 1; /* S'assure que le bouton est au-dessus des autres éléments */
+.footer-button {
     background: none;
     border: none;
     padding: 0;
@@ -147,16 +122,6 @@ body.dark .setting-item {
 
 .setting-item:last-child {
     border-bottom: none;
-}
-
-.setting-name span{
-    font-size: 18px;
-    color: #333;
-}
-
-.setting-name span.dark {
-    font-size: 18px;
-    color: #fff;
 }
 
 .switch {
@@ -214,29 +179,6 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-#emailInputContainer {
-    margin-top: 10px;
-}
-
-#email {
-    padding: 8px;
-    font-size: 16px;
-    width: calc(100% - 16px);
-    margin-top: 10px;
-}
-
-button {
-    padding: 8px 12px;
-    font-size: 16px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-#message {
-    margin-top: 10px;
-    color: red;
-}
-
 select {
     background-color: #fff;
     margin: 0;
@@ -250,7 +192,7 @@ body.dark select {
     color: #fff;
 }
 
-body.dark    {
+body.dark {
     background-color: #333;
     color: #fff;
 }
@@ -262,7 +204,6 @@ body.dark    {
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
-    
 }
 
 body.dark #saveSettings {
@@ -278,9 +219,9 @@ body.dark #saveSettings:hover {
     background-color: #007BFF;
 }
 
-.save-btn{
+.save-btn {
     max-width: 600px;
-    margin: auto auto;
+    margin: auto;
     padding: 20px;
     border-radius: 10px;
 }
@@ -289,7 +230,171 @@ body.dark .save-btn {
     background-color: #333;
 }
 
-body.dark {
+.collapsible {
     background-color: #333;
-    color: #fff;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 17px;
+}
+  
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.175s ease-out;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  user-select: none;
+}
+
+body {
+  display: flex;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 18px;
+  perspective: 1000px;
+  background-color: #000;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  margin-top: 50px;
+  text-align: center;
+  color: #999;
+  transition: opacity 0.3s ease;
+}
+
+.description a {
+  color: #4A9DF6;
+  text-decoration: none;
+}
+
+.btn.is-open ~ .description {
+  opacity: 0;
+}
+
+.btn {
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 80px;
+  transition: width 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000),
+              height 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000),
+              transform 0.8s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  text-align: center;
+}
+
+.btn-front {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 80px;
+  background-color: #F44336;
+  color: #fff;
+  cursor: pointer;
+  backface-visibility: hidden;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  transition: background 0.15s ease,
+              line-height 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+}
+.btn-front:hover {
+  background-color: #f8877b;
+}
+.btn.is-open .btn-front {
+  pointer-events: none;
+  line-height: 160px;
+}
+
+.btn-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  color: #222;
+  transform: translateZ(-2px) rotateX(180deg);
+  overflow: hidden;
+  transition: box-shadow 0.8s ease;
+}
+.btn-back p {
+  margin-top: 27px;
+  margin-bottom: 25px;
+}
+.btn-back button {
+  padding: 12px 20px;
+  width: 30%;
+  margin: 0 5px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 2px;
+  font-size: 1em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  transition: background 0.15s ease;
+}
+
+.btn-back button:focus {
+  outline: 0;
+}
+
+.btn-back button.yes {
+  background-color: #2196F3;
+  color: #fff;
+}
+
+.btn-back button.yes:hover {
+  background-color: #6ab9f6;
+}
+
+.btn-back button.no {
+  color: #2196F3;
+}
+
+.btn-back button.no:hover {
+  background-color: #ddd;
+}
+
+.btn.is-open .btn-back {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.btn[data-direction="left"] .btn-back,
+.btn[data-direction="right"] .btn-back {
+  transform: translateZ(-2px) rotateY(180deg);
+}
+
+.btn.is-open {
+  width: 50;
+  height: 25;
+}
+
+.btn[data-direction="top"].is-open {
+  transform: rotateX(180deg);
+}
+
+.btn[data-direction="right"].is-open {
+  transform: rotateY(180deg);
+}
+
+.btn[data-direction="bottom"].is-open {
+  transform: rotateX(-180deg);
+}
+
+.btn[data-direction="left"].is-open {
+  transform: rotateY(-180deg);
 }
