@@ -6,10 +6,10 @@ function pageamis() {
     window.location.href = "/amis";
 }
 function pagecam() {
-    window.location.href = "/appareil-photo";
+    window.location.href = "/photo";
 }
 function pagechat() {
-    window.location.href = "/";
+    window.location.href = "/chat";
 }
 function pageparametre() {
     window.location.href = "/parametre";
