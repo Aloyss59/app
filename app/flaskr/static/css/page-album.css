@@ -121,4 +121,10 @@ footer {
     border: 1px solid #a59999;
     color: #ffffff;
     margin: 0 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    
+}
+.grid-item:hover{
+    transform: scale(1.1);
 }
