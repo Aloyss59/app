@@ -19,7 +19,7 @@ def login():
 def register():
     return render_template('./auth/signup.html')
 
-@app.route('/photo')
+@app.route('/appareil-photo')
 def appareil_photo():
     return render_template("photo.html")
 
@@ -42,6 +42,10 @@ def parametre():
 @app.route('/parametre')
 def reglage():
     return render_template("parametres.html")
+
+@app.route('/album-photo')
+def album_photo():
+    return render_template("pagealbumex.html")
 
 @app.errorhandler(404)
 def page_not_found(e):

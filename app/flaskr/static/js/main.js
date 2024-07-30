@@ -1,4 +1,3 @@
-
 function pagealbum() {
     window.location.href = "/album";
 }
@@ -14,7 +13,6 @@ function pagechat() {
 function pageparametre() {
     window.location.href = "/parametre";
 }
-
 // Ajoutez ici le code pour le toggle switch
 document.getElementById('toggle-switch').addEventListener('change', function() {
     if (this.checked) {

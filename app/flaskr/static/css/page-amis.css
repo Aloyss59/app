@@ -30,7 +30,7 @@ header, footer {
 }
 
 body.dark header, body.dark footer {
-    background-color: #333;
+    background-color: #2e2e2e;
     box-shadow: 0 2px 20px rgba(244, 242, 242, 0.123);
 }
 
