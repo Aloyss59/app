@@ -1,16 +1,21 @@
-body{
-	background-color: #f0f0f0;
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	margin-top: 2px;
-	padding-top: 60px; /* Ajuste la hauteur du contenu pour tenir compte du header */
-	padding-bottom: 60px; /* Ajuste la hauteur du contenu pour tenir compte du footer */
-	overflow-y: auto; /* Permet le défilement vertical si le contenu est plus grand que l'écran */
-	height: calc(100% - 120px); /* Ajuste la hauteur pour prendre en compte le header et le footer */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 60px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: auto;
+    height: calc(100% - 120px);
+}
+
+body.dark {
+    background-color: #333;
+}
+
+body.dark .Name-page {
+    color: #fff;
 }
 
 header, footer {
@@ -24,86 +29,77 @@ header, footer {
     z-index: 1000;
 }
 
+body.dark header, body.dark footer {
+    background-color: #333;
+    box-shadow: 0 2px 20px rgba(244, 242, 242, 0.123);
+}
+
 header {
     top: 0;
     overflow: hidden;
     border-radius: 0 0 30px 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Adjust the alignment to properly place elements */
-    padding: 10px 20px; /* Add padding for some spacing inside the header */
+    justify-content: space-between;
+    padding: 10px 20px;
 }
 
 header img.ta-pp {
-    width: 35px; /* Set the desired width */
-    height: 35px; /* Set the desired height */
-    border-radius: 30%; /* Round the corners */
-    object-fit: cover; /* Ensure the image covers the area without distortion */
+    width: 35px;
+    height: 35px;
+    border-radius: 30%;
+    object-fit: cover;
     margin-left: 1%;
 }
 
 .Name-page {
     position: absolute;
-    top: 50%; /* centre verticalement */
-    left: 50%; /* centre horizontalement */
-    transform: translate(-50%, -50%); /* ajuste la position pour centrer le texte */
-    font-size: 30px; /* ajustez la taille de la police à votre convenance */
-    font-weight: bold; /* ajustez le poids de la police à votre convenance */
-    color: #333; /* ajustez la couleur du texte à votre convenance */
-}
-
-.ajouterdesamis {
-    height: 20px;
-    width: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
 }
 
 footer {
-    bottom: 0; /* Ajouté pour que le footer soit en bas de page */
-    border-radius: 30px 30px 0 0; /* Arrondi les deux angles supérieurs */
+    bottom: 0;
+    border-radius: 30px 30px 0 0;
     overflow: hidden;
-	/* border-top: 1px solid #a59999; */
-	display: flex;
-	justify-content: space-between 5px;
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-  
-.icone-friends,.icone-cam,.icone-discu,.icone-album,.icone-setting {
-	width: 30px; /* ajustez la largeur à votre convenance */
-	height: 30px; /* ajustez la hauteur à votre convenance */
-	/* border-radius: 100%; */
-	margin: 0 10px;
-	padding-left: 10px;
-	padding-right: 10PX;
-	transition: transform 0.2s ease-in-out;
+.icone-friends, .icone-cam, .icone-discu, .icone-album, .icone-setting {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    padding: 0 10px;
+    transition: transform 0.2s ease-in-out;
     opacity: 50%;
-    
-}
-  
-.icone-friends:hover,.icone-cam:hover,.icone-discu:hover,.icone-album:hover,.icone-setting:hover {
-    transform: scale(1.5); /* Augmente légèrement la taille au survol */
 }
 
+.icone-friends:hover, .icone-cam:hover, .icone-discu:hover, .icone-album:hover, .icone-setting:hover {
+    transform: scale(1.5);
+}
 
-.footer-button{
-	background: none;
+.footer-button {
+    background: none;
     border: none;
     padding: 0;
     margin: 0;
     cursor: pointer;
 }
-.footer-button img,.reglage-button img {
-    width: 30px; /* ajustez la largeur à votre convenance */
-    height: 30px; /* ajustez la hauteur à votre convenance */
+
+.footer-button img, .reglage-button img {
+    width: 30px;
+    height: 30px;
     transition: transform 0.2s ease-in-out;
 }
 
 .rechercheamis {
-    border-radius: 50%; /* ajustez le rayon de courbure à votre convenance */
+    border-radius: 50%;
     margin: 0 10px;
 }
 
@@ -115,11 +111,11 @@ footer {
     top: 50%;
 }
 
-.barrerecherche{
+.barrerecherche {
     display: flex;
     align-items: center;
-    width: calc(100% - 40px); /* Presque toute la largeur de la page, ajustez la marge selon vos besoins */
-    margin: 20px auto; /* Centre le conteneur avec une marge sur les côtés */
+    width: calc(100% - 40px);
+    margin: 20px auto;
     position: relative;
 }
 
@@ -130,6 +126,11 @@ input[type="search"] {
     border: 1px solid #ccc;
     border-radius: 20px;
     box-sizing: border-box;
+}
+
+body.dark input[type="search"] {
+    border: 1px solid #2e2e2e;
+    background-color: #2e2e2e;
 }
 
 input[type="search"]::placeholder {
@@ -149,32 +150,25 @@ input[type="search"]::placeholder {
 }
 
 .search-button img {
-    width: 20px; /* Ajustez la largeur selon vos besoins */
-    height: 20px; /* Ajustez la hauteur selon vos besoins */
+    width: 20px;
+    height: 20px;
 }
-
-/* .ligne-sous-barre { */
-    /* width: 97%; /* Ajustez cette valeur selon la longueur souhaitée */
-    /* height: 2px; /* Ajustez l'épaisseur de la ligne */
-    /* background-color: #c4c4c452; Couleur de la ligne */
-    /* margin:1px auto; Centre la ligne et ajoute une marge au-dessus et au-dessous
-}  */
 
 .amitemps {
-	font-size: 16px;
-	color: #666;
-	text-align: left;
-	overflow: hidden; /* cache le texte qui dépasse */
-	text-overflow: ellipsis; /* remplace le texte qui dépasse par des points de suspension */
-	width: 100%; /* définir une largeur maximale pour l'élément */
-	display: inline-block;
+    font-size: 16px;
+    color: #666;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: inline-block;
 }
+
 .ami {
     display: flex;
     flex-direction: row;
     align-items: center;
     border-top: 1px solid #dadada;
-    border-bottom: 1px solid #dadada;
     border-left: none;
     border-right: none;
     border-radius: 10px;
@@ -182,45 +176,57 @@ input[type="search"]::placeholder {
     cursor: pointer;
     height: 75px;
     position: relative;
-    padding-right: 40px; /* Assurez-vous qu'il y a de l'espace pour le bouton réglage */
+    padding-right: 40px;
 }
-.amis-info{
+
+.ami.dark {
+    border-top: 1px solid #2e2e2e;
+}
+
+.amis-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex: 1; /* Prend tout l'espace disponible */
+    flex: 1;
 }
 
 .aminame {
-	font-weight: bold;
-	font-size: 18px;
-	text-align: left;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
 }
+
 .ami:hover {
     background-color: #dfdfdf;
 }
 
-.no-wrap {
-	white-space: nowrap;
+.ami.dark:hover {
+    background-color: #2e2e2e;
 }
+
+.no-wrap {
+    white-space: nowrap;
+}
+
 .no-wrap span {
-	margin: 0; /* Supprimer les marges */
-	padding: 0; /* Supprimer les rembourrages */
-	display: inline; /* Assurer qu'ils sont des éléments en ligne */
+    margin: 0;
+    padding: 0;
+    display: inline;
 }
 
 .profilespictures {
-    width: 30px; /* ajustez la largeur à votre convenance */
-    height: 30px; /* ajustez la hauteur à votre convenance */
-    border-radius: 20%; /* ajustez le rayon de courbure à votre convenance */
+    width: 30px;
+    height: 30px;
+    border-radius: 20%;
     margin: 0 10px;
 }
+
 .listeamis {
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 0;
+    padding: 0;
     justify-content: center;
 }
