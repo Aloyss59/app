@@ -6,14 +6,28 @@
     <title>E-Spirit appareil photo</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-appphoto.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
-    <script src="../static/js/appareil-photo.js" defer></script>
+    <script src="../static/js/main.js"></script>
 </head>
 <body class="slide-out" data-page="page2">
+    <header>
+        <img src="../static/img/imagespp.jpeg" alt="Photo" class="ta-pp">
+        <div class="Name-page">Photo</div>
+    </header>
+
     <nav>
-        <video id="video" class="lnAeT" autoplay data-projection-id="153"></video>
+        <!-- <video id="video" class="lnAeT" autoplay data-projection-id="153"></video> -->
     </nav>
-    <nav>
-    </nav>
+    <div class="contentarea">
+        <h1>Camera Test</h1>
+        <div class="camera">
+          <video id="video" width="320" height="240"></video>
+        </div>
+        <div class="output">
+          <canvas id="canvas" width="320" height="240"></canvas>
+          <img id="photo" src="" alt="Photo">
+        </div>
+        <button id="startbutton">Take photo</button>
+    </div>
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
         <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
