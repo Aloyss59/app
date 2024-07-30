@@ -19,7 +19,7 @@ def login():
 def register():
     return render_template('./auth/signup.html')
 
-@app.route('/appareil-photo')
+@app.route('/photo')
 def appareil_photo():
     return render_template("photo.html")
 
@@ -31,7 +31,7 @@ def amis():
 def album():
     return render_template("album.html")
 
-@app.route('/discussion')
+@app.route('/chat')
 def discussion():
     return render_template("discussion.html")
 
