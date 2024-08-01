@@ -13,6 +13,10 @@ body{
 	height: calc(100% - 120px); /* Ajuste la hauteur pour prendre en compte le header et le footer */
 }
 
+body.dark {
+    background-color: #333;
+}
+
 header, footer {
     background-color: #f0f0f0;
     color: #000000;
@@ -22,6 +26,11 @@ header, footer {
     width: 100%;
     box-shadow: 0 2px 80px rgba(24, 24, 24, 0.1);
     z-index: 1000;
+}
+
+body.dark header, body.dark footer {
+    background-color: #2e2e2e;
+    box-shadow: 0 2px 20px rgba(244, 242, 242, 0.123);
 }
 
 header {
@@ -50,6 +59,10 @@ header img.ta-pp {
     font-size: 30px; /* ajustez la taille de la police à votre convenance */
     font-weight: bold; /* ajustez le poids de la police à votre convenance */
     color: #333; /* ajustez la couleur du texte à votre convenance */
+}
+
+body.dark .Name-page {
+    color: #fff;
 }
 
 footer {

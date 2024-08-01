@@ -13,14 +13,28 @@ body {
     height: calc(100% - 120px); /* Ajuste la hauteur pour prendre en compte le header et le footer */
 }
 
+body.dark {
+  background-color: #333;
+}
+
+body.dark .Name-page {
+  color: #fff;
+}
+
 header, footer {
-    background-color: #f0f0f0;
-    color: #000000;
-    padding: 18px 0;
-    text-align: left;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
+  background-color: #f0f0f0;
+  color: #000000;
+  padding: 18px 0;
+  text-align: left;
+  position: fixed;
+  width: 100%;
+  box-shadow: 0 2px 80px rgba(24, 24, 24, 0.1);
+  z-index: 1000;
+}
+
+body.dark header, body.dark footer {
+  background-color: #2e2e2e;
+  box-shadow: 0 2px 20px rgba(244, 242, 242, 0.123);
 }
 
 footer {
@@ -113,3 +127,7 @@ nav video {
     font-family: "Lucida Grande", "Arial", sans-serif;
     width: 760px;
   }
+
+body.dark h1 {
+  color: #fff;
+}
