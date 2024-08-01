@@ -171,6 +171,14 @@ body.dark .setting-item {
   height: 24px;
 }
 
+body.dark input.input-adresse-mail [type="text"] {
+  background-color: #333;
+}
+
+.input-adresse-mail {
+  background-color: #333;
+}
+
 .switch input {
   opacity: 0;
   width: 0;
