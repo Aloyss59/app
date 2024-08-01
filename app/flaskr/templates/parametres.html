@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Spirit paramètre</title>
+    <title>E-Spirit Paramètre</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-parametre.css">
-    <link rel="icon"    type="image/png" href="../static/img/logo_E-esprit.png">
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
     <script src="../static/js/main.js"></script>
     <script src="../static/js/reglage.js"></script>
     <script src="../static/js/theme.js"></script>
@@ -16,85 +16,86 @@
         <div class="Name-page">Paramètre</div>
     </header>
 
-    <div class="settings-list">
-
-        <div class="setting-item">
-            <span class="setting-name">Apparence</span>
-            <select id="color-page">
-                <option value="white">Clair</option>
-                <option value="dark">Foncé</option>
-            </select>
+    <main>
+        <h3>Application</h3>
+        <div class="settings-list">
+            <div class="setting-item">
+                <span class="setting-name">Apparence</span>
+                <select id="color-page">
+                    <option value="white">Clair</option>
+                    <option value="dark">Foncé</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Géolocalisation</span>
+                <label class="switch">
+                    <input type="checkbox" id="localisation">
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
+
+        <h3>Test</h3>
+        <div class="settings-list">
+            <div class="setting-item">
+                <span class="setting-name">Demande d'Amis</span>
+                <label class="switch">
+                    <input type="checkbox" id="friends-requests">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Notification</span>
+                <label class="switch">
+                    <input type="checkbox" id="notification">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">E-Mail</span>
+                <label class="input-adresse-mail">
+                    <input type="text">
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Numéro de Téléphone</span>
+                <label class="input-adresse-mail">
+                    <input type="text">
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Authentification à 2 Facteur</span>
+                <label class="switch">
+                    <input type="checkbox" id="authentification-double-facteur">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Date de Naissance</span>
+                <!-- Assuming input for date of birth will be added -->
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Mot de Passe</span>
+                <label class="input-adresse-mail">
+                    <input type="password">
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Langue</span>
+                <select id="Langue">
+                    <option value="fr">Français</option>
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+        </div>
+    </main>
     
-        <div class="setting-item">
-            <span class="setting-name">Géolocalisation</span>
-            <label class="switch">
-                <input type="checkbox" id="localisation">
-                <span class="slider round"></span>
-            </label>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Demande d'Amis</span>
-            <label class="switch">
-                <input type="checkbox" id="friends-requests">
-                <span class="slider round"></span>
-            </label>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Notification</span>
-            <label class="switch">
-                <input type="checkbox" id="notification">
-                <span class="slider round"></span>
-            </label>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">E-Mail</span>
-            <label class="input-adresse-mail">
-                <input type="text">
-            </label>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Numéro de Téléphone</span>
-            <label class="input-adresse-mail">
-                <input type="text">
-            </label>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Authentification à 2 Facteur</span>
-            <label class="switch">
-                <input type="checkbox" id="authentification-double-facteur">
-                <span class="slider round"></span>
-            </label>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Date de Naissance</span>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Mot de Passe</span>
-        </div>
-
-        <div class="setting-item">
-            <span class="setting-name">Langue</span>
-            <select id="Langue">
-                <option value="fr">Francais</option>
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="de">Deutch</option>
-            </select>
-        </div>
-
-        <!-- Ajoutez plus de paramètres ici -->
-    </div>    
     <div class="save-btn">
         <button id="saveSettings">Sauvegarder les réglages</button>
     </div>
+
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
         <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
@@ -102,74 +103,57 @@
         <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
+
     <script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-                content.style.maxHeight = null;
-                } 
-            
-            else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                } 
+        document.querySelectorAll(".collapsible").forEach(coll => {
+            coll.addEventListener("click", function() {
+                this.classList.toggle("active");
+                let content = this.nextElementSibling;
+                content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
             });
-        }
+        });
 
-        var btn = document.querySelector( '.btn' );
+        let btn = document.querySelector('.btn');
+        if (btn) {
+            let btnFront = btn.querySelector('.btn-front');
+            let btnYes = btn.querySelector('.btn-back .yes');
+            let btnNo = btn.querySelector('.btn-back .no');
 
-        var btnFront = btn.querySelector( '.btn-front' ),
-            btnYes = btn.querySelector( '.btn-back .yes' ),
-            btnNo = btn.querySelector( '.btn-back .no' );
+            btnFront.addEventListener('click', function(event) {
+                let mx = event.clientX - btn.offsetLeft;
+                let my = event.clientY - btn.offsetTop;
 
-        btnFront.addEventListener( 'click', function( event ) {
-        var mx = event.clientX - btn.offsetLeft,
-            my = event.clientY - btn.offsetTop;
+                let w = btn.offsetWidth;
+                let h = btn.offsetHeight;
 
-        var w = btn.offsetWidth,
-            h = btn.offsetHeight;
-            
-        var directions = [
-            { id: 'top', x: w/2, y: 0 },
-            { id: 'right', x: w, y: h/2 },
-            { id: 'bottom', x: w/2, y: h },
-            { id: 'left', x: 0, y: h/2 }
-        ];
-        
-        directions.sort( function( a, b ) {
-            return distance( mx, my, a.x, a.y ) - distance( mx, my, b.x, b.y );
-        } );
-        
-        btn.setAttribute( 'data-direction', directions.shift().id );
-        btn.classList.add( 'is-open' );
+                let directions = [
+                    { id: 'top', x: w / 2, y: 0 },
+                    { id: 'right', x: w, y: h / 2 },
+                    { id: 'bottom', x: w / 2, y: h },
+                    { id: 'left', x: 0, y: h / 2 }
+                ];
 
-        } );
+                directions.sort((a, b) => {
+                    return distance(mx, my, a.x, a.y) - distance(mx, my, b.x, b.y);
+                });
 
-        btnYes.addEventListener( 'click', function( event ) {	
-        btn.classList.remove( 'is-open' );
-        } );
+                btn.setAttribute('data-direction', directions.shift().id);
+                btn.classList.add('is-open');
+            });
 
-        btnNo.addEventListener( 'click', function( event ) {
-        btn.classList.remove( 'is-open' );
-        } );
+            btnYes.addEventListener('click', function() {
+                btn.classList.remove('is-open');
+            });
 
+            btnNo.addEventListener('click', function() {
+                btn.classList.remove('is-open');
+            });
 
-
-
-
-
-
-
-
-        
-        function distance( x1, y1, x2, y2 ) {
-        var dx = x1-x2;
-        var dy = y1-y2;
-        return Math.sqrt( dx*dx + dy*dy );
+            function distance(x1, y1, x2, y2) {
+                let dx = x1 - x2;
+                let dy = y1 - y2;
+                return Math.sqrt(dx * dx + dy * dy);
+            }
         }
     </script>
 </body>

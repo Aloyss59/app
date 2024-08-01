@@ -23,7 +23,6 @@ body {
   height: calc(100% - 120px);
   overflow-y: auto;
   transition: background-color 0.3s, color 0.3s;
-  perspective: 1000px;
 }
 
 body.dark {
@@ -76,91 +75,90 @@ header img.ta-pp {
 }
 
 body.dark .Name-page {
-  color: #fff;
+  color: #f0f0f0;
 }
 
 footer {
   bottom: 0;
-  border-radius: 30px 30px 0 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
+  border-radius: 30px 30px 0 0;
 }
 
-/* Icon Styling */
-.icone-friends, .icone-cam, .icone-discu, .icone-album, .icone-setting {
-  width: 30px;
-  height: 30px;
-  margin: 0 10px;
-  padding: 0 10px;
-  transition: transform 0.2s ease-in-out;
-  opacity: 0.5;
-}
-
-.icone-friends:hover, .icone-cam:hover, .icone-discu:hover, .icone-album:hover, .icone-setting:hover {
-  transform: scale(1.5);
-}
-
-/* Button Styling */
 .footer-button {
   background: none;
   border: none;
   cursor: pointer;
 }
 
-#saveSettings {
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+footer img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  transition: transform 0.3s;
 }
 
-body.dark #saveSettings {
-  background-color: #0056b3;
-  border: 1px solid #333;
+footer img:hover {
+  transform: scale(1.2);
 }
 
-#saveSettings:hover {
-  background-color: #0056b3;
-}
-
-body.dark #saveSettings:hover {
-  background-color: #007BFF;
-}
-
-/* Settings List Styling */
-.settings-list {
+/* Main Content Styling */
+main {
+  max-width: 1200px;
   width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-body.dark .settings-list {
-  background-color: #333;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+h3 {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;  
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body.dark .setting-item {
-  border-bottom: 1px solid #444;
+  background: #444;
+  color: #fff;
 }
 
-.setting-item:last-child {
-  border-bottom: none;
+.setting-name {
+  font-weight: bold;
+}
+
+.save-btn {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.save-btn button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-btn button:hover {
+  background-color: #0056b3;
 }
 
 /* Switch Styling */
@@ -168,15 +166,7 @@ body.dark .setting-item {
   position: relative;
   display: inline-block;
   width: 40px;
-  height: 24px;
-}
-
-body.dark input.input-adresse-mail [type="text"] {
-  background-color: #333;
-}
-
-.input-adresse-mail {
-  background-color: #333;
+  height: 20px;
 }
 
 .switch input {
@@ -193,22 +183,20 @@ body.dark input.input-adresse-mail [type="text"] {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: 0.4s;
-}
-
-body.dark .slider {
-  background-color: #836d6d43;
+  transition: .4s;
+  border-radius: 20px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
   background-color: white;
-  transition: 0.4s;
+  transition: .4s;
+  border-radius: 50%;
 }
 
 input:checked + .slider {
@@ -216,165 +204,17 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(16px);
+  transform: translateX(20px);
 }
 
-.slider.round {
-  border-radius: 24px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-/* Select Styling */
-select {
-  background-color: #fff;
-  border: 0;
-  font-size: 17px;
-  padding: 0;
-}
-
-body.dark select {
-  background-color: #333;
-  color: #fff;
-}
-
-/* Collapsible Styling */
-.collapsible {
-  background-color: #333;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
+.input-adresse-mail input {
   width: 100%;
-  border: none;
-  text-align: left;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-adresse-mail input:focus {
   outline: none;
-  font-size: 17px;
-}
-
-.content {
-  padding: 0 18px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.175s ease-out;
-}
-
-/* Additional Styling for Buttons */
-.btn.is-open ~ .description {
-  opacity: 0;
-}
-
-.btn {
-  display: block;
-  position: relative;
-  width: 200px;
-  height: 80px;
-  transition: width 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000), height 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000), transform 0.8s cubic-bezier(0.175, 0.885, 0.320, 1.275);
-  transform-style: preserve-3d;
-  transform-origin: 50% 50%;
-  text-align: center;
-}
-
-.btn-front {
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 100%;
-  line-height: 80px;
-  background-color: #F44336;
-  color: #fff;
-  cursor: pointer;
-  backface-visibility: hidden;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  transition: background 0.15s ease, line-height 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000);
-}
-
-.btn-front:hover {
-  background-color: #f8877b;
-}
-
-.btn.is-open .btn-front {
-  pointer-events: none;
-  line-height: 160px;
-}
-
-.btn-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #eee;
-  color: #222;
-  transform: translateZ(-2px) rotateX(180deg);
-  overflow: hidden;
-  transition: box-shadow 0.8s ease;
-}
-
-.btn-back p {
-  margin: 27px 0;
-}
-
-.btn-back button {
-  padding: 12px 20px;
-  width: 30%;
-  margin: 0 5px;
-  background-color: transparent;
-  border: 0;
-  border-radius: 2px;
-  font-size: 1em;
-  cursor: pointer;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  transition: background 0.15s ease;
-}
-
-.btn-back button:focus {
-  outline: 0;
-}
-
-.btn-back button.yes {
-  background-color: #2196F3;
-  color: #fff;
-}
-
-.btn-back button.yes:hover {
-  background-color: #6ab9f6;
-}
-
-.btn-back button.no {
-  color: #2196F3;
-}
-
-.btn-back button.no:hover {
-  background-color: #ddd;
-}
-
-.btn.is-open .btn-back {
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-
-.btn[data-direction="left"] .btn-back,
-.btn[data-direction="right"] .btn-back {
-  transform: translateZ(-2px) rotateY(180deg);
-}
-
-.btn.is-open {
-  width: 50px;
-  height: 25px;
-}
-
-.btn[data-direction="top"].is-open {
-  transform: rotateX(180deg);
-}
-
-.btn[data-direction="right"].is-open {
-  transform: rotateY(180deg);
-}
-
-.btn[data-direction="bottom"].is-open {
-  transform: rotateX(-180deg);
-}
-
-.btn[data-direction="left"].is-open {
-  transform: rotateY(-180deg);
+  border-color: #007BFF;
 }
