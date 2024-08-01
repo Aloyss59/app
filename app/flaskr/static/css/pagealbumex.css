@@ -113,11 +113,17 @@ body {
 
 .nbphoto {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(0%, -100%);
-  font-size: 50px;
+  top: -10px;
+  right: -20px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #f78536;
   color: #fff;
+  font-size: 12px;
+  text-align: center;
+  line-height: 20px;
 }
 
 .event:after {

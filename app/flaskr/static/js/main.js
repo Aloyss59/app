@@ -1,39 +1,25 @@
-
-var app = {
-  settings: {
-    container: $('.calendar'),
-    calendar: $('.front'),
-    days: $('.weeks span'),
-    form: $('.back'),
-    input: $('.back input'),
-    buttons: $('.back button')
-  },
-
-  init: function() {
-    instance = this;
-    settings = this.settings;
-    this.bindUIActions();
-  },
-
-  swap: function(currentSide, desiredSide) {
-    settings.container.toggleClass('flip');
-
-    currentSide.fadeOut(900);
-    currentSide.hide();
-    desiredSide.show();
-
-  },
-
-  bindUIActions: function() {
-    settings.days.on('click', function(){
-      instance.swap(settings.calendar, settings.form);
-      settings.input.focus();
-    });
-
-    settings.buttons.on('click', function(){
-      instance.swap(settings.form, settings.calendar);
-    });
-  }
+function pagealbum() {
+  window.location.href = "/album";
 }
-
-app.init();
+  function pageamis() {
+    window.location.href = "/amis";
+}
+function pagecam() {
+    window.location.href = "/appareil-photo";
+}
+function pagechat() {
+    window.location.href = "/";
+}
+function pageparametre() {
+    window.location.href = "/parametre";
+}
+// Ajoutez ici le code pour le toggle switch
+document.getElementById('toggle-switch').addEventListener('change', function() {
+    if (this.checked) {
+        console.log('Le switch est activé');
+        // Ajouter ici ce qui doit se passer quand le switch est activé
+    } else {
+        console.log('Le switch est désactivé');
+        // Ajouter ici ce qui doit se passer quand le switch est désactivé
+    }
+});
