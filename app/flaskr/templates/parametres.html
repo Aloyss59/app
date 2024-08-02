@@ -45,6 +45,15 @@
             <div class="setting-item">
                 <span class="setting-name"></span>
             </div>
+            <div class="setting-item">
+                <span class="setting-name"></span>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name"></span>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name"></span>
+            </div>
         </div>
         <h3>Application</h3>
         <div class="settings-list">
@@ -62,9 +71,16 @@
                     <span class="slider round"></span>
                 </label>
             </div>
+            <div class="setting-item">
+                <span class="setting-name">Notification</span>
+                <label class="switch">
+                    <input type="checkbox" id="notification">
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
 
-        <h3>Test</h3>
+        <h3>Autres</h3>
         <div class="settings-list">
             <div class="setting-item">
                 <span class="setting-name">Demande d'Amis</span>
@@ -73,40 +89,12 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-            <div class="setting-item">
-                <span class="setting-name">Notification</span>
-                <label class="switch">
-                    <input type="checkbox" id="notification">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <div class="setting-item">
-                <span class="setting-name">E-Mail</span>
-                <label class="input-adresse-mail">
-                    <input type="text">
-                </label>
-            </div>
-            <div class="setting-item">
-                <span class="setting-name">Numéro de Téléphone</span>
-                <label class="input-adresse-mail">
-                    <input type="text">
-                </label>
-            </div>
+
             <div class="setting-item">
                 <span class="setting-name">Authentification à 2 Facteur</span>
                 <label class="switch">
                     <input type="checkbox" id="authentification-double-facteur">
                     <span class="slider round"></span>
-                </label>
-            </div>
-            <div class="setting-item">
-                <span class="setting-name">Date de Naissance</span>
-                <!-- Assuming input for date of birth will be added -->
-            </div>
-            <div class="setting-item">
-                <span class="setting-name">Mot de Passe</span>
-                <label class="input-adresse-mail">
-                    <input type="password">
                 </label>
             </div>
             <div class="setting-item">
@@ -117,6 +105,29 @@
                     <option value="es">Español</option>
                     <option value="de">Deutsch</option>
                 </select>
+            </div>
+            <h3>Information Personnel</h3>
+            <div class="setting-item">
+                <span class="setting-name">Date de Naissance</span>
+                <input type="date" value="0000-00-00" min="1950-01-01" max="2014-12-31">
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Numéro de Téléphone</span>
+                <label class="input-adresse-mail">
+                    <input type="text">
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">E-Mail</span>
+                <label class="input-adresse-mail">
+                    <input type="text">
+                </label>
+            </div>
+            <div class="setting-item">
+                <span class="setting-name">Mot de Passe</span>
+                <label class="input-adresse-mail">
+                    <input type="password">
+                </label>
             </div>
         </div>
     </main>
