@@ -140,12 +140,12 @@ body.dark .setting-item {
   font-weight: bold;
 }
 
-.save-btn {
+.sert-a-rien {
   text-align: center;
   margin: 40px 0;
 }
 
-.save-btn button {
+.sert-a-rien button {
   padding: 10px 20px;
   font-size: 18px;
   background-color: #007BFF;
@@ -156,7 +156,7 @@ body.dark .setting-item {
   transition: background-color 0.3s;
 }
 
-.save-btn button:hover {
+.sert-a-rien button:hover {
   background-color: #0056b3;
 }
 

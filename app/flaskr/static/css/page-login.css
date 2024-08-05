@@ -8,6 +8,11 @@ body {
     margin: 0;
 }
 
+body.dark {
+    background-color: #333;
+    color: #fff;
+}
+
 .login-container {
     padding: 20px 30px;
     border-radius: 8px;
@@ -32,7 +37,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    width: calc(100% - 20px);
+    width:  100%;
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;

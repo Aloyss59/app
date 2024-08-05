@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const themeSelect = document.getElementById('color-page');
-    const saveButton = document.getElementById('saveSettings');
     const localisation = document.getElementById('localisation');
     const friendRequests = document.getElementById('friends-requests');
     const notification = document.getElementById('notification');
@@ -44,41 +43,32 @@ document.addEventListener('DOMContentLoaded', () => {
     themeSelect.addEventListener('change', () => {
         const selectedTheme = themeSelect.value;
         document.body.classList.toggle('dark', selectedTheme === 'dark');
+        localStorage.setItem('color-page', selectedTheme);
     });
 
     localisation.addEventListener('change', () => {
+        const selectedLocalisation = localisation.checked;
+        localStorage.setItem('localisation', selectedLocalisation);
     });
 
     friendRequests.addEventListener('change', () => {
+        const selectedFriendRequests = friendRequests.checked;
+        localStorage.setItem('friends-requests', selectedFriendRequests);
     });
 
     notification.addEventListener('change', () => {
+        const selectedNotification = notification.checked;
+        localStorage.setItem('notification', selectedNotification);
     });
 
     doubleAuthentification.addEventListener('change', () => {
+        const selectedDoubleAuthentification = doubleAuthentification.checked;
+        localStorage.setItem('authentification-double-facteur', selectedDoubleAuthentification);
     });
 
     langue.addEventListener('change', () => {
-    });
-
-    // Sauvegarder les réglages quand le bouton est cliqué
-    saveButton.addEventListener('click', () => {
-        const selectedTheme = themeSelect.value;
-        const selectedLocalisation = localisation.checked;
-        const selectedFriendRequests = friendRequests.checked;
-        const selectedNotification = notification.checked;
-        const selectedDoubleAuthentification = doubleAuthentification.checked;
         const selectedLangue = langue.value;
-
-        localStorage.setItem('color-page', selectedTheme);
-        localStorage.setItem('localisation', selectedLocalisation);
-        localStorage.setItem('friends-requests', selectedFriendRequests);
-        localStorage.setItem('notification', selectedNotification);
-        localStorage.setItem('authentification-double-facteur', selectedDoubleAuthentification);
         localStorage.setItem('Langue', selectedLangue);
-
-        document.body.classList.toggle('dark', selectedTheme === 'dark');
-
         document.body.classList.remove('fr', 'en', 'es', 'de');
         document.body.classList.add(selectedLangue);
     });
