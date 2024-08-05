@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Spirit album</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/page-album.css">
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/album.js"></script>
+    <script src="../static/js/theme.js"></script>
+</head>
+<body class="slide-out" data-page="page4">
+    <header>
+        <img src="../static/img/imagespp.jpeg" alt="Photo" class="ta-pp">
+        <div class="Name-page">Album</div>
+    </header>
+
+    <div class="listealbum">
+        <button class="grid-item" onclick="pagealbumtest()">Album du groupe "groupe d'amis"</button>
+        <div class="grid-item">Album du chat avec ....</div>
+        <div class="grid-item">Album du groupe ...</div>
+        <div class="grid-item">Album du chat........</div>
+        <div class="grid-item">Album du groupe....</div>
+        <div class="grid-item">Album du chat avec ....</div>
+        <div class="grid-item">Album du groupe ...</div>
+        <div class="grid-item">Album du chat........</div>
+        <div class="grid-item">Album du groupe....</div>
+        <div class="grid-item">Album du chat avec ....</div>
+        <div class="grid-item">Album du groupe ...</div>
+        <div class="grid-item">Album du chat........</div>
+        <div class="grid-item">Album du groupe....</div>
+        <div class="grid-item">Album du chat avec ....</div>
+        <div class="grid-item">Album du groupe ...</div>
+        <div class="grid-item">Album du chat........</div>
+    </div>
+    
+    <footer>
+        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+    </footer>
+
+    <script>function pagealbumtest() {
+        window.location.href = "/album-photo";
+      }</script>
+</body>
+</html>
