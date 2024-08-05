@@ -20,22 +20,36 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Ajoutez des transitions pour l'effet de fondu */
-.container {
-  transition: opacity 0.5s ease-in-out;
-}
-
-/* Style pour le bouton */
+/* Add styles for the button */
 .show-calendar-button {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
+  background-color: #fff;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0; /* initially hidden */
+  transition: opacity 0.5s;
+}
+
+.show-calendar-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Add styles for the fade-in/fade-out effects */
+.calendar {
+  transition: opacity 0.5s;
+}
+
+.calendar.fade-out {
+  opacity: 0;
+}
+
+.calendar.fade-in {
+  opacity: 1;
 }
 
 .calendar {
