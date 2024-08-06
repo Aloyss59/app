@@ -1,3 +1,5 @@
-document.querySelector('.cemoi').addEventListener('click', function() {
-  alert('Vous avez cliqué !');
+document.querySelectorAll('.cemoi').forEach(function(element) {
+  element.addEventListener('click', function() {
+    alert('gg');
+  });
 });

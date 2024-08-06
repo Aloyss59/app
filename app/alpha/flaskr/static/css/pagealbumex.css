@@ -1,5 +1,4 @@
-* {
-  box-sizing: border-box;
+*:not(header, footer, .icon) {
   font-family: 'Roboto', sans-serif;
   list-style: none;
   margin: 0;
@@ -41,7 +40,7 @@ body {
 
 /* Add styles for the fade-in/fade-out effects */
 .calendar {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 
 .calendar.fade-out {
@@ -338,4 +337,67 @@ footer {
     width: 30px; /* ajustez la largeur à votre convenance */
     height: 30px; /* ajustez la hauteur à votre convenance */
     transition: transform 0.2s ease-in-out;
+}
+
+
+.calendarréap {
+  background-color: #4CAF50; /* Vert */
+  color: #ffffff; /* Blanc */
+  padding: 10px 20px; /* Espacement intérieur */
+  border: none; /* Pas de bordure */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur en forme de main */
+  transition: opacity 0.2s;
+}
+
+.calendarréap:hover {
+  background-color: #3e8e41; /* Vert foncé */
+}
+
+
+
+
+.image-slider {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; /* ajuster la largeur en fonction de vos besoins */
+  height: 300px; /* ajuster la hauteur en fonction de vos besoins */
+  overflow: hidden;
+  display: none; /* hide the slider by default */
+}
+
+.image-slider img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* ou une taille fixe, par exemple 500px */
+  height: 300px; /* ou une taille fixe, par exemple 300px */
+  object-fit: cover;
+  transition: transform 0.5s; /* ajout d'un effet de transition */
+}
+
+
+.image-slider img.active {
+  transform: translateX(0);
+}
+
+.image-slider img:not(.active) {
+  transform: translateX(-100%);
+}
+
+.prev-button, .next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
 }

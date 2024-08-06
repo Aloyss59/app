@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../static/css/pagealbumex.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
     <script src="../static/js/main.js"></script>
-    <script src="../static/js/album.js"></script>
+    <!-- <script src="../static/js/album.js"></script> -->
     <script src="../static/js/theme.js"></script>
   </head>
 <body>
@@ -26,13 +26,13 @@
 
         <div class="current-month">
           <ul class="week-days">
-            <li>LND</li>
-            <li>MRD</li>
-            <li>MRC</li>
-            <li>JED</li>
-            <li>VND</li>
-            <li>SMD</li>
-            <li>DMN</li>
+            <li>LUN</li>
+            <li>MAR</li>
+            <li>MER</li>
+            <li>JEU</li>
+            <li>VEN</li>
+            <li>SAM</li>
+            <li>DIM</li>
           </ul>
 
           <div class="weeks">
@@ -101,7 +101,82 @@
   </footer>
 
   <!-- Add a button to the page, initially hidden -->
-  <button class="show-calendar-button" style="display: none;">Afficher le calendrier</button>
-
+  <button class="calendarréap" style="display: none;">Afficher le calendrier</button>
+  <div class="image-slider">
+    <button class="footer-button">Bouton</button>
+    <img src="../static/img/Snapchat-415546687.jpg" alt="Image 1">
+    <img src="../static/img/Snapchat-981386878.jpg" alt="Image 2">
+    <img src="../static/img/Snapchat-1092357000.jpg" alt="Image 3">
+    <img src="../static/img/Snapchat-1510048485.jpg" alt="Image 4">
+    <button class="prev-button">‹</button>
+    <button class="next-button">›</button>
+  </div>
 </body>
+<script>
+document.querySelectorAll('.cemoi').forEach(function(element) {
+  element.addEventListener('click', function() {
+    document.querySelector('.calendar').style.opacity = 0;
+    setTimeout(function() {
+      document.querySelector('.calendar').style.display = 'none';
+    }, 500);
+    document.querySelector('.calendarréap').style.opacity = 1;
+    document.querySelector('.calendarréap').style.display = 'block';
+  });
+});
+
+document.querySelectorAll('.calendarréap').forEach(function(element) {
+  element.addEventListener('click', function() {
+    document.querySelector('.calendar').style.display = 'block';
+    document.querySelector('.calendar').style.opacity = 0;
+    setTimeout(function() {
+      document.querySelector('.calendar').style.opacity = 1;
+    }, 10);
+    element.style.opacity = 0;
+    setTimeout(function() {
+      element.style.display = 'none';
+    }, 500);
+  });
+});
+
+
+
+const toggleSlider = document.querySelector('.toggle-slider');
+const imageSlider = document.querySelector('.image-slider');
+const images = imageSlider.querySelectorAll('img');
+const prevButton = imageSlider.querySelector('.prev-button');
+const nextButton = imageSlider.querySelector('.next-button');
+
+let currentIndex = 0;
+
+toggleSlider.addEventListener('click', () => {
+  imageSlider.style.display = 'block'; // afficher le slider lorsque le span est cliqué
+  images[0].classList.add('active'); // afficher la première image
+});
+
+prevButton.addEventListener('click', () => {
+  currentIndex--;
+  if (currentIndex < 0) {
+    currentIndex = 3; // 3 est l'index de la dernière image
+  }
+  updateSlider();
+});
+
+nextButton.addEventListener('click', () => {
+  currentIndex++;
+  if (currentIndex > 3) { // 3 est l'index de la dernière image
+    currentIndex = 0;
+  }
+  updateSlider();
+});
+
+function updateSlider() {
+  images.forEach((image, index) => {
+    if (index === currentIndex) {
+      image.classList.add('active');
+    } else {
+      image.classList.remove('active');
+    }
+  });
+}
+</script>
 </html>
