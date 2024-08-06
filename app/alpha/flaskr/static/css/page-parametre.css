@@ -6,9 +6,6 @@ html, body {
   user-select: none;
 }
 
-/* Font Import */
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
-
 /* Body Styling */
 body {
   background-color: #f0f0f0;
@@ -215,4 +212,60 @@ input:checked + .slider:before {
 .input-adresse-mail input:focus {
   outline: none;
   border-color: #007BFF;
+}
+/* Style pour le popup d'information du compte */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 2000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  color: #000;
+  text-align: left;
+}
+
+body.dark .popup {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(244, 242, 242, 0.123);  
+}
+
+.popup.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup.hidden {
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+.popup-content {
+  padding: 20px;
+}
+
+.popup .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Corps assombri lorsque le popup est ouvert */
+body.popup-open {
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.profil {
+  margin-right: 98%;
+  border-radius: 5%;
 }
