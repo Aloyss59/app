@@ -1,7 +1,16 @@
 services:
-  flask-app:
+  web-app:
     container_name: charly-web
-    build: .
     ports:
-      - "8001:8001"
+      - 8001:8001
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.chweb.rule=Host(`chweb.musubi.dev`)
+      - traefik.http.routers.chweb.entrypoints=websecure
+      - traefik.http.routers.chweb.tls=true
+      - traefik.http.routers.chweb.tls.certresolver=letsencryptresolver
+      - traefik.http.services.chweb.loadbalancer.server.port=8001
+networks:
+  traefik:
+    external: true
