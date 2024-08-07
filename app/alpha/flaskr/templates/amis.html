@@ -18,7 +18,7 @@
 
     <div class="barrerecherche">
         <input type="search" name="rechercheamis" placeholder="Taper le nom de votre ami ou ajouter un ami avec le +"/>
-        <button class="search-button"><img src="../static/img/ajouteramis.png" alt="search icon"></button>
+        <button class="search-button" onclick="ajamis()"><img src="../static/img/ajouteramis.png" alt="search icon"></button>
     </div>
     <!-- <div class="ligne-sous-barre"></div> -->
 
@@ -54,6 +54,15 @@
             <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
             <div class="amis-info">
                 <span class="amisname">basile</span>
+                <span class="amitemps">Votre amis depuis: ... jours</span>
+            </div>
+        </div>
+    </ul>
+    <ul class="listeamis">
+        <div class="ami" onclick="redirectToChatPage()">
+            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
+            <div class="amis-info">
+                <span class="amisname">Suliac</span>
                 <span class="amitemps">Votre amis depuis: ... jours</span>
             </div>
         </div>

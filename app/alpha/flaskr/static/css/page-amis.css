@@ -1,3 +1,29 @@
+.loader{
+	background: url('../static/img/logo_E-esprit.ico') 50% 50% no-repeat rgba(91, 66, 202, 0);
+	cursor: wait;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+.loader h1{
+    background: none;
+    border: none;
+    color: #458976;
+    font-size: 22px;
+    font-family: "Open Sans",sans-serif;
+    font-variant: small-caps;
+    font-weight: 700;
+    height: 700px;
+    line-height: 700px;
+    margin: 0 0 10px;
+    padding: 0;
+    text-align: center;
+}
+
+
 body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
@@ -135,6 +161,9 @@ input[type="search"]::placeholder {
     cursor: pointer;
 }
 
+.search-button:hover{
+    transform: scale(1.1);
+}
 .search-button img {
     width: 20px;
     height: 20px;
