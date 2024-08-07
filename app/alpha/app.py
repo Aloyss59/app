@@ -1,16 +1,16 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm  # Ensure these are defined correctly
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import uuid
 import base64
-import sqlite3
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
 app.config['SECRET_KEY'] = 'mysecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -26,6 +26,8 @@ class User(UserMixin, db.Model):
 
 @app.route('/')
 @app.route('/home')
+@app.route('/acceuil')
+@login_required
 def home():
     return render_template("chat.html")
 
@@ -34,19 +36,18 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 def get_user_info():
-    conn = sqlite3.connect('site.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT nom, prenom, email, telephone FROM utilisateurs WHERE id = 1")  # Modifier selon votre table
-    user = cursor.fetchone()
-    conn.close()
-    return {
-        "nom": user[0],
-        "prenom": user[1],
-        "email": user[2],
-        "telephone": user[3]
-    }
+    user = User.query.first()
+    if user:
+        return {
+            "nom": user.last_name,
+            "prenom": user.first_name,
+            "email": user.email,
+            "telephone": user.phone
+        }
+    return {}
 
 @app.route('/get_user_info', methods=['GET'])
+@login_required
 def user_info():
     user_info = get_user_info()
     return jsonify(user_info)   
@@ -56,16 +57,18 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password', 'danger')
     return render_template('./auth/login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = form.password.data
+        hashed_password = generate_password_hash(form.password.data)
         new_user = User(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
@@ -92,30 +95,37 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/appareil-photo')
+@login_required
 def appareil_photo():
     return render_template("photo.html")
 
 @app.route('/amis')
+@login_required
 def amis():
     return render_template("amis.html")
 
 @app.route('/album')
+@login_required
 def album():
     return render_template("album.html")
 
 @app.route('/chat')
+@login_required
 def discussion():
     return render_template("discussion.html")
 
 @app.route('/discussion/parametre')
+@login_required
 def parametre():
     return render_template("parametres.html")
 
 @app.route('/parametre')
+@login_required
 def reglage():
     return render_template("parametres.html")
 
 @app.route('/album-photo')
+@login_required
 def album_photo():
     return render_template("pagealbumex.html")
 
@@ -124,6 +134,7 @@ def page_not_found(e):
     return render_template('404.html')
 
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload():
     data = request.get_json()
     if 'image' not in data:
@@ -141,7 +152,7 @@ def upload():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        db.create_all()  # Ensure all tables are created
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     app.run(debug=True, host='0.0.0.0', port=5000)
