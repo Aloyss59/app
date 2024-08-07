@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon"    type="image/png" href="../../static/img/logo_E-esprit.png">
+    <link rel="icon" type="image/png" href="../../static/img/logo_E-esprit.png">
     <link rel="stylesheet" href="../../static/css/Styles-Body.css">
     <link rel="stylesheet" href="../../static/css/page-register.css">
     <script src="../../static/js/theme.js"></script>
@@ -16,38 +16,60 @@
     </div>
     <div class="login-container">
         <h2>Inscription</h2>
-        <form action="" method="POST"> 
+        <form method="POST">
+            {{ form.hidden_tag() }}
             <div class="form-group">
-                <label for="name">Prénom</label>
-                <input type="name" id="name" name="name" required>
+                {{ form.first_name.label }}
+                {{ form.first_name(class="form-control") }}
+                {% for error in form.first_name.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="name">Nom</label>
-                <input type="name" id="name" name="name" required>
+                {{ form.last_name.label }}
+                {{ form.last_name(class="form-control") }}
+                {% for error in form.last_name.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="tel">Numérau de téléphone</label>
-                <input type="tel" id="tel" name="tel">
+                {{ form.phone.label }}
+                {{ form.phone(class="form-control") }}
+                {% for error in form.phone.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="text">Nom d'utilisateur</label>
-                <input type="text" id="text" name="text" required minlength="3">
+                {{ form.username.label }}
+                {{ form.username(class="form-control") }}
+                {% for error in form.username.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="email">Adresse Mail</label>
-                <input type="email" id="email" name="email" required>
+                {{ form.email.label }}
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" required minlength="5">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+                {% for error in form.password.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" required minlength="5">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(class="form-control") }}
+                {% for error in form.confirm_password.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             </div>
-            <button type="submit">Créer un compte</button>
+            {{ form.submit(class="btn btn-primary") }}
         </form>
-        <p class="signup-link">Vous possédez déjà un compte ?<a href="/login">Connectez-vous</a></p>
+        <p class="signup-link">Vous possédez déjà un compte ?<a href="{{ url_for('login') }}">Connectez-vous</a></p>
     </div>
 </body>
 </html>

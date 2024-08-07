@@ -94,7 +94,7 @@
             </div>
         </div>
     </main>
-    
+
     <div class="sert-a-rien">
         <button>Easter EGG ???</button>
     </div>
@@ -107,17 +107,16 @@
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
-    <!-- Ajoutez ceci avant la balise de fermeture </body> -->
     <div id="account-info-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-popup" class="close">&times;</span>
-            <img src="../static/img/imagespp.jpeg" alt="photo" class="profil">
+            <img src="{{ url_for('static', filename='img/imagespp.jpeg') }}" alt="photo" class="profil">
             <h2>Informations du Compte</h2>
-            <p>Nom : ...</p>
-            <p>Email : ...</p>
-            <p>Téléphone : ...</p>
-            <!-- Ajoutez d'autres informations ici -->
+            <p id="userNom">Nom : ...</p>
+            <p id="userPrenom">Prénom : ...</p>
+            <p id="userEmail">Email : ...</p>
+            <p id="userTelephone">Téléphone : ...</p>
         </div>
-    </div>
+    </div>   
 </body>
 </html>

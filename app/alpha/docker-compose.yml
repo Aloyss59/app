@@ -1,0 +1,7 @@
+services:
+  flask-app:
+    container_name: charly-web
+    build: .
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
