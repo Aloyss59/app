@@ -127,12 +127,7 @@ footer {
     position: relative;
     padding-right: 40px; /* Assurez-vous qu'il y a de l'espace pour le bouton réglage */
 }
-.chat-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1; /* Prend tout l'espace disponible */
-}
+
 
 .chat-name {
 	font-weight: bold;
@@ -183,10 +178,7 @@ footer {
 
 }
 
-.reglage {
-    width: 25px; /* ajustez la largeur à votre convenance */
-    height: 25px; /* ajustez la hauteur à votre convenance */
-}
+
 
 .footer-button{
 	background: none;
@@ -207,4 +199,5 @@ footer {
     padding: 0;
     margin: 0;
     cursor: pointer;
+    opacity: 65%;
 }

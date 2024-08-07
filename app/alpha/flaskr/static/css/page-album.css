@@ -70,7 +70,6 @@ footer {
     bottom: 0; /* Ajouté pour que le footer soit en bas de page */
     border-radius: 30px 30px 0 0; /* Arrondi les deux angles supérieurs */
     overflow: hidden;
-	/* border-top: 1px solid #a59999; */
 	display: flex;
 	justify-content: space-between 5px;
 	align-items: center;
