@@ -129,6 +129,10 @@ def reglage():
 def album_photo():
     return render_template("pagealbumex.html")
 
+@app.route('/recherche-amis')
+def rechercheamis():
+    return render_template("searchfriends.html")
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html')
