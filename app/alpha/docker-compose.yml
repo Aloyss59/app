@@ -1,6 +1,9 @@
+version: '1'
 services:
   web-app:
     container_name: charly-web
+    build:
+      context: ./docker-compose.yml  # Remplacez par le chemin vers votre Dockerfile
     ports:
       - 8001:8001
     restart: unless-stopped
