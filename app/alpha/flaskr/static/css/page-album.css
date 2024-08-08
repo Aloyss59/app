@@ -40,7 +40,6 @@ header {
     border-radius: 0 0 30px 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Adjust the alignment to properly place elements */
     padding: 10px 20px; /* Add padding for some spacing inside the header */
 }
 
@@ -50,6 +49,25 @@ header img.ta-pp {
     border-radius: 20%; /* Round the corners */
     object-fit: cover; /* Ensure the image covers the area without distortion */
     margin-left: 1%;
+}
+header img.ta-pp:hover{
+    transform: scale(1.1);
+}
+
+.username {
+    margin: 0px 0px 0px 15px;
+    color:#333; 
+  }
+  
+  body.dark .username {
+    color: #f0f0f0;
+  }
+  
+
+img.profil {
+    margin: auto;
+    border-radius: 5%;
+    display: flex;
 }
 
 .Name-page {
@@ -146,3 +164,55 @@ body.dark .grid-item {
 .grid-item:hover{
     transform: scale(1.1);
 }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 2000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    color: #000;
+    text-align: left;
+  }
+  
+  body.dark .popup {
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(244, 242, 242, 0.123);  
+  }
+  
+  .popup.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  .popup.hidden {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  
+  .popup-content {
+    padding: 20px;
+  }
+  
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Corps assombri lorsque le popup est ouvert */
+  body.popup-open {
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  

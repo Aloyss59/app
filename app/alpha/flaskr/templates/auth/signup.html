@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../../static/img/logo_E-esprit.png">
-    <link rel="stylesheet" href="../../static/css/Styles-Body.css">
     <link rel="stylesheet" href="../../static/css/page-register.css">
     <script src="../../static/js/theme.js"></script>
     <title>Register | E-spirit</title>
@@ -67,7 +66,9 @@
                     <span class="text-danger">{{ error }}</span>
                 {% endfor %}
             </div>
-            {{ form.submit(class="btn btn-primary") }}
+            <div class="button-container">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
         </form>
         <p class="signup-link">Vous possédez déjà un compte ?<a href="{{ url_for('login') }}">Connectez-vous</a></p>
     </div>

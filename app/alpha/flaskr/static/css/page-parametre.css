@@ -50,7 +50,6 @@ header {
   border-radius: 0 0 30px 30px;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Adjust the alignment to properly place elements */
   padding: 10px 20px; /* Add padding for some spacing inside the header */
 }
 
@@ -63,6 +62,15 @@ header img.ta-pp {
 }
 header img.ta-pp:hover{
   transform: scale(1.1);
+}
+
+.username {
+  margin: 0px 0px 0px 15px;
+  color:#333; 
+}
+
+body.dark .username {
+  color: #f0f0f0;
 }
 
 .Name-page {
@@ -289,7 +297,8 @@ body.popup-open {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.profil {
-  margin-right: 98%;
+img.profil {
+  margin: auto;
   border-radius: 5%;
+  display: flex;
 }

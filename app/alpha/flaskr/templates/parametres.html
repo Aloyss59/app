@@ -13,7 +13,8 @@
 </head>
 <body class="slide-out" data-page="page5">
     <header>
-        <img src="../static/img/imagespp.jpeg" alt="Photo" class="ta-pp">
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+        <h2 class="username"> {{ current_user.username }} </h2>
         <div class="Name-page">Paramètre</div>
     </header>
 
@@ -110,12 +111,11 @@
     <div id="account-info-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-popup" class="close">&times;</span>
-            <img src="{{ url_for('static', filename='img/imagespp.jpeg') }}" alt="photo" class="profil">
+            <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="photo" class="profil">
             <h2>Informations du Compte</h2>
+            <p id="username"></p>
             <p id="userNom">Nom : ...</p>
             <p id="userPrenom">Prénom : ...</p>
-            <p id="userEmail">Email : ...</p>
-            <p id="userTelephone">Téléphone : ...</p>
         </div>
     </div>   
 </body>

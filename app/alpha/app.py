@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from forms import LoginForm, RegistrationForm  # Ensure these are defined correctly
+from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from profilePicture import generate_avatar
 import os
 import uuid
 import base64
@@ -24,33 +25,49 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
 
+def profile_picture():
+    # Générer l'avatar
+    avatar_image = generate_avatar(current_user.username)
+    # Convertir l'image en base64 pour l'afficher dans le template
+    avatar_data = base64.b64encode(avatar_image.getvalue()).decode('utf-8')
+    
+    # Récupérer la première lettre du pseudo de l'utilisateur
+    first_letter = current_user.username[0].upper()
+    
+    return {'avatar': avatar_data, 'first_letter': first_letter}
+
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
 @login_required
 def home():
-    return render_template("chat.html")
+    avatar_data = profile_picture()
+    return render_template("chat.html", avatar_data=avatar_data)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    with app.app_context():
+        return db.session.get(User, int(user_id))
 
 def get_user_info():
     user = User.query.first()
     if user:
         return {
-            "nom": user.last_name,
-            "prenom": user.first_name,
-            "email": user.email,
-            "telephone": user.phone
+            "nom": current_user.last_name,
+            "prenom": current_user.first_name,
+            "username" : current_user.username,
         }
     return {}
 
 @app.route('/get_user_info', methods=['GET'])
 @login_required
 def user_info():
-    user_info = get_user_info()
-    return jsonify(user_info)   
+    user_info = {
+        "nom": current_user.last_name,
+        "prenom": current_user.first_name,
+        "username": current_user.username,
+    }
+    return jsonify(user_info)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -83,11 +100,6 @@ def register():
         return redirect(url_for('home'))
     return render_template('./auth/signup.html', form=form)
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return f'Welcome {current_user.username}!'
-
 @app.route('/logout')
 @login_required
 def logout():
@@ -102,36 +114,43 @@ def appareil_photo():
 @app.route('/amis')
 @login_required
 def amis():
-    return render_template("amis.html")
+    avatar_data = profile_picture()
+    return render_template("amis.html", avatar_data=avatar_data)
 
 @app.route('/album')
 @login_required
 def album():
-    return render_template("album.html")
+    avatar_data = profile_picture()
+    return render_template("album.html", avatar_data=avatar_data)
 
 @app.route('/chat')
 @login_required
 def discussion():
-    return render_template("discussion.html")
+    avatar_data = profile_picture()
+    return render_template("discussion.html", avatar_data=avatar_data)
 
 @app.route('/discussion/parametre')
 @login_required
 def parametre():
-    return render_template("parametres.html")
+    avatar_data = profile_picture()
+    return render_template("parametres.html", avatar_data=avatar_data)
 
 @app.route('/parametre')
 @login_required
 def reglage():
-    return render_template("parametres.html")
+    avatar_data = profile_picture()
+    return render_template("parametres.html", avatar_data=avatar_data)
 
 @app.route('/album-photo')
 @login_required
 def album_photo():
-    return render_template("pagealbumex.html")
+    avatar_data = profile_picture()
+    return render_template("pagealbumex.html", avatar_data=avatar_data)
 
 @app.route('/recherche-amis')
 def rechercheamis():
-    return render_template("searchfriends.html")
+    avatar_data = profile_picture()
+    return render_template("searchfriends.html", avatar_data=avatar_data)
 
 @app.errorhandler(404)
 def page_not_found(e):

@@ -10,10 +10,12 @@
     <script src="../static/js/main.js"></script>
     <!-- <script src="../static/js/album.js"></script> -->
     <script src="../static/js/theme.js"></script>
+    <script src="../static/js/profil.js"></script>
   </head>
 <body>
   <header>
-    <img src="../static/img/imagespp.jpeg" alt="Photo" class="ta-pp">
+    <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+    <h2 class="username"> {{ current_user.username }} </h2>
     <div class="Name-page">Album</div>
   </header>
 
@@ -112,6 +114,17 @@
     <button class="prev-button">‹</button>
     <button class="next-button">›</button>
   </div>
+  <div id="account-info-popup" class="popup hidden">
+    <div class="popup-content">
+        <span id="close-popup" class="close">&times;</span>
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="photo" class="profil">
+        <h2>Informations du Compte</h2>
+        <p id="username"></p>
+        <p id="userNom">Nom : ...</p>
+        <p id="userPrenom">Prénom : ...</p>
+    </div>
+  </div>   
+
 </body>
 <script>
 document.querySelectorAll('.cemoi').forEach(function(element) {
