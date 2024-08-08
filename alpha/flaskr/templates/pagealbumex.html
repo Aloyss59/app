@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Spirit albumex</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/pagealbumex.css">
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="../static/js/main.js"></script>
+    <!-- <script src="../static/js/album.js"></script> -->
+    <script src="../static/js/theme.js"></script>
+    <script src="../static/js/profil.js"></script>
+  </head>
+<body>
+  <header>
+    <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+    <h2 class="username"> {{ current_user.username }} </h2>
+    <div class="Name-page">Album</div>
+  </header>
+
+  <div class="container">
+    <div class="calendar">
+      <div class="front">
+        <div class="current-date">
+          <h1>Mercredi 1er</h1>
+          <h1>Août 2024</h1> 
+        </div>
+
+        <div class="current-month">
+          <ul class="week-days">
+            <li>LUN</li>
+            <li>MAR</li>
+            <li>MER</li>
+            <li>JEU</li>
+            <li>VEN</li>
+            <li>SAM</li>
+            <li>DIM</li>
+          </ul>
+
+          <div class="weeks">
+            <div class="first">
+              <span class="last-month">28</span>
+              <span class="last-month">29</span>
+              <span class="last-month">30</span>
+              <span class="last-month">31</span>
+              <span class="cemoi">01</span>
+              <span class="cemoi">02</span>
+              <span class="cemoi">03</span>
+            </div>
+
+            <div class="second">
+              <span class="cemoi">04</span>
+              <span class="cemoi">05</span>
+              <span class="cemoi">06</span>
+              <span class="cemoi">07</span>
+              <span class="cemoi">08</span>
+              <span class="cemoi">09</span>
+              <span class="cemoi">10</span>
+            </div>
+
+            <div class="third">
+              <span class="cemoi">11</span>
+              <span class="cemoi">12</span>
+              <span class="cemoi">13</span>
+              <span class="cemoi">14</span>
+              <span class="cemoi">15</span>
+              <span class="cemoi">16</span>
+              <span class="cemoi">17</span>
+            </div>
+
+            <div class="fourth">
+              <span class="cemoi">18</span>
+              <span class="cemoi">19</span>
+              <span class="cemoi">20</span>
+              <span class="cemoi">21</span>
+              <span class="cemoi">22</span>
+              <span class="cemoi">23</span>
+              <span class="cemoi">24</span>
+            </div>
+
+            <div class="fifth">
+              <span class="cemoi">25</span>
+              <span class="cemoi">26</span>
+              <span class="cemoi">27</span>
+              <span class="cemoi">28</span>
+              <span class="cemoi">29</span>
+              <span class="cemoi">30</span>
+              <span class="cemoi">31</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+
+  <footer>
+    <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
+    <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
+    <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
+    <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
+    <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+  </footer>
+
+  <!-- Add a button to the page, initially hidden -->
+  <button class="calendarréap" style="display: none;">Afficher le calendrier</button>
+  <div class="image-slider">
+    <button class="footer-button">Bouton</button>
+    <img src="../static/img/Snapchat-415546687.jpg" alt="Image 1">
+    <img src="../static/img/Snapchat-981386878.jpg" alt="Image 2">
+    <img src="../static/img/Snapchat-1092357000.jpg" alt="Image 3">
+    <img src="../static/img/Snapchat-1510048485.jpg" alt="Image 4">
+    <button class="prev-button">‹</button>
+    <button class="next-button">›</button>
+  </div>
+  <div id="account-info-popup" class="popup hidden">
+    <div class="popup-content">
+        <span id="close-popup" class="close">&times;</span>
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="photo" class="profil">
+        <h2>Informations du Compte</h2>
+        <p id="username"></p>
+        <p id="userNom">Nom : ...</p>
+        <p id="userPrenom">Prénom : ...</p>
+    </div>
+  </div>   
+
+</body>
+<script>
+document.querySelectorAll('.cemoi').forEach(function(element) {
+  element.addEventListener('click', function() {
+    document.querySelector('.calendar').style.opacity = 0;
+    setTimeout(function() {
+      document.querySelector('.calendar').style.display = 'none';
+    }, 500);
+    document.querySelector('.calendarréap').style.opacity = 1;
+    document.querySelector('.calendarréap').style.display = 'block';
+  });
+});
+
+document.querySelectorAll('.calendarréap').forEach(function(element) {
+  element.addEventListener('click', function() {
+    document.querySelector('.calendar').style.display = 'block';
+    document.querySelector('.calendar').style.opacity = 0;
+    setTimeout(function() {
+      document.querySelector('.calendar').style.opacity = 1;
+    }, 10);
+    element.style.opacity = 0;
+    setTimeout(function() {
+      element.style.display = 'none';
+    }, 500);
+  });
+});
+
+
+
+const toggleSlider = document.querySelector('.toggle-slider');
+const imageSlider = document.querySelector('.image-slider');
+const images = imageSlider.querySelectorAll('img');
+const prevButton = imageSlider.querySelector('.prev-button');
+const nextButton = imageSlider.querySelector('.next-button');
+
+let currentIndex = 0;
+
+toggleSlider.addEventListener('click', () => {
+  imageSlider.style.display = 'block'; // afficher le slider lorsque le span est cliqué
+  images[0].classList.add('active'); // afficher la première image
+});
+
+prevButton.addEventListener('click', () => {
+  currentIndex--;
+  if (currentIndex < 0) {
+    currentIndex = 3; // 3 est l'index de la dernière image
+  }
+  updateSlider();
+});
+
+nextButton.addEventListener('click', () => {
+  currentIndex++;
+  if (currentIndex > 3) { // 3 est l'index de la dernière image
+    currentIndex = 0;
+  }
+  updateSlider();
+});
+
+function updateSlider() {
+  images.forEach((image, index) => {
+    if (index === currentIndex) {
+      image.classList.add('active');
+    } else {
+      image.classList.remove('active');
+    }
+  });
+}
+</script>
+</html>

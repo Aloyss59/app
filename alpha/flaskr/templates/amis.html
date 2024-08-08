@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Spirit Amis</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/page-amis.css">
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/theme.js"></script>
+    <script src="../static/js/ami.js"></script>
+    <script src="../static/js/profil.js"></script>
+</head>
+<body class="slide-out" data-page="page1">
+    <header>
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+        <h2 class="username"> {{ current_user.username }} </h2>
+        <div class="Name-page">Amis</div>
+    </header>
+
+    <div class="barrerecherche">
+        <input type="search" name="rechercheamis" placeholder="Taper le nom de votre ami ou ajouter un ami avec le +"/>
+        <button class="search-button" onclick="ajamis()"><img src="../static/img/ajouteramis.png" alt="search icon"></button>
+    </div>
+    <!-- <div class="ligne-sous-barre"></div> -->
+
+    <ul class="listeamis">
+        <div class="ami" onclick="redirectToChatPage()">
+            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
+            <div class="amis-info">
+                <span class="amisname">Aloys</span>
+                <span class="amitemps">Votre amis depuis: ... jours</span>
+            </div>
+        </div>
+    </ul>
+    <ul class="listeamis">
+        <div class="ami" onclick="redirectToChatPage()">
+            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
+            <div class="amis-info">
+                <span class="amisname">Jena Dupont 😾</span>
+                <span class="amitemps">Votre amis depuis: ... jours</span>
+            </div>
+        </div>
+    </ul>
+    <ul class="listeamis">
+        <div class="ami" onclick="redirectToChatPage()">
+            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
+            <div class="amis-info">
+                <span class="amisname">ZOLA</span>
+                <span class="amitemps">Votre amis depuis: ... jours</span>
+            </div>
+        </div>
+    </ul>
+    <ul class="listeamis">
+        <div class="ami" onclick="redirectToChatPage()">
+            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
+            <div class="amis-info">
+                <span class="amisname">basile</span>
+                <span class="amitemps">Votre amis depuis: ... jours</span>
+            </div>
+        </div>
+    </ul>
+    <ul class="listeamis">
+        <div class="ami" onclick="redirectToChatPage()">
+            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
+            <div class="amis-info">
+                <span class="amisname">Suliac</span>
+                <span class="amitemps">Votre amis depuis: ... jours</span>
+            </div>
+        </div>
+    </ul>
+
+    <footer>
+        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+    </footer>
+
+    <div id="account-info-popup" class="popup hidden">
+        <div class="popup-content">
+            <span id="close-popup" class="close">&times;</span>
+            <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="photo" class="profil">
+            <h2>Informations du Compte</h2>
+            <p id="username"></p>
+            <p id="userNom">Nom : ...</p>
+            <p id="userPrenom">Prénom : ...</p>
+        </div>
+    </div>   
+</body>
+</html>
