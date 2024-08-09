@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+    <style>
+        /* Ajoutez des styles pour le chat */
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 8px; margin-bottom: 2px; background-color: #f3f3f3; }
+        #form { display: flex; }
+        #input { flex: 1; }
+    </style>
+</head>
+<body>
+    <h1>Chat</h1>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+        <input id="input" autocomplete="off" placeholder="Type your message..."/>
+        <button>Send</button>
+    </form>
+
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const form = document.getElementById('form');
+        const input = document.getElementById('input');
+        const messages = document.getElementById('messages');
+
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            const message = input.value;
+            socket.emit('send_message', {'room': 'general', 'message': message});
+            input.value = '';
+            return false;
+        };
+
+        socket.on('receive_message', function(data) {
+            const item = document.createElement('li');
+            item.textContent = `${data.username}: ${data.message}`;
+            messages.appendChild(item);
+        });
+
+        // Optional: join a room when the page loads
+        socket.emit('join_room', {'room': 'general'});
+    </script>
+</body>
+</html>

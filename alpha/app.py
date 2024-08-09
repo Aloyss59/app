@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from profilePicture import generate_avatar
 import os
 import uuid
@@ -15,6 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -77,11 +79,14 @@ def login():
             user = User.query.filter_by(username=form.username.data).first()
             if user and check_password_hash(user.password, form.password.data):
                 login_user(user)
-                flash("Données correcte !")
+                flash("Connexion réussie !", "success")
                 return redirect(url_for('home'))
             else:
-                flash('Invalid username or password', 'danger')
-                redirect(request.url)
+                flash('Nom d\'utilisateur ou mot de passe incorrect', 'danger')
+                return redirect(url_for('login'))
+        else:
+            flash('Formulaire invalide. Veuillez vérifier vos informations.', 'danger')
+            return redirect(url_for('login'))
     else:
         return render_template('./auth/login.html', form=form)
 
@@ -121,17 +126,33 @@ def amis():
     avatar_data = profile_picture()
     return render_template("amis.html", avatar_data=avatar_data)
 
-@app.route('/album')
-@login_required
-def album():
-    avatar_data = profile_picture()
-    return render_template("album.html", avatar_data=avatar_data)
+@login_manager.user_loader
+def load_user(user_id):
+    with app.app_context():
+        return db.session.get(User, int(user_id))
+
+@socketio.on('send_message')
+def handle_message(data):
+    room = data['room']
+    message = data['message']
+    emit('receive_message', {'message': message, 'username': current_user.username}, room=room)
+
+@socketio.on('join_room')
+def handle_join_room(data):
+    room = data['room']
+    join_room(room)
+    emit('receive_message', {'message': f"{current_user.username} a rejoint la salle."}, room=room)
+
+@socketio.on('leave_room')
+def handle_leave_room(data):
+    room = data['room']
+    leave_room(room)
+    emit('receive_message', {'message': f"{current_user.username} a quitté la salle."}, room=room)
 
 @app.route('/chat')
 @login_required
-def discussion():
-    avatar_data = profile_picture()
-    return render_template("discussion.html", avatar_data=avatar_data)
+def chat():
+    return render_template("discussion.html")
 
 @app.route('/discussion/parametre')
 @login_required
@@ -182,4 +203,4 @@ if __name__ == '__main__':
         db.create_all()  # Ensure all tables are created
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
