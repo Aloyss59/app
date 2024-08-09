@@ -72,14 +72,18 @@ def user_info():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and check_password_hash(user.password, form.password.data):
-            login_user(user)
-            return redirect(url_for('home'))
-        else:
-            flash('Invalid username or password', 'danger')
-    return render_template('./auth/login.html', form=form)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user and check_password_hash(user.password, form.password.data):
+                login_user(user)
+                flash("Données correcte !")
+                return redirect(url_for('home'))
+            else:
+                flash('Invalid username or password', 'danger')
+                redirect(request.url)
+    else:
+        return render_template('./auth/login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

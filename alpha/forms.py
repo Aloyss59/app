@@ -7,7 +7,7 @@ class RegistrationForm(FlaskForm):
     first_name = StringField('Prénom', validators=[DataRequired(), Regexp(r'[A-Za-zÀ-ÖØ-Ýà-öø-ÿ]+')])
     last_name = StringField('Nom', validators=[DataRequired(), Regexp(r'[A-Za-zÀ-ÖØ-Ýà-öø-ÿ]+')])
     phone = TelField('Numéro de téléphone', validators=[Regexp(r'[0-9]+')])
-    username = StringField('Nom d’utilisateur', validators=[DataRequired(), Length(min=3), Regexp(r'[A-Za-zÀ-ÖØ-Ýà-öø-ÿ0-9]+')])
+    username = StringField('Nom d’utilisateur', validators=[DataRequired(), Length(min=3), Regexp(r'[A-Za-zÀ-ÖØ-Ýà-öø-ÿ0-9.]+')])
     email = StringField('Adresse Mail', validators=[DataRequired(), Email()])
     password = PasswordField('Mot de passe', validators=[
         DataRequired(),
@@ -18,6 +18,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Créer un compte')
 
 class LoginForm(FlaskForm):
-    username = StringField('Nom d\'utilisateur / Adresse mail', validators=[DataRequired(), Length(min=2, max=150)])
+    username = StringField(
+        'Nom d\'utilisateur / Adresse mail',
+        validators=[
+            DataRequired(),
+            Length(min=3, max=150),
+            Regexp(r'[A-Za-zÀ-ÖØ-Ýà-öø-ÿ0-9.]+')
+        ]
+    )
     password = PasswordField('Mot de passe', validators=[DataRequired()])
     submit = SubmitField('Se connecter')

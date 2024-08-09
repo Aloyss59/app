@@ -19,7 +19,7 @@
             {{ form.hidden_tag() }}
             <div class="form-group">
                 <label for="username">{{ form.username.label.text }}</label>
-                {{ form.username(class="form-control", id="username", required=True, pattern="[A-Za-zÀ-ÖØ-Ýà-öø-ÿ0-9]+") }}
+                {{ form.username(class="form-control", id="username", required=True, pattern="[A-Za-zÀ-ÖØ-Ýà-öø-ÿ0-9.]+") }}
                 {% for error in form.username.errors %}
                 <span class="error">{{ error }}</span>
                 {% endfor %}
