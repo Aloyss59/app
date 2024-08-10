@@ -1,13 +1,11 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from profilePicture import generate_avatar
-import os
-import uuid
-import base64
+import os, uuid, base64
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
@@ -26,6 +24,23 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+
+class FriendRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    status = db.Column(db.String(20), nullable=False, default='pending')  # pending, accepted, rejected
+
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_requests')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_requests')
+
+class Friendship(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = db.relationship('User', foreign_keys=[user_id], backref='friendships')
+    friend = db.relationship('User', foreign_keys=[friend_id], backref='friends_with')
 
 def profile_picture():
     # Générer l'avatar
@@ -120,11 +135,118 @@ def logout():
 def appareil_photo():
     return render_template("photo.html")
 
+@app.route('/recherche-amis', methods=['GET', 'POST'])
+@login_required
+def recherche_amis():
+    avatar_data = profile_picture()
+    users = []
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        if username:
+            # Rechercher les utilisateurs par nom d'utilisateur
+            users = User.query.filter(User.username.ilike(f'%{username}%')).all()
+
+    return render_template("searchfriends.html", avatar_data=avatar_data, users=users)
+
+@app.route('/send-friend-request/<int:user_id>', methods=['POST'])
+@login_required
+def send_friend_request(user_id):
+    # Vérifier si une demande d'ami existe déjà
+    existing_request = FriendRequest.query.filter_by(sender_id=current_user.id, receiver_id=user_id).first()
+
+    if existing_request:
+        flash('Vous avez déjà envoyé une demande à cet utilisateur.', 'warning')
+    else:
+        # Créer une nouvelle demande d'ami
+        friend_request = FriendRequest(sender_id=current_user.id, receiver_id=user_id)
+        db.session.add(friend_request)
+        db.session.commit()
+        flash('Demande d\'ami envoyée avec succès !', 'success')
+
+    return redirect(url_for('recherche_amis'))
+
 @app.route('/amis')
 @login_required
 def amis():
+    # Récupérer toutes les amitiés associées à l'utilisateur connecté
+    friendships = Friendship.query.filter(
+        (Friendship.user_id == current_user.id) | 
+        (Friendship.friend_id == current_user.id)
+    ).all()
+
+    # Créer une session SQLAlchemy pour récupérer les amis
+    session = db.session
+
+    # Liste pour stocker les informations des amis
+    friends_data = []
+
     avatar_data = profile_picture()
-    return render_template("amis.html", avatar_data=avatar_data)
+    
+    # Parcourir toutes les amitiés et ajouter les informations nécessaires à la liste friends_data
+    for friendship in friendships:
+        # Identifier l'ID de l'ami
+        friend_id = friendship.friend_id if friendship.user_id == current_user.id else friendship.user_id
+        
+        # Utiliser session.get() pour récupérer l'ami
+        friend = session.get(User, friend_id)
+
+        if friend:
+            # Générer l'avatar de cet ami
+            friend_avatar = generate_avatar(friend.username)
+            friend_avatar_base64 = base64.b64encode(friend_avatar.getvalue()).decode('utf-8')
+            first_letter = friend.username[0].upper()
+
+            # Ajouter les informations de l'ami à la liste
+            friends_data.append({
+                'username': friend.username,
+                'avatar': friend_avatar_base64,
+                'first_letter': first_letter
+            })
+
+    # Rendre la page amis.html avec les données appropriées
+    return render_template('amis.html', friends=friends_data, avatar_data=avatar_data)
+
+@app.route('/accept-friend-request/<int:request_id>', methods=['POST'])
+@login_required
+def accept_friend_request(request_id):
+    friend_request = FriendRequest.query.get(request_id)
+    if friend_request and friend_request.receiver_id == current_user.id:
+        # Créer une relation d'amitié
+        friendship = Friendship(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id)
+        db.session.add(friendship)
+        # Mettre à jour le statut de la demande d'ami
+        friend_request.status = 'accepted'
+        db.session.commit()
+        flash('Demande d\'ami acceptée.', 'success')
+        return redirect(url_for('amis'))
+    else:
+        flash('Demande d\'ami invalide.', 'danger')
+    return redirect(url_for('demandes_amis'))
+
+@app.route('/reject-friend-request/<int:request_id>', methods=['POST'])
+@login_required
+def reject_friend_request(request_id):
+    friend_request = FriendRequest.query.get(request_id)
+    if friend_request and friend_request.receiver_id == current_user.id:
+        # Mettre à jour le statut de la demande d'ami
+        friend_request.status = 'rejected'
+        db.session.commit()
+        flash('Demande d\'ami refusée.', 'info')
+        return redirect(url_for('chat'))
+    else:
+        flash('Demande d\'ami invalide.', 'danger')
+
+    return redirect(url_for('demandes_amis'))
+
+
+@app.route('/demandes-amis')
+@login_required
+def demandes_amis():
+    avatar_data = profile_picture()
+    # Récupérer les demandes d'amis en attente reçues par l'utilisateur connecté
+    received_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, status='pending').all()
+    return render_template('demandes_amis.html', received_requests=received_requests, avatar_data=avatar_data)
 
 @login_manager.user_loader
 def load_user(user_id):

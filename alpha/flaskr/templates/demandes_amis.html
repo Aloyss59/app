@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Spirit Amis</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/page-amis.css">
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/theme.js"></script>
+    <script src="../static/js/ami.js"></script>
+    <script src="../static/js/profil.js"></script>
+</head>
+{% block content %}
+<h2>Demandes d'amis</h2>
+<div>
+    {% for request in received_requests %}
+        <div>
+            <p>{{ request.sender.username }} vous a envoyé une demande d'ami.</p>
+            <form action="{{ url_for('accept_friend_request', request_id=request.id) }}" method="POST" style="display:inline;">
+                <button type="submit">Accepter</button>
+            </form>
+            <form action="{{ url_for('reject_friend_request', request_id=request.id) }}" method="POST" style="display:inline;">
+                <button type="submit">Refuser</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit Amis</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-amis.css">
-    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
+    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
     <script src="../static/js/main.js"></script>
     <script src="../static/js/theme.js"></script>
     <script src="../static/js/ami.js"></script>
@@ -22,53 +22,22 @@
         <input type="search" name="rechercheamis" placeholder="Taper le nom de votre ami ou ajouter un ami avec le +"/>
         <button class="search-button" onclick="ajamis()"><img src="../static/img/ajouteramis.png" alt="search icon"></button>
     </div>
-    <!-- <div class="ligne-sous-barre"></div> -->
-
-    <ul class="listeamis">
-        <div class="ami" onclick="redirectToChatPage()">
-            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
-            <div class="amis-info">
-                <span class="amisname">Aloys</span>
-                <span class="amitemps">Votre amis depuis: ... jours</span>
-            </div>
-        </div>
-    </ul>
-    <ul class="listeamis">
-        <div class="ami" onclick="redirectToChatPage()">
-            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
-            <div class="amis-info">
-                <span class="amisname">Jena Dupont 😾</span>
-                <span class="amitemps">Votre amis depuis: ... jours</span>
-            </div>
-        </div>
-    </ul>
-    <ul class="listeamis">
-        <div class="ami" onclick="redirectToChatPage()">
-            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
-            <div class="amis-info">
-                <span class="amisname">ZOLA</span>
-                <span class="amitemps">Votre amis depuis: ... jours</span>
-            </div>
-        </div>
-    </ul>
-    <ul class="listeamis">
-        <div class="ami" onclick="redirectToChatPage()">
-            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
-            <div class="amis-info">
-                <span class="amisname">basile</span>
-                <span class="amitemps">Votre amis depuis: ... jours</span>
-            </div>
-        </div>
-    </ul>
-    <ul class="listeamis">
-        <div class="ami" onclick="redirectToChatPage()">
-            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
-            <div class="amis-info">
-                <span class="amisname">Suliac</span>
-                <span class="amitemps">Votre amis depuis: ... jours</span>
-            </div>
-        </div>
-    </ul>
+    {% block content %}
+    <h2>Mes Amis</h2>
+    <div>
+        {% for friend in friends %}
+            <ul class="listeamis">
+                <div class="ami" onclick="redirectToChatPage()">
+                    <img src="data:image/png;base64,{{ friends.avatar }}" alt="pp" class="profilespictures">
+                    <div class="amis-info">
+                        <span class="amisname">{{ friend.username }}</span>
+                        <span class="amitemps">Votre amis depuis: ... jours</span>
+                    </div>
+                </div>
+            </ul>
+        {% endfor %}
+    </div>
+    {% endblock %}
 
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>

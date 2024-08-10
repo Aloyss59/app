@@ -21,6 +21,22 @@
         <button class="search-button"><img src="../static/img/recherche.png" alt="search icon"></button>
     </div>
 
+    <form action="{{ url_for('rechercheamis') }}" method="POST">
+        <input type="text" name="username" placeholder="Rechercher un utilisateur" required>
+        <button type="submit">Rechercher</button>
+    </form>
+    {% for user in users %}
+    <div>
+        <p>{{ user.username }}</p>
+        {% if user.id != current_user.id %}
+            <form action="{{ url_for('send_friend_request', user_id=user.id) }}" method="POST">
+                <button type="submit">Ajouter comme ami</button>
+            </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+
 
 
     <footer>
