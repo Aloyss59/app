@@ -272,7 +272,7 @@ body.dark .grid-item {
   .toggle:before {
     background: currentColor;
     border-radius: 50%;
-    content: "";
+    content: "lol";
     top: 0.2em;
     left: 0.2em;
     width: 1.1em;
