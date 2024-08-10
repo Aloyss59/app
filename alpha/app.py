@@ -168,7 +168,7 @@ def reglage():
 
 @app.route('/album-photo')
 @login_required
-def album_photo():
+def album():
     avatar_data = profile_picture()
     return render_template("pagealbumex.html", avatar_data=avatar_data)
 
