@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit album</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/page-album.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/albumquests.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
     <script src="../static/js/main.js"></script>
     <script src="../static/js/album.js"></script>
@@ -24,7 +24,8 @@
     </header>
 
     <div class="listealbum">
-        <button class="grid-item" onclick="pagealbumtest()">Album photo du groupe "groupe d'amis"</button>
+        <div class="grid-item">Album de quêtes perso</div>
+        <button class="grid-item" onclick="quests()">Album photo du groupe "groupe d'amis"</button>
         <div class="grid-item">Album de quêtes du chat avec ....</div>
         <div class="grid-item">Album de quêtes du groupe ...</div>
         <div class="grid-item">Album de quêtes du chat........</div>
@@ -63,8 +64,8 @@
 
     <script>
     
-    function pagealbumtest() {
-        window.location.href = "/album-photo";
+    function quests() {
+        window.location.href = "/quests";
     }
     
     

@@ -129,42 +129,6 @@ footer {
 }
 
 
-.listealbum {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    width: 100%;
-    gap: 10px; /* Optionnel : pour ajouter de l'espace entre les éléments */
-    
-}
-
-.grid-item {
-    background-color: #7c788567;
-    border-radius: 5px;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    border: 1px solid #a59999;
-    color: #ffffff;
-    margin: 0 10px;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    
-}
-
-body.dark .grid-item {
-    color: #d8dbde;
-}
-
-.grid-item:hover{
-    transform: scale(1.1);
-}
-
 .popup {
     position: fixed;
     top: 50%;
@@ -215,100 +179,48 @@ body.dark .grid-item {
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
   }
-  
 
 
 
-
-  body, input {
-    color: #00000041;
-    font: 1em "Helvetica Neue", Helvetica, sans-serif;
-    line-height: 1.5;
-  }
-
-  .toggle, .toggle:before, .slot__label, .curtain {
-    transition-property: background-color, transform, visibility;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-in, cubic-bezier(0.6,0.2,0.4,1.5), linear;
-  }
-  .toggle:before, .slot, .slot__label {
-    display: block;
-  }
-  .toggle:before, .curtain {
-    position: absolute;
-  }
-  .toggle:checked, .curtain {
-    background-color: #d3d3d3;
-  }
-  .toggle:focus {
-    outline: transparent;
-  }
-  .toggle-container {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
+  h3.facile {
+    color: rgb(39, 160, 39);
   }
   
-  .toggle {
-    border-radius: 0.75em;
-    box-shadow: 0 0 0 0.1em inset;
-    cursor: pointer;
+  h3.moyen {
+    color: rgb(255, 136, 0);
+  }
+  
+  h3.difficile {
+    color: rgb(235, 49, 24);
+  }
+  
+  h3.extreme {
+    color:  rgba(201, 38, 38, 0.534)/* desired color for "EXTREME" */;
+  }
+
+
+  h3 {
     position: relative;
-    width: 3em;
-    height: 1.5em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-tap-highlight-color: transparent;
-    margin: 0;
+    padding-left: 20px;
+}
+h3::before {
+    content: "↓"; /* Flèche vers le bas par défaut */
+    font-size: 19px; /* Augmenter la taille de la flèche */
+    font-weight: bold; /* Rendre la flèche plus épaisse */
     position: absolute;
-    top: 50%; /* centre verticalement */
-    left: 54%; /* centre horizontalement */
-    transform: translate(-50%, -50%); /* ajuste la position pour centrer le texte */
-  }
-  .toggle:before {
-    background: currentColor;
-    border-radius: 50%;
-    content: "";
-    top: 0.2em;
-    left: 0.2em;
-    width: 1.1em;
-    height: 1.1em;
-  }
-  .toggle:checked:before {
-    transform: translateX(1.5em);
-  }
-  .toggle:checked ~ .slot .slot__label, .slot__label:nth-child(2) {
-    transform: translateY(-50%) scaleY(0);
-  }
-  .toggle:checked ~ .slot .slot__label:nth-child(2) {
-    transform: translateY(-100%) scaleY(1);
-  }
-  .toggle:checked ~ .curtain {
-    transform: scaleX(1);
-  }
-  .slot {
-    color: transparent;
-    font-size: 1.5em;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    line-height: 1;
-    overflow: hidden;
-    height: 1em;
-  
-    -webkit-text-stroke: 0.05em #000000;
-    position: absolute;
-    top: 50%; /* centre verticalement */
-    left: 58.5%; /* centre horizontalement */
-    transform: translate(-50%, -50%); /* ajuste la position pour centrer le texte */
-  }
-  .slot__label {
-    transform-origin: 50% 0;
-  }
-  .slot__label:nth-child(2) {
-    transform-origin: 50% 100%;
-  }
-  
+    left: 0; /* Positionner la flèche à gauche */
+    top: 0;
+    cursor: pointer;
+}
+/* Changer la flèche en fonction de la visibilité des ol */
+h3.show-ol::before {
+    content: "↑"; /* Flèche vers le haut */
+}
+/* Cacher les ol par défaut */
+ol {
+    display: none;
+}
+/* Afficher les ol lorsque la flèche est cliquée */
+ol.show-ol {
+    display: block;
+}

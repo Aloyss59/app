@@ -138,9 +138,9 @@ footer {
 }
 
 .grid-item {
-    background-color: #7c788567;
-    border-radius: 5px;
-    height: 150px;
+    background-color: #81540b5e;
+    border-radius: 2px;
+    height: 175px;
     display: flex;
     align-items: center;
     justify-content: center;
