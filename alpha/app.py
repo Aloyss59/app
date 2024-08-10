@@ -184,6 +184,12 @@ def album_quests():
     avatar_data = profile_picture()
     return render_template("albumquests.html", avatar_data=avatar_data)
 
+@app.route('/quests')
+@login_required
+def quests():
+    avatar_data = profile_picture()
+    return render_template("quests.html", avatar_data=avatar_data)
+
 @app.route('/recherche-amis')
 def rechercheamis():
     avatar_data = profile_picture()

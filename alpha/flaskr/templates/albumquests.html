@@ -15,7 +15,7 @@
     <header>
         <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
         <h2 class="username"> {{ current_user.username }} </h2>
-        <div class="Name-page">Album</div>>
+        <div class="Name-page">Album</div>
         <input id="toggle" class="toggle" type="checkbox" role="switch" name="toggle" value="on">
         <label for="toggle" class="slot">
             <span class="slot__label">PHOTO</span>
@@ -25,21 +25,21 @@
 
     <div class="listealbum">
         <button class="grid-item" onclick="pagealbumtest()">Album photo du groupe "groupe d'amis"</button>
-        <div class="grid-item">Album photo du chat avec ....</div>
-        <div class="grid-item">Album photo du groupe ...</div>
-        <div class="grid-item">Album photo du chat........</div>
-        <div class="grid-item">Album photo du groupe....</div>
-        <div class="grid-item">Album photo du chat avec ....</div>
-        <div class="grid-item">Album photo du groupe ...</div>
-        <div class="grid-item">Album photo du chat........</div>
-        <div class="grid-item">Album photo du groupe....</div>
-        <div class="grid-item">Album photo du chat avec ....</div>
-        <div class="grid-item">Album photo du groupe ...</div>
-        <div class="grid-item">Album photo du chat........</div>
-        <div class="grid-item">Album photo du groupe....</div>
-        <div class="grid-item">Album photo du chat avec ....</div>
-        <div class="grid-item">Album photo du groupe ...</div>
-        <div class="grid-item">Album photo du chat........</div>
+        <div class="grid-item">Album de quêtes du chat avec ....</div>
+        <div class="grid-item">Album de quêtes du groupe ...</div>
+        <div class="grid-item">Album de quêtes du chat........</div>
+        <div class="grid-item">Album de quêtes du groupe....</div>
+        <div class="grid-item">Album de quêtes du chat avec ....</div>
+        <div class="grid-item">Album de quêtes du groupe ...</div>
+        <div class="grid-item">Album de quêtes du chat........</div>
+        <div class="grid-item">Album de quêtes du groupe....</div>
+        <div class="grid-item">Album de quêtes du chat avec ....</div>
+        <div class="grid-item">Album de quêtes du groupe ...</div>
+        <div class="grid-item">Album de quêtes du chat........</div>
+        <div class="grid-item">Album de quêtes du groupe....</div>
+        <div class="grid-item">Album de quêtes du chat avec ....</div>
+        <div class="grid-item">Album de quêtes du groupe ...</div>
+        <div class="grid-item">Album de quêtes du chat........</div>
     </div>
     
     <footer>
@@ -75,6 +75,11 @@
     window.location.href = "/album"; // Replace with the URL of the photo page
   }
     });
+    document.addEventListener("DOMContentLoaded", function() {
+    const toggle = document.getElementById('toggle');
+    toggle.checked = true; // Set the toggle state to "on" by default
+  });
+    
     
     
     </script>
