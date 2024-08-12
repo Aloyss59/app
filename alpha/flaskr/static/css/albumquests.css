@@ -130,31 +130,29 @@ footer {
 
 
 .listealbum {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    width: 100%;
-    gap: 10px; /* Optionnel : pour ajouter de l'espace entre les éléments */
-    
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px; /* Optionnel : pour ajouter de l'espace entre les éléments */
 }
 
 .grid-item {
-    background-color: #81540b5e;
-    border-radius: 2px;
-    height: 175px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    border: 1px solid #a59999;
-    color: #ffffff;
-    margin: 0 10px;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    
+  background-color: #7c788567;
+  border-radius: 5px;
+  width: 175px;
+  height: 175px;
+  display: flex; /* Ajoutez display: flex; */
+  justify-content: center; /* Alignement horizontal au centre */
+  align-items: center; /* Alignement vertical au centre */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center; /* Alignement horizontal au centre */
+  border: 1px solid #a59999;
+  margin: 3px auto; /* Centrez les éléments horizontalement */
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
 body.dark .grid-item {
@@ -243,13 +241,14 @@ body.dark .grid-item {
   .toggle:focus {
     outline: transparent;
   }
+
+
   .toggle-container {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    margin: 20px auto;
+    text-align: center;
   }
   
   .toggle {
@@ -263,12 +262,29 @@ body.dark .grid-item {
     -moz-appearance: none;
     appearance: none;
     -webkit-tap-highlight-color: transparent;
-    margin: 0;
-    position: absolute;
-    top: 50%; /* centre verticalement */
-    left: 54%; /* centre horizontalement */
-    transform: translate(-50%, -50%); /* ajuste la position pour centrer le texte */
+    order: 1;
+    margin-right: -35px;
+    vertical-align: middle;
+    display: inline-block; /* Ajouté pour résoudre le problème de clicabilité */
+    z-index: 1; /* Ajouté pour résoudre le problème de clicabilité */
   }
+
+.slot {
+    color: transparent;
+    font-size: 1.5em;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    overflow: hidden;
+    height: 1em;
+    display: inline-block;
+    -webkit-text-stroke: 0.05em #000000;
+    position: relative;
+    vertical-align: middle; /* aligne verticalement le slot */
+    order: 2;
+    margin-left: -35px /* décale le slot vers la gauche */
+}
+  
   .toggle:before {
     background: currentColor;
     border-radius: 50%;
@@ -290,23 +306,10 @@ body.dark .grid-item {
   .toggle:checked ~ .curtain {
     transform: scaleX(1);
   }
-  .slot {
-    color: transparent;
-    font-size: 1.5em;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    line-height: 1;
-    overflow: hidden;
-    height: 1em;
-  
-    -webkit-text-stroke: 0.05em #000000;
-    position: absolute;
-    top: 50%; /* centre verticalement */
-    left: 58.5%; /* centre horizontalement */
-    transform: translate(-50%, -50%); /* ajuste la position pour centrer le texte */
-  }
+
   .slot__label {
     transform-origin: 50% 0;
+    margin-left: 75px
   }
   .slot__label:nth-child(2) {
     transform-origin: 50% 100%;

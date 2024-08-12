@@ -16,13 +16,16 @@
         <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
         <h2 class="username"> {{ current_user.username }} </h2>
         <div class="Name-page">Album</div>
+        
+    </header>
+    <div class="toggle-container">
         <input id="toggle" class="toggle" type="checkbox" role="switch" name="toggle" value="on">
-        <label for="toggle" class="slot">
+        <div class="slot">
             <span class="slot__label">PHOTO</span>
             <span class="slot__label">QUESTS</span>
-        </label>
-    </header>
-
+        </div>
+    </div>  
+    
     <div class="listealbum">
         <button class="grid-item" onclick="pagealbumtest()">Album photo du groupe "groupe d'amis"</button>
         <div class="grid-item">Album photo du chat avec ....</div>
