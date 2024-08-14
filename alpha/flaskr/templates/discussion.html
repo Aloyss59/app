@@ -74,10 +74,22 @@
     <script>
         var socket = io();
         var user_id = "{{ current_user.id }}";  // Récupérer l'ID utilisateur depuis le serveur Flask
-
+        var userNames = {};  // Dictionnaire pour stocker les pseudos
+    
+        // Supposez que vous avez une fonction qui charge les pseudos des utilisateurs
+        function loadUserNames() {
+            fetch("/api/usernames")  // Une route que vous devez créer pour obtenir les pseudos des utilisateurs
+                .then(response => response.json())
+                .then(data => {
+                    userNames = data;
+                });
+        }
+    
+        loadUserNames();
+    
         var form = document.getElementById("form");
         var input = document.getElementById("message_input");
-
+    
         form.addEventListener("submit", function (e) {
             e.preventDefault();
             if (input.value.trim() !== "") {
@@ -89,27 +101,31 @@
                 input.value = "";
             }
         });
-
+    
         socket.on("message", function (data) {
             var item = document.createElement("li");
             var currentTime = formatDateToLocalTime(data.created_at);
-
+    
+            var senderName = userNames[data.sender_id] || "Unknown";
+            var textContent = "<small>" + currentTime + "</small> ";
+    
             if (data.sender_id === user_id) {
                 item.classList.add("message", "sent");
-                item.innerHTML = "<small>" + currentTime + "</small> (You) " + data.text + "<br>";
+                textContent += "(You) " + senderName + ": " + data.text + "<br>";
             } else {
                 item.classList.add("message", "received");
-                item.innerHTML = "<small>" + currentTime + "</small> " + data.text + "<br>";
+                textContent += senderName + ": " + data.text + "<br>";
             }
-
+    
+            item.innerHTML = textContent;
             document.getElementById("messages").appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
-
+    
         function formatDateToLocalTime(utcDateString) {
             var localDate = new Date(utcDateString);
             return localDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
-    </script>
+    </script>    
 </body>
 </html>

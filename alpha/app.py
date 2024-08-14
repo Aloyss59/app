@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import joinedload
 from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
 from datetime import datetime, timezone
@@ -50,7 +51,8 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     text = db.Column(db.String(2000), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)  # Vérifiez que ceci est présent
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    origine_created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
     receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
@@ -59,7 +61,11 @@ class Message(db.Model):
         return f'Message({self.id}, {self.sender_id}, {self.receiver_id}, {self.text})'
 
     def format_created_at(self):
-        tz = pytz.timezone('Europe/Paris')  # Replace with your desired timezone
+        tz = pytz.timezone('Europe/Paris')
+        return self.created_at.astimezone(tz).strftime('%H:%M')
+    
+    def frmat_origine_created_at(self):
+        tz = pytz.timezone('Europe/Paris')
         return self.created_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
 
 def profile_picture():
@@ -322,24 +328,44 @@ def handle_message(data):
         'created_at': created_at
     }, broadcast=True)  # broadcast=True permet d'envoyer le message à tous les clients connectés
 
-@app.route('/chat/<int:user_id>')
+@app.route('/chat/<int:user_id>', methods=['GET'])
 @login_required
 def chat_with_user(user_id):
-    avatar_data = profile_picture()
-    current_user_id = current_user.id
+    try:
+        avatar_data = profile_picture()
+        current_user_id = current_user.id
 
-    messages = Message.query.filter(
-        ((Message.sender_id == current_user_id) & (Message.receiver_id == user_id)) |
-        ((Message.sender_id == user_id) & (Message.receiver_id == current_user_id))
-    ).order_by(Message.created_at.asc()).all()
+        # Vérifiez si l'utilisateur cible est le même que l'utilisateur actuel
+        if user_id == current_user_id:
+            flash('Vous ne pouvez pas discuter avec vous-même.', 'warning')
+            return redirect(url_for('home'))
 
-    return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data)
+        # Vérifiez si l'utilisateur cible existe
+        target_user = User.query.get(user_id)
+        if not target_user:
+            flash('Utilisateur non trouvé.', 'danger')
+            return redirect(url_for('home'))
+
+        # Récupérez les messages avec les utilisateurs associés
+        messages = Message.query.options(
+            joinedload(Message.sender),
+            joinedload(Message.receiver)
+        ).filter(
+            ((Message.sender_id == current_user_id) & (Message.receiver_id == user_id)) |
+            ((Message.sender_id == user_id) & (Message.receiver_id == current_user_id))
+        ).order_by(Message.created_at.asc()).all()
+
+        return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data)
+
+    except Exception as e:
+        flash('Une erreur est survenue : {}'.format(str(e)), 'danger')
+        return redirect(url_for('home'))
 
 @app.route('/send_message/<int:user_id>', methods=['POST'])
 @login_required
 def send_message(user_id):
     message_text = request.form.get('message', '')
-    if message_text and request.method == "POST":
+    if message_text is not None and request.method == "POST":
         new_message = Message(text=message_text, sender_id=current_user.id, receiver_id=user_id)
         db.session.add(new_message)
         db.session.commit()
@@ -388,6 +414,13 @@ def quests():
 def rechercheamis():
     avatar_data = profile_picture()
     return render_template("searchfriends.html", avatar_data=avatar_data)
+
+@app.route('/api/usernames')
+@login_required
+def get_usernames():
+    users = User.query.all()
+    user_dict = {user.id: user.username for user in users}
+    return jsonify(user_dict)
 
 @app.errorhandler(404)
 def page_not_found(e):
