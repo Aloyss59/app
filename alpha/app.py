@@ -167,6 +167,17 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        username_exists = User.query.filter_by(username=form.username.data).first()
+        email_exists = User.query.filter_by(email=form.email.data).first()
+
+        if username_exists:
+            flash('Le nom d\'utilisateur est déjà pris. Veuillez en choisir un autre.', 'danger')
+            return redirect(url_for('register'))
+        
+        if email_exists:
+            flash('L\'adresse e-mail est déjà utilisée. Veuillez en choisir une autre.', 'danger')
+            return redirect(url_for('register'))
+
         hashed_password = generate_password_hash(form.password.data)
         new_user = User(
             first_name=form.first_name.data,
