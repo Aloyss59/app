@@ -303,8 +303,8 @@ def handle_message(data):
     # Convertir l'heure en UTC pour l'envoyer au client
     created_at = new_message.created_at.isoformat()
 
-    # Envoyer le message à tous les clients connectés
-    socketio.emit('message', {
+    # Envoyer le message à tous les clients
+    emit('message', {
         'text': message_text,
         'sender_id': sender_id,
         'receiver_id': receiver_id,
@@ -314,6 +314,7 @@ def handle_message(data):
 @app.route('/chat/<int:user_id>')
 @login_required
 def chat_with_user(user_id):
+    avatar_data = profile_picture()
     current_user_id = current_user.id
 
     messages = Message.query.filter(
@@ -321,7 +322,7 @@ def chat_with_user(user_id):
         ((Message.sender_id == user_id) & (Message.receiver_id == current_user_id))
     ).order_by(Message.created_at.asc()).all()
 
-    return render_template("discussion.html", messages=messages, user_id=user_id)
+    return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data)
 
 @app.route('/send_message/<int:user_id>', methods=['POST'])
 @login_required
