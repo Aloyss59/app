@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy, session
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
-import os, uuid, base64
+from datetime import datetime, timezone
+import os, uuid, base64, pytz
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
@@ -24,6 +25,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 class FriendRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,9 +40,27 @@ class Friendship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     user = db.relationship('User', foreign_keys=[user_id], backref='friendships')
     friend = db.relationship('User', foreign_keys=[friend_id], backref='friends_with')
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    text = db.Column(db.String(2000), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)  # Vérifiez que ceci est présent
+    
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
+
+    def __repr__(self):
+        return f'Message({self.id}, {self.sender_id}, {self.receiver_id}, {self.text})'
+
+    def format_created_at(self):
+        tz = pytz.timezone('Europe/Paris')  # Replace with your desired timezone
+        return self.created_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
 
 def profile_picture():
     # Générer l'avatar
@@ -53,13 +73,51 @@ def profile_picture():
     
     return {'avatar': avatar_data, 'first_letter': first_letter}
 
+def friend_profil_picture(username):
+    # Générer l'avatar pour un ami donné
+    avatar_image = generate_avatar(username)
+    return base64.b64encode(avatar_image.getvalue()).decode('utf-8')
+
+def find_friends():
+     # Récupérer toutes les amitiés associées à l'utilisateur connecté
+    friendships = Friendship.query.filter(
+        (Friendship.user_id == current_user.id) | 
+        (Friendship.friend_id == current_user.id)
+    ).all()
+
+    # Liste pour stocker les informations des amis
+    friends_data = []
+
+    # Parcourir toutes les amitiés et ajouter les informations nécessaires à la liste friends_data
+    for friendship in friendships:
+        # Identifier l'ID de l'ami
+        friend_id = friendship.friend_id if friendship.user_id == current_user.id else friendship.user_id
+        
+        # Utiliser session.get() pour récupérer l'ami
+        friend = db.session.get(User, friend_id)
+
+        if friend:
+            # Générer l'avatar de cet ami
+            friend_avatar_base64 = friend_profil_picture(friend.username)
+            first_letter = friend.username[0].upper()
+
+            # Ajouter les informations de l'ami à la liste
+            friends_data.append({
+                'username': friend.username,
+                'avatar': friend_avatar_base64,
+                'first_letter': first_letter,
+                'friend_id': friend_id
+            })
+    return friends_data
+
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
 @login_required
 def home():
     avatar_data = profile_picture()
-    return render_template("chat.html", avatar_data=avatar_data)
+    friends_data = find_friends()
+    return render_template("chat.html", avatar_data=avatar_data, friends=friends_data)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -152,11 +210,19 @@ def recherche_amis():
 @app.route('/send-friend-request/<int:user_id>', methods=['POST'])
 @login_required
 def send_friend_request(user_id):
-    # Vérifier si une demande d'ami existe déjà
-    existing_request = FriendRequest.query.filter_by(sender_id=current_user.id, receiver_id=user_id).first()
+    # Vérifier si une demande d'ami existe déjà dans les deux sens
+    existing_request = FriendRequest.query.filter(
+        (FriendRequest.sender_id == current_user.id) & 
+        (FriendRequest.receiver_id == user_id) |
+        (FriendRequest.sender_id == user_id) & 
+        (FriendRequest.receiver_id == current_user.id)
+    ).first()
 
     if existing_request:
-        flash('Vous avez déjà envoyé une demande à cet utilisateur.', 'warning')
+        if existing_request.sender_id == current_user.id:
+            flash('Vous avez déjà envoyé une demande à cet utilisateur.', 'warning')
+        else:
+            flash('Cet utilisateur vous a déjà envoyé une demande d\'ami.', 'warning')
     else:
         # Créer une nouvelle demande d'ami
         friend_request = FriendRequest(sender_id=current_user.id, receiver_id=user_id)
@@ -169,42 +235,8 @@ def send_friend_request(user_id):
 @app.route('/amis')
 @login_required
 def amis():
-    # Récupérer toutes les amitiés associées à l'utilisateur connecté
-    friendships = Friendship.query.filter(
-        (Friendship.user_id == current_user.id) | 
-        (Friendship.friend_id == current_user.id)
-    ).all()
-
-    # Créer une session SQLAlchemy pour récupérer les amis
-    session = db.session
-
-    # Liste pour stocker les informations des amis
-    friends_data = []
-
     avatar_data = profile_picture()
-    
-    # Parcourir toutes les amitiés et ajouter les informations nécessaires à la liste friends_data
-    for friendship in friendships:
-        # Identifier l'ID de l'ami
-        friend_id = friendship.friend_id if friendship.user_id == current_user.id else friendship.user_id
-        
-        # Utiliser session.get() pour récupérer l'ami
-        friend = session.get(User, friend_id)
-
-        if friend:
-            # Générer l'avatar de cet ami
-            friend_avatar = generate_avatar(friend.username)
-            friend_avatar_base64 = base64.b64encode(friend_avatar.getvalue()).decode('utf-8')
-            first_letter = friend.username[0].upper()
-
-            # Ajouter les informations de l'ami à la liste
-            friends_data.append({
-                'username': friend.username,
-                'avatar': friend_avatar_base64,
-                'first_letter': first_letter
-            })
-
-    # Rendre la page amis.html avec les données appropriées
+    friends_data = find_friends()
     return render_template('amis.html', friends=friends_data, avatar_data=avatar_data)
 
 @app.route('/accept-friend-request/<int:request_id>', methods=['POST'])
@@ -253,28 +285,56 @@ def load_user(user_id):
     with app.app_context():
         return db.session.get(User, int(user_id))
 
-@socketio.on('send_message')
+@socketio.on('message')
 def handle_message(data):
-    room = data['room']
-    message = data['message']
-    emit('receive_message', {'message': message, 'username': current_user.username}, room=room)
+    sender_id = data.get('sender_id')
+    receiver_id = data.get('receiver_id')
+    message_text = data.get('text')
 
-@socketio.on('join_room')
-def handle_join_room(data):
-    room = data['room']
-    join_room(room)
-    emit('receive_message', {'message': f"{current_user.username} a rejoint la salle."}, room=room)
+    # Vérification des données
+    if not sender_id or not receiver_id or not message_text:
+        return
 
-@socketio.on('leave_room')
-def handle_leave_room(data):
-    room = data['room']
-    leave_room(room)
-    emit('receive_message', {'message': f"{current_user.username} a quitté la salle."}, room=room)
+    # Créer un nouvel objet Message
+    new_message = Message(sender_id=sender_id, receiver_id=receiver_id, text=message_text)
+    db.session.add(new_message)
+    db.session.commit()
 
-@app.route('/chat')
+    # Convertir l'heure en UTC pour l'envoyer au client
+    created_at = new_message.created_at.isoformat()
+
+    # Envoyer le message à tous les clients connectés
+    socketio.emit('message', {
+        'text': message_text,
+        'sender_id': sender_id,
+        'receiver_id': receiver_id,
+        'created_at': created_at
+    }, broadcast=True)  # broadcast=True permet d'envoyer le message à tous les clients connectés
+
+@app.route('/chat/<int:user_id>')
 @login_required
-def chat():
-    return render_template("discussion.html")
+def chat_with_user(user_id):
+    current_user_id = current_user.id
+
+    messages = Message.query.filter(
+        ((Message.sender_id == current_user_id) & (Message.receiver_id == user_id)) |
+        ((Message.sender_id == user_id) & (Message.receiver_id == current_user_id))
+    ).order_by(Message.created_at.asc()).all()
+
+    return render_template("discussion.html", messages=messages, user_id=user_id)
+
+@app.route('/send_message/<int:user_id>', methods=['POST'])
+@login_required
+def send_message(user_id):
+    message_text = request.form.get('message', '')
+    if message_text and request.method == "POST":
+        new_message = Message(text=message_text, sender_id=current_user.id, receiver_id=user_id)
+        db.session.add(new_message)
+        db.session.commit()
+        return redirect(url_for('chat_with_user', user_id=user_id))
+    
+    flash('Le message ne peut pas être vide.', 'danger')
+    return redirect(url_for('chat_with_user', user_id=user_id))
 
 @app.route('/discussion/parametre')
 @login_required

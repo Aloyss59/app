@@ -28,7 +28,7 @@
         {% for friend in friends %}
             <ul class="listeamis">
                 <div class="ami" onclick="redirectToChatPage()">
-                    <img src="data:image/png;base64,{{ friends.avatar }}" alt="pp" class="profilespictures">
+                    <img src="data:image/png;base64,{{ friend.avatar }}" alt="pp" class="profilespictures">
                     <div class="amis-info">
                         <span class="amisname">{{ friend.username }}</span>
                         <span class="amitemps">Votre amis depuis: ... jours</span>

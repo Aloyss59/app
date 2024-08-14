@@ -16,25 +16,33 @@
         <h2 class="username"> {{ current_user.username }} </h2>
         <div class="Name-page">Chat</div>
     </header>
+    {% block content %}
+    <div>
+        {% for friend in friends %}
+            <ul class="conversation">
+                <div class="chat">
+                    <img src="data:image/png;base64,{{ friend.avatar }}" alt="pp" class="profilespictures">
+                    <div class="chat-info">
+                        <a href="{{ url_for('chat_with_user', user_id=friend.friend_id) }}"><span class="chat-name">{{ friend.username }}</span></a>
+                        <div class="no-wrap">
+                            <span class="chat-temps">temps</span>   
+                            <span class="chat-message">/ Cet endroit corespo...</span>
+                        </div>
+                    </div>
+                    <div class="reglage-button" onclick="handleReglageClick()">
+                        <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
+                    </div>
+                </div>
+            </ul>
+        {% endfor %}
+    </div>
+    {% endblock %}
 
     <ul class="conversation">
         <div class="chat" onclick="redirectToChatPage()">
             <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
             <div class="chat-info">
                 <span class="chat-name">Jena Dupont 😾</span>
-                <div class="no-wrap">
-                    <span class="chat-temps">temps</span>
-                    <span class="chat-message">/ Cet endroit corespo...</span>
-                </div>
-            </div>
-            <div class="reglage-button" onclick="handleReglageClick()">
-                <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
-            </div>
-        </div>
-        <div class="chat" onclick="redirectToChatPage()">
-            <img src="../static/img/OIP.png" alt="pp" class="profilespictures">
-            <div class="chat-info">
-                <span class="chat-name">Groupe d'amis</span>
                 <div class="no-wrap">
                     <span class="chat-temps">temps</span>
                     <span class="chat-message">/ Cet endroit corespo...</span>
