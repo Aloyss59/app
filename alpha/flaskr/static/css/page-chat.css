@@ -123,8 +123,8 @@ footer {
 .conversation {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 100%;
+    width: 100vw; /* ajouté */
+    max-width: 100%; /* ajouté */
     margin: 0 auto;
     padding: 10px 0;
     justify-content: center;

@@ -255,13 +255,11 @@ input[type="search"]::placeholder {
 }
 
 .listeamis {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    justify-content: center;
+    width: 100vw; /* largeur de la page */
+    max-width: 100%; /* pour éviter que la largeur ne dépasse de la page */
+    margin: 0; /* pour éviter les marges */
+    padding: 0; /* pour éviter les padding */
+    box-sizing: border-box; /* pour inclure les bordures et les padding dans la largeur */
 }
 
 .popup {

@@ -105,25 +105,13 @@ footer {
     position: relative;
 }
 
-input[type="search"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    box-sizing: border-box;
-}
 
-body.dark input[type="search"] {
+
+body.dark input {
     border: 1px solid #2e2e2e;
     background-color: #2e2e2e;
 }
 
-input[type="search"]::placeholder {
-    color: #999;
-    font-style: italic;
-    font-size: 70%;
-}
 
 .search-button {
     background: none;
@@ -140,3 +128,18 @@ input[type="search"]::placeholder {
     height: 20px;
 }
 
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: #999;
+    font-style: italic;
+    font-size: 70%;
+}

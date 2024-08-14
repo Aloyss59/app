@@ -23,8 +23,10 @@
 
     <form action="{{ url_for('rechercheamis') }}" method="POST">
         <input type="text" name="username" placeholder="Rechercher un utilisateur" required>
-        <button type="submit">Rechercher</button>
+        <button type="submit" class="search-button"><img src="../static/img/recherche.png" alt="search icon"></button>
     </form>
+
+
     {% for user in users %}
     <div>
         <p>{{ user.username }}</p>
