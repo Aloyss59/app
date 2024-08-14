@@ -303,8 +303,8 @@ def handle_message(data):
     # Convertir l'heure en UTC pour l'envoyer au client
     created_at = new_message.created_at.isoformat()
 
-    # Envoyer le message à tous les clients connectés
-    socketio.emit('message', {
+    # Envoyer le message à tous les clients
+    emit('message', {
         'text': message_text,
         'sender_id': sender_id,
         'receiver_id': receiver_id,
