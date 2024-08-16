@@ -17,32 +17,39 @@
         <div class="Name-page">Chat</div>
     </header>
 
-  <ul id="messages" class="p-3">
-    {% for message in messages %}
-        {% if message.sender_id == current_user.id %}
-            <!-- Your message -->
-            <div class="chat-message-container-you">
-                <div class="chat-message you">
-                    <span class="username">(You) {{ message.sender.username }}:</span>
-                    <p>{{ message.text }}</p>
+    <ul id="messages" class="p-3">
+        {% for message in messages %}
+            {% if message.sender_id == current_user.id %}
+                <!-- Your message -->
+                <div class="chat-message-container-you">
+                    <div class="chat-message you">
+                        <small class="username">{{ message.format_created_at() }}</small>
+                        <span class="username">(You) {{ message.sender.username }}:</span>
+                        <p class="username">{{ message.text }}</p>
+                    </div>
                 </div>
-            </div>
-        {% else %}
-            <!-- Other user's message -->
-            <div class="chat-message-container">
-                <div class="chat-message">
-                    <span class="username">{{ message.sender.username }}:</span>
-                    <p>{{ message.text }}</p>
+            {% else %}
+                <!-- Other user's message -->
+                <div class="chat-message-container">
+                    <div class="chat-message">
+                        <small class="username">{{ message.format_created_at() }}</small>
+                        <span class="username">{{ message.sender.username }}:</span>
+                        <p class="username">{{ message.text }}</p>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
-  </ul>
-
+            {% endif %}
+        {% endfor %}
+    </ul>
 
     <div class="chat-input-container">
         <input class="chat-input" type="text" placeholder="Tapez votre message...">
-        <label for="input-btn"><button class="chat-send-button" id="input-btn"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.20308 1.04312C1.00481 0.954998 0.772341 1.0048 0.627577 1.16641C0.482813 1.32802 0.458794 1.56455 0.568117 1.75196L3.92115 7.50002L0.568117 13.2481C0.458794 13.4355 0.482813 13.672 0.627577 13.8336C0.772341 13.9952 1.00481 14.045 1.20308 13.9569L14.7031 7.95693C14.8836 7.87668 15 7.69762 15 7.50002C15 7.30243 14.8836 7.12337 14.7031 7.04312L1.20308 1.04312ZM4.84553 7.10002L2.21234 2.586L13.2689 7.50002L2.21234 12.414L4.84552 7.90002H9C9.22092 7.90002 9.4 7.72094 9.4 7.50002C9.4 7.27911 9.22092 7.10002 9 7.10002H4.84553Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg></span></button>      </label>
+        <label for="input-btn">
+            <button class="chat-send-button" id="input-btn">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.20308 1.04312C1.00481 0.954998 0.772341 1.0048 0.627577 1.16641C0.482813 1.32802 0.458794 1.56455 0.568117 1.75196L3.92115 7.50002L0.568117 13.2481C0.458794 13.4355 0.482813 13.672 0.627577 13.8336C0.772341 13.9952 1.00481 14.045 1.20308 13.9569L14.7031 7.95693C14.8836 7.87668 15 7.69762 15 7.50002C15 7.30243 14.8836 7.12337 14.7031 7.04312L1.20308 1.04312ZM4.84553 7.10002L2.21234 2.586L13.2689 7.50002L2.21234 12.414L4.84552 7.90002H9C9.22092 7.90002 9.4 7.72094 9.4 7.50002C9.4 7.27911 9.22092 7.10002 9 7.10002H4.84553Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </label>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
@@ -94,23 +101,25 @@
           var messageContainer = document.createElement("div");
           var currentTime = formatDateToLocalTime(data.created_at);
           var senderName = userNames[data.sender_id] || "Unknown";
-          var textContent = "<small>" + currentTime + "</small> ";
-
+          var timeElement = "<small class='username'>" + currentTime + "</small>";
+          
           if (data.sender_id === user_id) {
               // Votre message
               messageContainer.classList.add("chat-message-container-you");
               messageContainer.innerHTML = `
                   <div class="chat-message you">
+                      ${timeElement}
                       <span class="username">(You) ${senderName}:</span>
-                      <p>${data.text}</p>
+                      <p class="username">${data.text}</p>
                   </div>`;
           } else {
               // Message de l'autre utilisateur
               messageContainer.classList.add("chat-message-container");
               messageContainer.innerHTML = `
                   <div class="chat-message">
+                      ${timeElement}
                       <span class="username">${senderName}:</span>
-                      <p>${data.text}</p>
+                      <p class="username">${data.text}</p>
                   </div>`;
           }
 
@@ -123,8 +132,6 @@
           return localDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       }
     </script>
-
-    
 
     <div id="account-info-popup" class="popup hidden">
         <div class="popup-content">
