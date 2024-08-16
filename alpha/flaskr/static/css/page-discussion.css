@@ -1,17 +1,19 @@
 body {
     background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      margin-top: 2px;
-      padding-top: 60px; /* Ajuste la hauteur du contenu pour tenir compte du header */
-      padding-bottom: 60px; /* Ajuste la hauteur du contenu pour tenir compte du footer */
-      overflow-y: auto; /* Permet le défilement vertical si le contenu est plus grand que l'écran */
-      height: calc(100% - 120px); /* Ajuste la hauteur pour prendre en compte le header et le footer */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2px;
+    padding-top: 60px; /* Ajuste la hauteur du contenu pour tenir compte du header */
+    padding-bottom: 60px; /* Ajuste la hauteur du contenu pour tenir compte du footer */
+    overflow-y: auto; /* Permet le défilement vertical si le contenu est plus grand que l'écran */
+    height: calc(100% - 120px); /* Ajuste la hauteur pour prendre en compte le header et le footer */
 }
+
 
 body.dark {
     background-color: #333;
@@ -170,4 +172,83 @@ body.dark .popup {
 body.popup-open {
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
+}
+
+
+
+
+  
+.chat-input-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    display: flex;
+    align-items: center;
+    padding: 5px; /* reduced padding from 10px to 5px */
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-input {
+    flex: 1; /* prendre tout l'espace disponible */
+    padding: 10px; /* ajouter un padding à l'intérieur de l'input */
+    border: none; /* supprimer la bordure de l'input */
+    border-radius: 10px; /* ajouter un radius pour arrondir les coins */
+  }
+  
+  .chat-send-button {
+    margin-left: 10px; /* ajouter un espace entre l'input et le bouton */
+    padding: 10px 20px; /* ajouter un padding au bouton */
+    border: none; /* supprimer la bordure du bouton */
+    border-radius: 10px; /* ajouter un radius pour arrondir les coins */
+    background-color: #4CAF50; /* ajouter un background vert au bouton */
+    color: #fff; /* ajouter un texte blanc au bouton */
+    cursor: pointer; /* ajouter un curseur de pointeur au bouton */
+  }
+
+
+
+
+
+
+
+
+ .chat-message-container {
+    margin-bottom: 10px; /* add some space between messages */
+    clear: both; /* clear floats */
+}
+
+.chat-message-container-you {
+    float: right; /* align your containers to the right */
+    text-align: right; /* align text to the right */
+}
+
+.chat-message-container {
+    float: left; /* align other users' containers to the left */
+    text-align: left; /* align text to the left */
+}
+
+.chat-message {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.username {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.chat-message.you .username {
+    color: #337ab7; /* blue color for your username */
+}
+
+.chat-message:not(.you) .username {
+    color: #666; /* gray color for other users' usernames */
 }

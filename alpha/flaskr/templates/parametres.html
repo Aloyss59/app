@@ -87,7 +87,122 @@
                 <label class="input-adresse-mail">
                     <input type="text">
                 </label>
-            </div>
+            </div><!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>E-Spirit Paramètre</title>
+                <link rel="stylesheet" type="text/css" href="../static/css/page-parametre.css">
+                <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+                <script src="../static/js/main.js"></script>
+                <script src="../static/js/reglage.js"></script>
+                <script src="../static/js/theme.js"></script>
+                <script src="../static/js/profil.js"></script>
+                <script src="../static/js/langue.js"></script>
+            </head>
+            <body class="slide-out" data-page="page5">
+                <header>
+                    <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+                    <h2 class="username"> {{ current_user.username }} </h2>
+                    <div class="Name-page" data-translate="applicationParametre">Paramètre</div>
+                </header>
+            
+                <main>
+                    <h3 id="applicationparametre" data-translate="applicationParametre">Application</h3>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="apparence">Apparence</span>
+                            <select id="color-page" class="color-page">
+                                <option value="white">☀️ Clair</option>
+                                <option value="dark">🌙 Foncé</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="geolocalisation">Géolocalisation</span>
+                            <label class="switch">
+                                <input type="checkbox" id="localisation">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="notification">Notification</span>
+                            <label class="switch">
+                                <input type="checkbox" id="notification">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+            
+                    <h3 data-translate="autres">Autres</h3>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="demandeAmis">Demande d'Amis</span>
+                            <label class="switch">
+                                <input type="checkbox" id="friends-requests">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+            
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="authentificationDoubleFacteur">Authentification à 2 Facteurs</span>
+                            <label class="switch">
+                                <input type="checkbox" id="authentification-double-facteur">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="langue">Langue</span>
+                            <select id="Langue">
+                                <option value="fr">Français</option>
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                                <option value="de">Deutsch</option>
+                            </select>
+                        </div>
+                        <h3 data-translate="informationPersonnel">Information Personnel</h3>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="dateNaissance">Date de Naissance</span>
+                            <input type="date" value="0000-00-00" min="1950-01-01" max="2014-12-31">
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="numeroTelephone">Numéro de Téléphone</span>
+                            <label class="input-adresse-mail">
+                                <input type="text">
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="email">E-Mail</span>
+                            <label class="input-adresse-mail">
+                                <input type="text">
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-name" data-translate="motDePasse">Mot de Passe</span>
+                            <label class="input-adresse-mail">
+                                <input type="password">
+                            </label>
+                        </div>
+                    </div>
+                </main>
+            
+                <div class="sert-a-rien">
+                    <button data-translate="easterEgg">Easter EGG ???</button>
+                </div>
+            
+                <footer>
+                    <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
+                    <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
+                    <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
+                    <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
+                    <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+                </footer>
+            
+                <div id="account-info-popup" class="popup hidden">
+                    <div class="popup-content">
+                        <span id="close-popup" class="close">×</span>
+                        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="photo" class="profil">
+                        
             <div class="setting-item">
                 <span class="setting-name">Mot de Passe</span>
                 <label class="input-adresse-mail">
@@ -123,6 +238,25 @@
 
 
     <script>
+        const translations = {
+            fr: {
+                greetapplicationparametreing: "tes!"
+            },
+            de: {
+                applicationparametre: "er!"
+            },
+            es: {
+                applicationparametre: "rgzzre!"
+            },
+            en: {
+                applicationparametre: "fqqfv!"
+            }
+        };
+
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            const selectedLanguage = this.value;
+            document.getElementById('greeting').textContent = translations[selectedLanguage].greeting;
+        });
     </script>
 </body>
 </html>

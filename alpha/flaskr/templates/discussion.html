@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit Chat</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/page-parametre.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/page-discussion.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
     <script src="../static/js/main.js"></script>
     <script src="../static/js/theme.js"></script>
@@ -17,7 +17,7 @@
         <div class="Name-page">Chat</div>
     </header>
 
-    <ul id="messages" class="p-3">
+    <!-- <ul id="messages" class="p-3">
         {% for message in messages %}
             <li class="message {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
                 <small>{{ message.format_created_at() }}</small> 
@@ -27,37 +27,31 @@
                 {{ message.sender.username }}: {{ message.text }} <br> 
             </li>
         {% endfor %}
-    </ul>
-    
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <form id="form" method="post" action="{{ url_for('send_message', user_id=user_id) }}">
-                    <div class="input-group mb-3">
-                        <input
-                            type="text"
-                            id="message_input"
-                            class="form-control"
-                            placeholder="Type a message"
-                            aria-label="Type a message"
-                            aria-describedby="basic-addon2"
-                        />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+    </ul> -->
+
+
+    <!-- Your message -->
+  <div class="chat-message-container">
+    <div class="chat-message you">
+      <span class="username">(You) JohnDoe:</span>
+      <p>This is my message</p>
+    </div>
+  </div>
+  
+  <!-- Other user's message -->
+  <div class="chat-message-container">
+    <div class="chat-message">
+      <span class="username">JaneDoe:</span>
+      <p>This is Jane's message</p>
+    </div>
+  </div>
+
+    <div class="chat-input-container">
+        <input class="chat-input" type="text" placeholder="Tapez votre message...">
+        <button class="chat-send-button"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.20308 1.04312C1.00481 0.954998 0.772341 1.0048 0.627577 1.16641C0.482813 1.32802 0.458794 1.56455 0.568117 1.75196L3.92115 7.50002L0.568117 13.2481C0.458794 13.4355 0.482813 13.672 0.627577 13.8336C0.772341 13.9952 1.00481 14.045 1.20308 13.9569L14.7031 7.95693C14.8836 7.87668 15 7.69762 15 7.50002C15 7.30243 14.8836 7.12337 14.7031 7.04312L1.20308 1.04312ZM4.84553 7.10002L2.21234 2.586L13.2689 7.50002L2.21234 12.414L4.84552 7.90002H9C9.22092 7.90002 9.4 7.72094 9.4 7.50002C9.4 7.27911 9.22092 7.10002 9 7.10002H4.84553Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg></span></button>
     </div>
 
-    <footer>
-        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
-        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
-        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
-        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
-        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
-    </footer>
+    
 
     <div id="account-info-popup" class="popup hidden">
         <div class="popup-content">
@@ -68,64 +62,6 @@
             <p id="userNom">Nom : ...</p>
             <p id="userPrenom">Prénom : ...</p>
         </div>
-    </div> 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
-    <script>
-        var socket = io();
-        var user_id = "{{ current_user.id }}";  // Récupérer l'ID utilisateur depuis le serveur Flask
-        var userNames = {};  // Dictionnaire pour stocker les pseudos
-    
-        // Supposez que vous avez une fonction qui charge les pseudos des utilisateurs
-        function loadUserNames() {
-            fetch("/api/usernames")  // Une route que vous devez créer pour obtenir les pseudos des utilisateurs
-                .then(response => response.json())
-                .then(data => {
-                    userNames = data;
-                });
-        }
-    
-        loadUserNames();
-    
-        var form = document.getElementById("form");
-        var input = document.getElementById("message_input");
-    
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            if (input.value.trim() !== "") {
-                socket.emit("message", {
-                    text: input.value,
-                    sender_id: user_id,
-                    receiver_id: "{{ user_id }}"  // L'ID de l'utilisateur avec qui vous discutez
-                });
-                input.value = "";
-            }
-        });
-    
-        socket.on("message", function (data) {
-            var item = document.createElement("li");
-            var currentTime = formatDateToLocalTime(data.created_at);
-    
-            var senderName = userNames[data.sender_id] || "Unknown";
-            var textContent = "<small>" + currentTime + "</small> ";
-    
-            if (data.sender_id === user_id) {
-                item.classList.add("message", "sent");
-                textContent += "(You) " + senderName + ": " + data.text + "<br>";
-            } else {
-                item.classList.add("message", "received");
-                textContent += senderName + ": " + data.text + "<br>";
-            }
-    
-            item.innerHTML = textContent;
-            document.getElementById("messages").appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-    
-        function formatDateToLocalTime(utcDateString) {
-            var localDate = new Date(utcDateString);
-            return localDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-    </script>    
+    </div>  
 </body>
 </html>
