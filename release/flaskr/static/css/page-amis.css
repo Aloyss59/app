@@ -1,3 +1,29 @@
+.loader{
+	background: url('../static/img/logo_E-esprit.ico') 50% 50% no-repeat rgba(91, 66, 202, 0);
+	cursor: wait;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+.loader h1{
+    background: none;
+    border: none;
+    color: #458976;
+    font-size: 22px;
+    font-family: "Open Sans",sans-serif;
+    font-variant: small-caps;
+    font-weight: 700;
+    height: 700px;
+    line-height: 700px;
+    margin: 0 0 10px;
+    padding: 0;
+    text-align: center;
+}
+
+
 body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
@@ -40,7 +66,6 @@ header {
     border-radius: 0 0 30px 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 10px 20px;
 }
 
@@ -50,6 +75,25 @@ header img.ta-pp {
     border-radius: 30%;
     object-fit: cover;
     margin-left: 1%;
+}
+header img.ta-pp:hover{
+    transform: scale(1.1);
+}
+
+.username {
+    margin: 0px 0px 0px 15px;
+    color:#333; 
+  }
+  
+  body.dark .username {
+    color: #f0f0f0;
+  }
+  
+
+img.profil {
+    margin: auto;
+    border-radius: 5%;
+    display: flex;
 }
 
 .Name-page {
@@ -92,24 +136,10 @@ footer {
     cursor: pointer;
 }
 
-.footer-button img, .reglage-button img {
-    width: 30px;
-    height: 30px;
-    transition: transform 0.2s ease-in-out;
-}
 
-.rechercheamis {
-    border-radius: 50%;
-    margin: 0 10px;
-}
 
-.ajouterdesamis {
-    position: relative;
-    height: 20px;
-    width: 20px;
-    left: 92%;
-    top: 50%;
-}
+
+
 
 .barrerecherche {
     display: flex;
@@ -149,6 +179,9 @@ input[type="search"]::placeholder {
     cursor: pointer;
 }
 
+.search-button:hover{
+    transform: scale(1.1);
+}
 .search-button img {
     width: 20px;
     height: 20px;
@@ -190,7 +223,7 @@ input[type="search"]::placeholder {
     flex: 1;
 }
 
-.aminame {
+.amisname {
     font-weight: bold;
     font-size: 18px;
     text-align: left;
@@ -230,3 +263,55 @@ input[type="search"]::placeholder {
     padding: 0;
     justify-content: center;
 }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 2000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    color: #000;
+    text-align: left;
+  }
+  
+  body.dark .popup {
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(244, 242, 242, 0.123);  
+  }
+  
+  .popup.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  .popup.hidden {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  
+  .popup-content {
+    padding: 20px;
+  }
+  
+  .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Corps assombri lorsque le popup est ouvert */
+  body.popup-open {
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
