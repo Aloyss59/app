@@ -14,9 +14,4 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedTheme = themeSelect.value;
         document.body.classList.toggle('dark', selectedTheme === 'dark');
     });
-
-    // Sauvegarder les réglages quand le bouton est cliqué
-    saveButton.addEventListener('click', () => {
-        const selectedTheme = themeSelect.value;
-    });
 });
