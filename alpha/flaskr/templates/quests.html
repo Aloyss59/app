@@ -19,6 +19,7 @@
         </label>
     </header>
 
+    <h1 class="quetesapp">Quête du groupe/chat/perso de l'appli</h1>
     <h3 class="facile">FACILE: 0/200</h3>
     <ol>
       <li>...</li>
@@ -400,6 +401,13 @@
         <li>...</li>
     </ol>
 
+    <h1 class="quetesapp">Quête du groupe/chat/perso IRL</h1>
+    <ul>
+        <ul>
+            <li><a href="#" onclick="return confirmLink('de La Belle Aventure', 'https://maps.google.com/maps?q=73 Rue Masséna, 59800 Lille')">La Belle Aventure, Lille, Bar</a></li>
+        </ul>
+
+    </ul>
 
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
@@ -429,6 +437,15 @@
                 e.target.classList.toggle('show-ol');
             });
         });
+
+        function confirmLink(nomBar, url) {
+        if (confirm("Voulez-vous vraiment aller sur la page de l'adresse " + nomBar + " ?")) {
+            window.open(url, '_blank');
+            return true;
+        } else {
+            return false;
+        }
+    }
     </script>
 </body>
 </html>
