@@ -11,7 +11,7 @@ from functools import wraps
 import os, uuid, base64, pytz, psutil, time
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
-app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
+app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
 app.config['SECRET_KEY'] = 'mysecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
@@ -80,45 +80,31 @@ def admin_required(f):
     return decorated_function
 
 def profile_picture():
-    # Générer l'avatar
     avatar_image = generate_avatar(current_user.username)
-    # Convertir l'image en base64 pour l'afficher dans le template
     avatar_data = base64.b64encode(avatar_image.getvalue()).decode('utf-8')
-    
-    # Récupérer la première lettre du pseudo de l'utilisateur
     first_letter = current_user.username[0].upper()
-    
     return {'avatar': avatar_data, 'first_letter': first_letter}
 
-def friend_profil_picture(username):
-    # Générer l'avatar pour un ami donné
+def friend_profile_picture(username):
     avatar_image = generate_avatar(username)
     return base64.b64encode(avatar_image.getvalue()).decode('utf-8')
 
+# Recherche des amis de l'utilisateur connecté
 def find_friends():
-     # Récupérer toutes les amitiés associées à l'utilisateur connecté
     friendships = Friendship.query.filter(
         (Friendship.user_id == current_user.id) | 
         (Friendship.friend_id == current_user.id)
     ).all()
-
-    # Liste pour stocker les informations des amis
     friends_data = []
 
-    # Parcourir toutes les amitiés et ajouter les informations nécessaires à la liste friends_data
     for friendship in friendships:
-        # Identifier l'ID de l'ami
         friend_id = friendship.friend_id if friendship.user_id == current_user.id else friendship.user_id
-        
-        # Utiliser session.get() pour récupérer l'ami
         friend = db.session.get(User, friend_id)
 
         if friend:
-            # Générer l'avatar de cet ami
-            friend_avatar_base64 = friend_profil_picture(friend.username)
+            friend_avatar_base64 = friend_profile_picture(friend.username)
             first_letter = friend.username[0].upper()
 
-            # Ajouter les informations de l'ami à la liste
             friends_data.append({
                 'username': friend.username,
                 'avatar': friend_avatar_base64,
@@ -128,7 +114,6 @@ def find_friends():
     return friends_data
 
 def get_system_info():
-    # Récolte des données avec une pause d'1 seconde pour une meilleure précision
     time.sleep(3)
     cpu_percent = psutil.cpu_percent(interval=1)
     memory = psutil.virtual_memory()
@@ -142,7 +127,6 @@ def get_system_info():
     
     return info
 
-
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
@@ -154,8 +138,7 @@ def home():
 
 @login_manager.user_loader
 def load_user(user_id):
-    with app.app_context():
-        return db.session.get(User, int(user_id))
+    return db.session.get(User, int(user_id))
 
 @socketio.on('connect')
 def handle_connect():
@@ -164,12 +147,67 @@ def handle_connect():
         online_users[user_id] = request.sid
         emit('user_status', {'user_id': user_id, 'status': 'online'}, broadcast=True)
 
-
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def admin_dashboard(): 
-    return render_template('./admin/admin_dashboard.html')
+    if request.method == 'POST':
+        if 'add' in request.form:
+            hashed_password = generate_password_hash(request.form['password'])
+            user = User(
+                first_name=request.form['first_name'],
+                last_name=request.form['last_name'],
+                phone=request.form['phone'],
+                username=request.form['username'],
+                email=request.form['email'],
+                password=hashed_password
+            )
+            db.session.add(user)
+            db.session.commit()
+            flash("Utilisateur ajouté avec succès", "success")
+
+        elif 'update' in request.form:
+            user = User.query.get(request.form['id'])
+
+            if user:
+                user.first_name = request.form['first_name']
+                user.last_name = request.form['last_name']
+                user.phone = request.form['phone']
+                user.username = request.form['username']
+                user.email = request.form['email']
+
+                # Hachage du mot de passe si un nouveau mot de passe est fourni
+                if request.form['password']:
+                    user.password = generate_password_hash(request.form['password'])
+                db.session.commit()
+                flash("Utilisateur mis à jour avec succès", "success")
+
+            else:
+                flash("Utilisateur introuvable", "error")
+
+        elif 'delete' in request.form:
+            user = User.query.get(request.form['id'])
+            if user:
+                db.session.delete(user)
+                db.session.commit()
+                flash("Utilisateur supprimé avec succès", "success")
+
+            else:
+                flash("Utilisateur introuvable", "error")
+
+        return redirect(url_for('admin_dashboard'))
+    
+    users = User.query.all()
+    return render_template('admin/admin_dashboard.html', users=users)
+
+@app.route('/update/<int:id>', methods=['POST'])
+def update(id):
+    compte = User.query.get_or_404(id)
+    compte.nom = request.form.get('nom')
+    compte.solde = float(request.form.get('solde'))
+    db.session.commit()
+    return redirect(url_for('admin_dashboard'))
+
 
 @app.route('/data')
 def data():
@@ -235,12 +273,9 @@ def login():
                 return redirect(url_for('home'))
             else:
                 flash('Nom d\'utilisateur ou mot de passe incorrect', 'danger')
-                return redirect(url_for('login'))
         else:
             flash('Formulaire invalide. Veuillez vérifier vos informations.', 'danger')
-            return redirect(url_for('login'))
-    else:
-        return render_template('./auth/login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -251,31 +286,30 @@ def register():
 
         if username_exists:
             flash('Le nom d\'utilisateur est déjà pris. Veuillez en choisir un autre.', 'danger')
-            return redirect(url_for('register'))
-        
-        if email_exists:
+        elif email_exists:
             flash('L\'adresse e-mail est déjà utilisée. Veuillez en choisir une autre.', 'danger')
-            return redirect(url_for('register'))
-
-        hashed_password = generate_password_hash(form.password.data)
-        new_user = User(
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            phone=form.phone.data,
-            username=form.username.data,
-            email=form.email.data,
-            password=hashed_password
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        login_user(new_user)
-        return redirect(url_for('home'))
-    return render_template('./auth/signup.html', form=form)
+        else:
+            hashed_password = generate_password_hash(form.password.data)
+            new_user = User(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                username=form.username.data,
+                email=form.email.data,
+                password=hashed_password,
+                is_admin=False
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Votre compte a été créé ! Vous pouvez maintenant vous connecter.', 'success')
+            return redirect(url_for('login'))
+    
+    return render_template('auth/register.html', form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash("Déconnexion réussie !", "success")
     return redirect(url_for('login'))
 
 @app.route('/appareil-photo')
@@ -521,6 +555,5 @@ if __name__ == '__main__':
         db.create_all()  # Ensure all tables are created
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    app.run( debug=True, host='0.0.0.0', port=5000)
     info = get_system_info()
-
