@@ -8,3 +8,17 @@
 h1 {
     text-align: center;
 }
+
+body.dark {
+    background-color: #333;
+    color: white;
+}
+
+body.dark .form-input, body.dark .submit-button {
+    color: white;
+    background-color: #333;
+}
+
+.form-input {
+    width: 125px;
+}

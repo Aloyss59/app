@@ -20,7 +20,7 @@ login_manager.login_view = 'login'
 socketio = SocketIO(app, cors_allowed_origins="*")
 online_users = {}
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):  # Inherit from UserMixin
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
@@ -30,6 +30,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(150), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     is_admin = db.Column(db.Boolean, default=False)
+    solde = db.Column(db.Float, default=0)
 
 class FriendRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -150,7 +151,7 @@ def handle_connect():
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def admin_dashboard(): 
+def admin_dashboard():
     if request.method == 'POST':
         if 'add' in request.form:
             hashed_password = generate_password_hash(request.form['password'])
@@ -160,7 +161,9 @@ def admin_dashboard():
                 phone=request.form['phone'],
                 username=request.form['username'],
                 email=request.form['email'],
-                password=hashed_password
+                password=hashed_password,
+                is_admin='is_admin' in request.form,  # Correctly handle boolean value
+                solde=0
             )
             db.session.add(user)
             db.session.commit()
@@ -176,9 +179,14 @@ def admin_dashboard():
                 user.username = request.form['username']
                 user.email = request.form['email']
 
-                # Hachage du mot de passe si un nouveau mot de passe est fourni
                 if request.form['password']:
                     user.password = generate_password_hash(request.form['password'])
+
+                if request.form['solde']:
+                    user.solde = float(request.form['solde'])
+
+                user.is_admin = 'is_admin' in request.form  # Correctly handle boolean value
+
                 db.session.commit()
                 flash("Utilisateur mis à jour avec succès", "success")
 
@@ -207,7 +215,6 @@ def update(id):
     compte.solde = float(request.form.get('solde'))
     db.session.commit()
     return redirect(url_for('admin_dashboard'))
-
 
 @app.route('/data')
 def data():
@@ -280,7 +287,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and request.method == "POST":
         username_exists = User.query.filter_by(username=form.username.data).first()
         email_exists = User.query.filter_by(email=form.email.data).first()
 
@@ -394,7 +401,6 @@ def reject_friend_request(request_id):
         flash('Demande d\'ami invalide.', 'danger')
 
     return redirect(url_for('demandes_amis'))
-
 
 @app.route('/demandes-amis')
 @login_required
@@ -555,5 +561,5 @@ if __name__ == '__main__':
         db.create_all()  # Ensure all tables are created
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    app.run( debug=True, host='0.0.0.0', port=5000)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
     info = get_system_info()

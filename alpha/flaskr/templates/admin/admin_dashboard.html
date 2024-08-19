@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_E-esprit.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/page-admin_dashboard.css') }}">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/theme.js')}}"></script>
     <script>
         var current_user = { id: {{ current_user.id | tojson }} };
     </script>
@@ -19,13 +20,15 @@
 
     <!-- Ajout de la section de gestion des comptes -->
     <h2>Ajouter un Utilisateur</h2>
-    <form method="post">
+    <form method="post" class="form-add">
         <input type="text" name="first_name" placeholder="Prénom" required class="form-input">
         <input type="text" name="last_name" placeholder="Nom" required class="form-input">
         <input type="text" name="phone" placeholder="Téléphone" class="form-input">
         <input type="text" name="username" placeholder="Nom d'utilisateur" required class="form-input">
         <input type="email" name="email" placeholder="Email" required class="form-input">
         <input type="password" name="password" placeholder="Mot de passe" required class="form-input">
+        <input type="text" name="admin" placeholder="Admin" class="form-input">
+        <input type="text" name="solde", placeholder="Solde", class="form-input">
         <button type="submit" name="add" class="submit-button">Ajouter</button>
     </form>
 
@@ -41,6 +44,8 @@
                 <th>Nom d'utilisateur</th>
                 <th>Email</th>
                 <th>Mot de passe</th>
+                <th>Admin</th>
+                <th>Solde</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -56,6 +61,9 @@
                     <td><input type="text" name="username" value="{{ user.username }}" class="form-input" required></td>
                     <td><input type="email" name="email" value="{{ user.email }}" class="form-input" required></td>
                     <td><input type="password" name="password" value="{{ user.password }}" class="form-input" required></td>
+                    <td><input type="checkbox" name="is_admin" value="True" {% if user.is_admin %}checked{% endif %}></td>
+                    
+                    <td><input type="text" name="solde" value="{{ user.solde }}" class="form-input"></td>
                     <td>
                         <button type="submit" name="update" class="submit-button">Mettre à jour</button>
                         <button type="submit" name="delete" class="submit-button">Supprimer</button>
@@ -68,7 +76,7 @@
     
     <h1>Server Component Statistics</h1>
     <div>
-        <canvas id="myChart"></canvas>
+        <canvas id="myChart" class="myChart"></canvas>
     </div>
 
     <script src="{{ url_for('static', filename='js/stat-serveur.js')}}"></script>

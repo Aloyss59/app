@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit Chat</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/page-discussion.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/page-discussion.css?v=1.0">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
     <script src="../static/js/main.js"></script>
     <script src="../static/js/theme.js"></script>
@@ -13,29 +13,25 @@
 <body>
     <header>
         <button class="back-button" onclick="pagechat()">➔</button>
-        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp" style="margin-left: 40px;">
-        <div class="Name-page" style="margin-left: 40px;">
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+        <div class="Name-page">
             <span>Chat avec {{ current_user.username }}</span>
         </div>
     </header>
 
-    <ul id="messages" class="p-3">
+    <ul id="messages" class="p-3 centered-blocks">
         {% for message in messages %}
             {% if message.sender_id == current_user.id %}
-                <div class="centered-blocks">
-                    <div class="block response">
-                        <span>{{ message.format_created_at() }}</span>
-                        <span>(You) {{ message.sender.username }}:</span>
-                        <span>{{ message.text }}</span>
-                    </div>
+                <div class="block response">
+                    <span>{{ message.format_created_at() }}</span>
+                    <span>(You) {{ message.sender.username }}:</span>
+                    <span>{{ message.text }}</span>
                 </div>
             {% else %}
-                <div class="centered-blocks">    
-                    <div class="block message">
-                        <span>{{ message.format_created_at() }}</span>
-                        <span>{{ message.sender.username }}:</span>
-                        <span>{{ message.text }}</span>
-                    </div>
+                <div class="block message">
+                    <span>{{ message.format_created_at() }}</span>
+                    <span>{{ message.sender.username }}:</span>
+                    <span>{{ message.text }}</span>
                 </div>
             {% endif %}
         {% endfor %}
@@ -103,28 +99,25 @@
             var messageContainer = document.createElement("div");
             var currentTime = formatDateToLocalTime(data.created_at);
             var senderName = userNames[data.sender_id] || "Unknown";
-            var timeElement = "<span class='username'>" + currentTime + "</span>";
-            
+
             if (data.sender_id === user_id) {
                 messageContainer.classList.add("block", "response");
                 messageContainer.innerHTML = `
-                    <div class="block response">
-                        ${timeElement}
-                        <span>(You) ${senderName}:</span>
-                        <span>${data.text}</span>
-                    </div>`;
+                <span>${currentTime}</span>
+                <span> (You) ${senderName}:</span>
+                <span>${data.text}</span>
+            `;
             } else {
                 messageContainer.classList.add("block", "message");
                 messageContainer.innerHTML = `
-                    <div class="block message">
-                        ${timeElement}
-                        <span>${senderName}:</span>
-                        <span>${data.text}</span>
-                    </div>`;
+                <span>${currentTime}</span>
+                <span>${senderName}:</span>
+                <span>${data.text}</span>
+            `;
             }
 
             document.getElementById("messages").appendChild(messageContainer);
-            window.scrollTo(0, document.body.scrollHeight);
+            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
         });
 
         function formatDateToLocalTime(utcDateString) {
