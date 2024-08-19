@@ -6,6 +6,10 @@
     <title>E-Spirit appareil photo</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-appphoto.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
     <script src="../static/js/main.js"></script>
     <script src="../static/js/appareil-photo.js"></script>
     <script src="../static/js/theme.js"></script>
@@ -34,5 +38,6 @@
         <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
         <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
     </footer>
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script> 
 </body>
 </html>
