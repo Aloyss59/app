@@ -315,18 +315,17 @@ dialog::backdrop {
 }
 
   
-.dialog-header {
+#my-dialog .dialog-header {
+    width: 100%;
     background-color: #f0f0f0;
-    padding: 10px 20px; /* Ajoute un peu de padding pour les arrondies */
+    padding: 10px 20px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
-    width: 100%;
     box-sizing: border-box;
-    margin-left: 0; /* Supprime l'espace à gauche du header */
-    border-radius: 5px; /* Arrondies plus petites */
-    display: flex; /* Pour centrer le titre et ajouter la croix à droite */
-    justify-content: space-between; /* Espaces entre les éléments */
-    align-items: center; /* Centre verticalement les éléments */
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .dialog-header h2 {
@@ -337,10 +336,10 @@ dialog::backdrop {
     text-align: center; /* Centre le titre horizontalement */
   }
   
-  .dialog-header .close {
-    cursor: pointer; /* Curseur de souris pour la croix */
-    font-size: 18px;
-    margin-right: 10px; /* Espaces à droite de la croix */
+  #my-dialog .dialog-header .close {
+    cursor: pointer;
+    font-size: 24px; /* Ajouté pour agrandir la croix */
+    margin-right: 10px;
   }
   
   .dialog-content {
