@@ -7,6 +7,10 @@
     <title>E-Spirit albumex</title>
     <link rel="stylesheet" type="text/css" href="../static/css/pagealbumex.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.ico">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
     <script src="../static/js/main.js"></script>
     <!-- <script src="../static/js/album.js"></script> -->
     <script src="../static/js/theme.js"></script>
@@ -193,4 +197,5 @@ function updateSlider() {
   });
 }
 </script>
+<script src="{{ url_for('static', filename='js/online.js') }}"></script> 
 </html>

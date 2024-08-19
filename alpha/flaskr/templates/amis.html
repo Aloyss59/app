@@ -6,6 +6,10 @@
     <title>E-Spirit Amis</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-amis.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
     <script src="../static/js/main.js"></script>
     <script src="../static/js/theme.js"></script>
     <script src="../static/js/ami.js"></script>
@@ -56,6 +60,7 @@
             <p id="userNom">Nom : ...</p>
             <p id="userPrenom">Prénom : ...</p>
         </div>
-    </div>   
+    </div> 
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script>  
 </body>
 </html>
