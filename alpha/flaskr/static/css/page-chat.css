@@ -48,9 +48,26 @@ header img.ta-pp {
     border-radius: 20%; /* Round the corners */
     object-fit: cover; /* Ensure the image covers the area without distortion */
     margin-left: 1%;
+
 }
 header img.ta-pp:hover{
     transform: scale(1.1);
+}
+
+.header-button {
+    width: 35px; /* même largeur que .ta-pp */
+    height: 35px; /* même hauteur que .ta-pp */
+    margin-left: auto; /* pour pousser le bouton à droite */
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.header-coin {
+    width: 35px; /* ajustez la largeur à votre convenance */
+    height: 35px; /* ajustez la hauteur à votre convenance */
+    margin-left: 20px;
 }
 
 .username {
@@ -271,3 +288,62 @@ footer {
     background: rgba(0, 0, 0, 0.5);
   }
   
+
+
+
+
+
+
+ /* Styles pour la fenêtre dialog */
+ dialog {
+    position: fixed;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    width: 80%; /* 3/4 de la largeur de la page */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    padding-left: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.356);
+}
+
+  
+.dialog-header {
+    background-color: #f0f0f0;
+    padding: 10px 20px; /* Ajoute un peu de padding pour les arrondies */
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 0; /* Supprime l'espace à gauche du header */
+    border-radius: 5px; /* Arrondies plus petites */
+    display: flex; /* Pour centrer le titre et ajouter la croix à droite */
+    justify-content: space-between; /* Espaces entre les éléments */
+    align-items: center; /* Centre verticalement les éléments */
+  }
+  
+  .dialog-header h2 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 18px;
+    flex: 1; /* Pour que le titre prenne tout l'espace disponible */
+    text-align: center; /* Centre le titre horizontalement */
+  }
+  
+  .dialog-header .close {
+    cursor: pointer; /* Curseur de souris pour la croix */
+    font-size: 18px;
+    margin-right: 10px; /* Espaces à droite de la croix */
+  }
+  
+  .dialog-content {
+    margin-top: 20px;
+    padding: 20px;
+  }

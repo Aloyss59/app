@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,30 @@
         <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
         <h2 class="username"> {{ current_user.username }} </h2>
         <div class="Name-page">Chat</div>
+        <button class="header-button" id="open-dialog-button">
+            <img src="../static/img/coin_E-esprit.png" alt="coin_E-esprit" class="ta-pp">
+        </button>
     </header>
+
+
+
+    <dialog id="my-dialog">
+        <div class="dialog-header">
+            <h2>Titre du dialogue</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="dialog-content">
+            <p>Contenu de la fenêtre</p><!-- Contenu du dialogue -->
+        </div>
+    </dialog>
+
+
+
+
+
+
+
+
     {% block content %}
     <div>
         {% for friend in friends %}
@@ -42,21 +65,6 @@
     </div>
     {% endblock %}
 
-    <ul class="conversation">
-        <div class="chat" onclick="redirectToChatPage()">
-            <img src="../static/img/IMG_20240411_160531_906.jpg" alt="pp" class="profilespictures">
-            <div class="chat-info">
-                <span class="chat-name">Jena Dupont 😾</span>
-                <div class="no-wrap">
-                    <span class="chat-temps">temps</span>
-                    <span class="chat-message">/ Cet endroit corespo...</span>
-                </div>
-            </div>
-            <div class="reglage-button" onclick="handleReglageClick()">
-                <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
-            </div>
-        </div>
-    </ul>
 
     <footer>
         <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
@@ -75,7 +83,21 @@
             <p id="userNom">Nom : ...</p>
             <p id="userPrenom">Prénom : ...</p>
         </div>
-    </div>   
-    <script src="{{ url_for('static', filename='js/online.js') }}"></script>
+    </div>
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script>   
+    <script>
+        const dialog = document.getElementById('my-dialog');
+        const openButton = document.getElementById('open-dialog-button');
+        const closeButton = document.getElementById('close-dialog-button');
+        
+        openButton.addEventListener('click', () => {
+            dialog.showModal();
+        });
+        
+        closeButton.addEventListener('click', () => {
+            dialog.close();
+        });
+    </script>
+
 </body>
 </html>
