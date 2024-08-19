@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,9 +30,9 @@
                     </div>
                 </div>
             {% else %}
-                <div class="chat-message-container">
+                <div class="centered-blocks">    
                     <div class="block message">
-                        <small>{{ message.format_created_at() }}</small>
+                        <span>{{ message.format_created_at() }}</span>
                         <span>{{ message.sender.username }}:</span>
                         <span>{{ message.text }}</span>
                     </div>
@@ -40,7 +40,7 @@
             {% endif %}
         {% endfor %}
     </ul>
-
+    
     <div class="chat-input-container">
         <input class="chat-input" type="text" placeholder="Tapez votre message...">
         <button class="chat-send-button" id="input-btn">

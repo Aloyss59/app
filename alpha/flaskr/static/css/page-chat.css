@@ -1,7 +1,7 @@
 body{
 	background-color: #f0f0f0;
 	font-family: Arial, sans-serif;
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
 	display: flex;
 	align-items: center;
@@ -307,7 +307,6 @@ footer {
     border-radius: 10px;
     padding: 20px;
     padding-left: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 dialog::backdrop {
@@ -315,34 +314,51 @@ dialog::backdrop {
 }
 
   
-#my-dialog .dialog-header {
-    width: 100%;
-    background-color: #f0f0f0;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ddd;
+.dialog-header {
     margin-bottom: 20px;
     box-sizing: border-box;
-    border-radius: 5px;
+    border-radius: 2px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   
-  .dialog-header h2 {
-    margin: 0;
+  #my-dialog .dialog-header h2 {
+    margin: 0 auto;
     font-weight: bold;
-    font-size: 18px;
+    font-size: clamp(20px, 3.5vw, 40px); /* Agrandi le titre en fonction de la largeur de l'écran, avec une limite de 20px et 40px */
     flex: 1; /* Pour que le titre prenne tout l'espace disponible */
-    text-align: center; /* Centre le titre horizontalement */
-  }
-  
-  #my-dialog .dialog-header .close {
+    text-align: center;
+}
+
+#my-dialog .dialog-header .close {
     cursor: pointer;
-    font-size: 24px; /* Ajouté pour agrandir la croix */
-    margin-right: 10px;
-  }
+    font-size: clamp(20px, 3.5vw, 40px); /* Agrandi la croix de fermeture en fonction de la largeur de l'écran, avec une limite de 20px et 40px */
+    margin-right: 1vw; /* Ajuste la marge en fonction de la largeur de l'écran */
+}
   
   .dialog-content {
     margin-top: 20px;
     padding: 20px;
   }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo img {
+    height: clamp(20px, 3.5vw, 40px); /* taille de l'image */
+    margin-right: 10px; /* espace entre l'image et les points */
+  }
+  
+  .dots {
+    font-size: clamp(10px, 2vw, 20px); /* taille des points */
+    color: #666; /* couleur des points */
+  }
+  

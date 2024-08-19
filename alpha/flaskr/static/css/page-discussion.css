@@ -303,11 +303,6 @@ body.dark .chat-message{
 
 
 
-
-
-
-
-
   .centered-blocks {
     position: absolute;
     top: 75px;
@@ -324,32 +319,25 @@ body.dark .chat-message{
   .block {
     background-color: #f0f0f0;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     max-width: 40%; /* largeur maximale du block */
     display: inline-block; /* pour que le block prenne la largeur du texte */
   }
   
   .block.message {
     background-color: #aaaaaab4;
-    border-bottom: 1px solid #ccc;
     margin-right: auto; /* pour aligner à gauche */
   }
   
   .block.response {
-    background-color: #eee;
-    border-bottom: 1px solid #ccc;
     margin-left: auto; /* pour aligner à droite */
-    background-color: #3a12ff;
-    background-image: linear-gradient(#2e89ff, #0038d3fd);
+    background-image: linear-gradient(#4086e2, #0038d3fd);
   }
   
   .block span {
     font-size: 14px;
     color: white;
   }
-
-
-
 
   .back-button {
     background-color: transparent;
