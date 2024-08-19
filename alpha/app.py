@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
@@ -6,8 +6,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import joinedload
 from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
-from datetime import datetime, timezone
-import os, uuid, base64, pytz
+from datetime import datetime
+from functools import wraps
+import os, uuid, base64, pytz, psutil, time
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr\static\uploads'
@@ -17,6 +18,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 socketio = SocketIO(app, cors_allowed_origins="*")
+online_users = {}
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,6 +29,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    is_admin = db.Column(db.Boolean, default=False)
 
 class FriendRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -67,6 +70,14 @@ class Message(db.Model):
     def frmat_origine_created_at(self):
         tz = pytz.timezone('Europe/Paris')
         return self.created_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)  # Accès refusé
+        return f(*args, **kwargs)
+    return decorated_function
 
 def profile_picture():
     # Générer l'avatar
@@ -116,6 +127,22 @@ def find_friends():
             })
     return friends_data
 
+def get_system_info():
+    # Récolte des données avec une pause d'1 seconde pour une meilleure précision
+    time.sleep(3)
+    cpu_percent = psutil.cpu_percent(interval=1)
+    memory = psutil.virtual_memory()
+    disk = psutil.disk_usage('/')
+
+    info = {
+        'cpu_percent': cpu_percent,
+        'memory_percent': memory.percent,
+        'disk_percent': disk.percent
+    }
+    
+    return info
+
+
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
@@ -129,6 +156,52 @@ def home():
 def load_user(user_id):
     with app.app_context():
         return db.session.get(User, int(user_id))
+
+@socketio.on('connect')
+def handle_connect():
+    user_id = request.args.get('user_id')
+    if user_id:
+        online_users[user_id] = request.sid
+        emit('user_status', {'user_id': user_id, 'status': 'online'}, broadcast=True)
+
+
+@app.route('/admin')
+@login_required
+@admin_required
+def admin_dashboard(): 
+    return render_template('./admin/admin_dashboard.html')
+
+@app.route('/data')
+def data():
+    info = get_system_info()
+    return jsonify(info)
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    user_id = None
+    for uid, sid in online_users.items():
+        if sid == request.sid:
+            user_id = uid
+            break
+    if user_id:
+        del online_users[user_id]
+        emit('user_status', {'user_id': user_id, 'status': 'offline'}, broadcast=True)
+
+@app.route('/online_users')
+@login_required
+@admin_required
+def get_online_users():
+    user_ids = list(online_users.keys())
+    users = User.query.filter(User.id.in_(user_ids)).all()
+    online_user_data = [
+        {
+            'id': user.id,
+            'username': user.username,
+            'admin': user.is_admin if user.is_admin is not None else False
+        }
+        for user in users
+    ]
+    return jsonify(online_user_data)
 
 def get_user_info():
     user = User.query.first()
@@ -449,3 +522,5 @@ if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    info = get_system_info()
+

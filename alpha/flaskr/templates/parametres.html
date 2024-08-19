@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit Paramètre</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/page-parametre.css">
-    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
-    <script src="../static/js/main.js"></script>
-    <script src="../static/js/reglage.js"></script>
-    <script src="../static/js/theme.js"></script>
-    <script src="../static/js/profil.js"></script>
-    <script src="../static/js/langue.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/page-parametre.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_E-esprit.png') }}">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reglage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profil.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/langue.js') }}"></script>
 </head>
-<body class="slide-out" data-page="page5">
+<body class="slide-out" data-page="page5">   
     <header>
         <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
         <h2 class="username"> {{ current_user.username }} </h2>
@@ -88,6 +92,12 @@
                     <input type="text">
                 </label>
             </div>
+            <div class="setting-item">
+                <span class="setting-name">Mot de Passe</span>
+                <label class="input-adresse-mail">
+                    <input type="password">
+                </label>
+            </div>
         </div>
     </main>
 
@@ -96,11 +106,11 @@
     </div>
 
     <footer>
-        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
-        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
-        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
-        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
-        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+        <button class="footer-button" onclick="pageamis()"><img src="{{ url_for('static', filename='img/amis.png') }}" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="{{ url_for('static', filename='img/camera.png') }}" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="{{ url_for('static', filename='img/icons8-bulle-50.png') }}" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="{{ url_for('static', filename='img/album-photo.png') }}" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="{{ url_for('static', filename='img/parametres.png') }}" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
     <div id="account-info-popup" class="popup hidden">
@@ -137,5 +147,6 @@
             document.getElementById('greeting').textContent = translations[selectedLanguage].greeting;
         });
     </script>
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script>
 </body>
 </html>
