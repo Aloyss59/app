@@ -5,16 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_E-esprit.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/page-admin_dashboard.css') }}">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Admin | E-Spirit</title>
 </head>
 <body>
+    <a href="{{ url_for('get_online_users') }}">Online User</a>
+
+    <h1>Gestion des Utilisateurs</h1>
+
+    <!-- Ajout de la section de gestion des comptes -->
+    <h2>Ajouter un Utilisateur</h2>
+    <form method="post">
+        <input type="text" name="first_name" placeholder="Prénom" required class="form-input">
+        <input type="text" name="last_name" placeholder="Nom" required class="form-input">
+        <input type="text" name="phone" placeholder="Téléphone" class="form-input">
+        <input type="text" name="username" placeholder="Nom d'utilisateur" required class="form-input">
+        <input type="email" name="email" placeholder="Email" required class="form-input">
+        <input type="password" name="password" placeholder="Mot de passe" required class="form-input">
+        <button type="submit" name="add" class="submit-button">Ajouter</button>
+    </form>
+
+    <!-- Section pour afficher et modifier les utilisateurs existants -->
+    <h2>Liste des Utilisateurs</h2>
+    <table border="1" class="accounts-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Nom d'utilisateur</th>
+                <th>Email</th>
+                <th>Mot de passe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <form method="post">
+                    <input type="hidden" name="id" value="{{ user.id }}">
+                    <td>{{ user.id }}</td>
+                    <td><input type="text" name="first_name" value="{{ user.first_name }}" class="form-input" required></td>
+                    <td><input type="text" name="last_name" value="{{ user.last_name }}" class="form-input" required></td>
+                    <td><input type="text" name="phone" value="{{ user.phone }}" class="form-input"></td>
+                    <td><input type="text" name="username" value="{{ user.username }}" class="form-input" required></td>
+                    <td><input type="email" name="email" value="{{ user.email }}" class="form-input" required></td>
+                    <td><input type="password" name="password" value="{{ user.password }}" class="form-input" required></td>
+                    <td>
+                        <button type="submit" name="update" class="submit-button">Mettre à jour</button>
+                        <button type="submit" name="delete" class="submit-button">Supprimer</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
     <h1>Server Component Statistics</h1>
     <div>
         <canvas id="myChart"></canvas>
     </div>
-    <a href="{{ url_for('get_online_users') }}">Online User</a>
-    
+
     <script src="{{ url_for('static', filename='js/stat-serveur.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script>
 </body>
 </html>
