@@ -12,9 +12,11 @@
 </head>
 <body>
     <header>
-        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
-        <h2 class="username"> {{ current_user.username }} </h2>
-        <div class="Name-page">Chat</div>
+        <button class="back-button" onclick="pagechat()">➔</button> <!-- bouton avec la flèche, décalé légèrement vers la droite -->
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp" style="margin-left: 40px;"> <!-- ajout d'un margin-left pour décaler la photo -->
+        <div class="Name-page" style="margin-left: 40px;">
+            <span>Chat avec {{ current_user.username }}</span> <!-- ajout du texte "Chat avec" suivi du nom d'utilisateur -->
+        </div>
     </header>
 
     <!-- <ul id="messages" class="p-3">
@@ -44,16 +46,61 @@
 
 
     <div class="centered-blocks">
-        <div class="block message"></div>
-        <div class="block response"></div>
-        <div class="block response"></div>
-        <div class="block message"></div>
-        <div class="block message"></div>
-        <div class="block response"></div>
-        <div class="block response"></div>
-        <div class="block message"></div>
-        <div class="block response"></div>
-    </div>
+        <div class="block message">
+          <span>14:32</span> <span>John</span> <span>Bonjour, comment vas-tu?</span>
+        </div>
+        <div class="block response">
+          <span>14:35</span> <span>(You) Alice</span> <span>Je vais bien, merci! Et toi?</span>
+        </div>
+        <div class="block response">
+          <span>14:40</span> <span>(You) Alice</span> <span>J'ai passé une bonne journée aujourd'hui.</span>
+        </div>
+        <div class="block message">
+          <span>14:45</span> <span>John</span> <span>C'est super! Qu'as-tu fait?</span>
+        </div>
+        <div class="block message">
+          <span>14:50</span> <span>John</span> <span>J'ai envie de sortir ce week-end.</span>
+        </div>
+        <div class="block message">
+          <span>14:55</span> <span>John</span> <span>Tu veux venir avec moi?</span>
+        </div>
+        <div class="block response">
+          <span>15:00</span> <span>(You) Alice</span> <span>Oui, je serais ravi de venir!</span>
+        </div>
+        <div class="block response">
+          <span>15:05</span> <span>(You) Alice</span> <span>Quels sont les plans?</span>
+        </div>
+        <div class="block message">
+          <span>15:10</span> <span>John</span> <span>Nous allons aller au parc.</span>
+        </div>
+        <div class="block message">
+          <span>15:15</span> <span>John</span> <span>Il fait beau aujourd'hui.</span>
+        </div>
+        <div class="block response">
+          <span>15:20</span> <span>(You) Alice</span> <span>Oui, c'est vrai! Je suis impatient.</span>
+        </div>
+        <div class="block response">
+          <span>15:25</span> <span>(You) Alice</span> <span>Je vais aller me préparer.</span>
+        </div>
+        <div class="block response">
+          <span>15:30</span> <span>(You) Alice</span> <span>À tout à l'heure!</span>
+        </div>
+        <div class="block message">
+          <span>15:35</span> <span>John</span> <span>À tout à l'heure!</span>
+        </div>
+        <div class="block message">
+          <span>15:40</span> <span>John</span> <span>Je suis impatient de voir ce que nous allons faire.</span>
+        </div>
+        <div class="block message">
+          <span>15:45</span> <span>John</span> <span>J'espère que le temps sera beau.</span>
+        </div>
+        <div class="block response">
+          <span>15:50</span> <span>(You) Alice</span> <span>Moi aussi!</span>
+        </div>
+        <div class="block response">
+          <span>15:55</span> <span>(You) Alice</span> <span>Je vais aller acheter des sandwichs.</span>
+        </div>
+      </div>
 
 
     
@@ -78,6 +125,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
     <script>
+        window.addEventListener('load', function() {
+    const centeredBlocks = document.querySelector('.centered-blocks');
+    centeredBlocks.scrollTop = centeredBlocks.scrollHeight;
+    });
+
+
     //   var socket = io();
     //   var user_id = "{{ current_user.id }}";  
     //   var userNames = {};  
