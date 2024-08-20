@@ -296,17 +296,19 @@ footer {
 
  /* Styles pour la fenêtre dialog */
  dialog {
-    position: fixed;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 80%;
-    width: 80%; /* 3/4 de la largeur de la page */
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    padding-left: 0;
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80%;
+  width: 65%;
+  background-color: #bebfd7db;
+  border: 1px solid #ddd;
+  border-radius: 40px;
+  padding: 20px;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
 }
 
 dialog::backdrop {
@@ -315,16 +317,16 @@ dialog::backdrop {
 
   
 .dialog-header {
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    border-radius: 2px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
   }
   
   #my-dialog .dialog-header h2 {
@@ -362,3 +364,76 @@ dialog::backdrop {
     color: #666; /* couleur des points */
   }
   
+  .blocks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .block {
+    text-align: center;
+    background-color: #b8b4ff2b;
+    border: 1px solid #ddd;
+    border-radius: 35px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    display: inline-block; /* Conserve la mise en page actuelle */
+    cursor: pointer; /* Curseur de souris en forme de pointeur */
+  }
+  
+  /* Médias queries pour ajuster le nombre de colonnes en fonction de la taille de l'écran */
+  @media (max-width: 600px) {
+    .blocks-container {
+      grid-template-columns: repeat(4, minmax(60px, 1fr));
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .blocks-container {
+      grid-template-columns: repeat(3, minmax(40px, 1fr));
+    }
+  }
+  
+  @media (max-width: 200px) {
+    .blocks-container {
+      grid-template-columns: repeat(2, minmax(20px, 1fr));
+    }
+  }
+  
+  @media (max-width: 100px) {
+    .blocks-container {
+      grid-template-columns: repeat(1, minmax(10px, 1fr));
+    }
+  }
+  .text {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+  }
+  
+  .price {
+    font-size: 11px;
+    font-weight: bold;
+  }
+  
+  .price-icon img {
+    height: 1.7em; /* taille de l'image en fonction de la taille du texte */
+    vertical-align: middle;
+    margin-top: -3px;
+  }
+
+  .logoahat img {
+    height: 1.7em; /* taille de l'image en fonction de la taille du texte */
+  }
+  .logoahat {
+    display: block;
+  }
+
+
+
+
+
+
+
