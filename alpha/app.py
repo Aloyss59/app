@@ -12,7 +12,9 @@ import os, uuid, base64, pytz, psutil, time
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
-app.config['SECRET_KEY'] = 'mysecretkey'
+with open('config_secrets.txt', 'r') as f:
+    secret_key = f.read().strip()
+app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -162,7 +164,7 @@ def admin_dashboard():
                 username=request.form['username'],
                 email=request.form['email'],
                 password=hashed_password,
-                is_admin='is_admin' in request.form,  # Correctly handle boolean value
+                is_admin='is_admin' in request.form,
                 solde=0
             )
             db.session.add(user)
@@ -185,7 +187,7 @@ def admin_dashboard():
                 if request.form['solde']:
                     user.solde = float(request.form['solde'])
 
-                user.is_admin = 'is_admin' in request.form  # Correctly handle boolean value
+                user.is_admin = 'is_admin' in request.form
 
                 db.session.commit()
                 flash("Utilisateur mis à jour avec succès", "success")
