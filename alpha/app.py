@@ -7,8 +7,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import joinedload
 from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
-from datetime import datetime
+from datetime import date, datetime, timezone
 from functools import wraps
+from apscheduler.schedulers.background import BackgroundScheduler
 import os, uuid, base64, pytz, psutil, time, random
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
@@ -89,6 +90,7 @@ class UserQuest(db.Model):
     quest_id = db.Column(db.Integer, db.ForeignKey('quest.id'), nullable=False)
     status = db.Column(db.String(20), nullable=False, default='pending')  # pending, completed, failed, accepted, rejected
     assigned_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    assigned_date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(timezone.utc).date())
 
     user = db.relationship('User', backref='user_quests')
     quest = db.relationship('Quest', backref='user_quests')
@@ -196,6 +198,29 @@ def random_quests():
         return quest_obj.id, quest_obj.title
     else:
         return None  # Retourne None si la quête choisie n'existe pas (cas improbable)
+
+def reset_daily_quests():
+    with app.app_context():
+        all_users = User.query.all()
+        for user in all_users:
+            # Check if the user has less than 3 quests
+            if len(user.user_quests) < 3:
+                available_quests = Quest.query.all()
+                assigned_quest_ids = [uq.quest_id for uq in user.user_quests]
+                available_quests = [q for q in available_quests if q.id not in assigned_quest_ids]
+
+                if available_quests:
+                    for _ in range(3 - len(user.user_quests)):
+                        quest = random.choice(available_quests)
+                        user_quest = UserQuest(user_id=user.id, quest_id=quest.id, status='accepted')
+                        db.session.add(user_quest)
+                        available_quests.remove(quest)
+
+        db.session.commit()
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(reset_daily_quests, 'cron', hour=0, minute=0)  # Exécuter tous les jours à minuit
+scheduler.start()
 
 @app.route('/')
 @app.route('/home')
@@ -585,8 +610,9 @@ def album_quests():
     avatar_data = profile_picture()
     return render_template("albumquests.html", avatar_data=avatar_data)
 
-@app.route('/quests', methods=['GET', 'POST'])
+@app.route('/dash-quests', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def quests():
     if request.method == 'POST':
         quest_id = request.form.get('id')
@@ -638,7 +664,14 @@ def quests():
     quests = find_quests_user()
     id_futur_quests, futur_quest = random_quests()
 
-    return render_template("quests.html", quests=quests, avatar_data=avatar_data, futur_quest=futur_quest, id_futur_quests=id_futur_quests)
+    return render_template("dash-quests.html", quests=quests, avatar_data=avatar_data, futur_quest=futur_quest, id_futur_quests=id_futur_quests)
+
+@app.route('/quests')
+@login_required
+def daily_quests():
+    avatar_data = profile_picture()
+    quests_data = find_quests_user()  # Récupère les quêtes de l'utilisateur connecté
+    return render_template("quests.html", avatar_data=avatar_data, quests=quests_data)
 
 @app.route('/recherche-amis')
 def rechercheamis():
@@ -683,4 +716,5 @@ if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    scheduler.start()
     info = get_system_info()
