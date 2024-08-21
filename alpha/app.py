@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, abort
+import sqlite3
+from flask import Flask, render_template, request, jsonify, redirect, session, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
@@ -8,7 +9,7 @@ from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
 from datetime import datetime
 from functools import wraps
-import os, uuid, base64, pytz, psutil, time
+import os, uuid, base64, pytz, psutil, time, random
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
@@ -22,7 +23,7 @@ login_manager.login_view = 'login'
 socketio = SocketIO(app, cors_allowed_origins="*")
 online_users = {}
 
-class User(db.Model, UserMixin):  # Inherit from UserMixin
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
@@ -74,6 +75,31 @@ class Message(db.Model):
         tz = pytz.timezone('Europe/Paris')
         return self.created_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
 
+class Quest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    reward = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    rarity = db.Column(db.Float, nullable=True)
+
+class UserQuest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    quest_id = db.Column(db.Integer, db.ForeignKey('quest.id'), nullable=False)
+    status = db.Column(db.String(20), nullable=False, default='pending')  # pending, completed, failed, accepted, rejected
+    assigned_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    user = db.relationship('User', backref='user_quests')
+    quest = db.relationship('Quest', backref='user_quests')
+
+    def __repr__(self):
+        return f'<UserQuest {self.id} {self.status}>'
+
+    def frmat_origine_created_at(self):
+        tz = pytz.timezone('Europe/Paris')
+        return self.assigned_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -92,7 +118,6 @@ def friend_profile_picture(username):
     avatar_image = generate_avatar(username)
     return base64.b64encode(avatar_image.getvalue()).decode('utf-8')
 
-# Recherche des amis de l'utilisateur connecté
 def find_friends():
     friendships = Friendship.query.filter(
         (Friendship.user_id == current_user.id) | 
@@ -116,6 +141,27 @@ def find_friends():
             })
     return friends_data
 
+def find_quests_user():
+    user_quests = UserQuest.query.filter(
+        (UserQuest.user_id == current_user.id)
+    ).all()
+    quests_data = []
+    for user_quest in user_quests:
+        quest = user_quest.quest
+        quests_data.append({
+            'id': quest.id,
+            'title': quest.title,
+            'description': quest.description,
+            'reward': quest.reward,
+            'completed': user_quest.status == 'completed',
+            'pending': user_quest.status == 'pending',
+            'failed': user_quest.status == 'failed',
+            'accepted': user_quest.status == 'accepted',
+            'rejected': user_quest.status == 'rejected',
+            'assigned_at': user_quest.assigned_at.strftime('%Y-%m-%d %H:%M:%S')
+        })
+    return quests_data
+
 def get_system_info():
     time.sleep(3)
     cpu_percent = psutil.cpu_percent(interval=1)
@@ -129,6 +175,27 @@ def get_system_info():
     }
     
     return info
+
+def random_quests():
+    # Récupération de toutes les quêtes
+    resultats = Quest.query.all()
+
+    elements = [resultat.title for resultat in resultats]
+    poids = [resultat.rarity if resultat.rarity is not None else 1 for resultat in resultats]  # Assurez-vous que les poids ne sont pas None
+
+    if not elements:
+        return None  # Retourner None ou une autre valeur si aucune quête n'est disponible
+
+    # Sélection d'un titre de quête basé sur les poids
+    valeur_choisie = random.choices(elements, weights=poids, k=1)[0]
+
+    # Récupération de l'objet Quest correspondant pour obtenir son ID
+    quest_obj = Quest.query.filter_by(title=valeur_choisie).first()
+
+    if quest_obj:
+        return quest_obj.id, quest_obj.title
+    else:
+        return None  # Retourne None si la quête choisie n'existe pas (cas improbable)
 
 @app.route('/')
 @app.route('/home')
@@ -335,8 +402,7 @@ def recherche_amis():
     if request.method == 'POST':
         username = request.form.get('username')
         if username:
-            # Rechercher les utilisateurs par nom d'utilisateur
-            users = User.query.filter(User.username.ilike(f'%{username}%')).all()
+            users = User.query.filter(User.username.ilike(f'%{username}%')).all() # Rechercher les utilisateurs par nom d'utilisateur
 
     return render_template("searchfriends.html", avatar_data=avatar_data, users=users)
 
@@ -519,11 +585,60 @@ def album_quests():
     avatar_data = profile_picture()
     return render_template("albumquests.html", avatar_data=avatar_data)
 
-@app.route('/quests')
+@app.route('/quests', methods=['GET', 'POST'])
 @login_required
 def quests():
+    if request.method == 'POST':
+        quest_id = request.form.get('id')
+        action = request.form.get('action')
+
+        if not quest_id:
+            flash("L'ID de la quête est manquant.", "danger")
+            return redirect(url_for('quests'))
+
+        if not action:
+            flash("Aucune action spécifiée.", "danger")
+            return redirect(url_for('quests'))
+
+        try:
+            user_quest = UserQuest.query.filter_by(user_id=current_user.id, quest_id=quest_id).first()
+
+            if user_quest:
+                if action == 'accepted':
+                    user_quest.status = 'accepted'
+                elif action == 'rejected':
+                    user_quest.status = 'rejected'
+                    db.session.delete(user_quest)
+                else:
+                    flash("Action non reconnue.", "danger")
+                    return redirect(url_for('quests'))
+            else:
+                existing_quest = UserQuest.query.filter_by(user_id=current_user.id, quest_id=quest_id).first()
+
+                if existing_quest:
+                    flash("Cette quête a déjà été acceptée.", "warning")
+                    return redirect(url_for('quests'))
+
+                if action == 'accept':
+                    new_user_quest = UserQuest(user_id=current_user.id, quest_id=quest_id, status='pending')
+                    db.session.add(new_user_quest)
+                elif action == 'next':
+                    id_futur_quests, futur_quest = random_quests()
+                else:
+                    flash("Action non reconnue pour une nouvelle quête.", "danger")
+                    return redirect(url_for('quests'))
+
+            db.session.commit()
+            flash("Quête mise à jour avec succès.", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erreur lors de la mise à jour de la quête: {str(e)}", "danger")
+
     avatar_data = profile_picture()
-    return render_template("quests.html", avatar_data=avatar_data)
+    quests = find_quests_user()
+    id_futur_quests, futur_quest = random_quests()
+
+    return render_template("quests.html", quests=quests, avatar_data=avatar_data, futur_quest=futur_quest, id_futur_quests=id_futur_quests)
 
 @app.route('/recherche-amis')
 def rechercheamis():

@@ -1,424 +1,71 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Spirit album</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/quests.css">
-    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <title>E-Spirit Paramètre</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_E-esprit.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quests.css') }}">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     <script>
         var current_user = { id: {{ current_user.id | tojson }} };
     </script>
-    <script src="../static/js/main.js"></script>
-    <script src="../static/js/album.js"></script>
-    <script src="../static/js/theme.js"></script>
-    <script src="../static/js/profil.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profil.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/langue.js') }}"></script>
 </head>
-<body class="slide-out" data-page="page4">
+<body>
     <header>
         <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
         <h2 class="username"> {{ current_user.username }} </h2>
-        <div class="Name-page">Album de quêtes</div>
-        </label>
+        <div class="Name-page">Paramètre</div>
     </header>
-
-    <h1 class="quetesapp">Quête du groupe/chat/perso de l'appli</h1>
-    <h3 class="facile">FACILE: 0/200</h3>
-    <ol>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-      <li>...</li>
-    </ol>
-
-    <h3 class="moyen">MOYEN: 0/100</h3>
-    <ol>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-    </ol>
-
-    <h3 class="difficile">DIFFICILE: 0/50</h3>
-    <ol>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-    </ol>
-    <h3 class="extreme">EXTREME: 0/16</h3>
-    <ol>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-        <li>...</li>
-    </ol>
-
-    <h1 class="quetesapp">Quête du groupe/chat/perso IRL</h1>
-    <ul>
-        <ul>
-            <li><a class="no-link-style" href="#" onclick="return confirmLink('de La Belle Aventure', 'https://maps.google.com/maps?q=73 Rue Masséna, 59800 Lille')">La Belle Aventure, Lille, Bar</a></li>
-        </ul>
-
-    </ul>
-
+    
+    <main>
+        <div class="quest-container">
+            {% for quest in quests %}
+            <div class="quest-card">
+                <h2>{{ quest.title }}</h2>
+                <p>{{ quest.description }}</p>
+                <p><strong>Récompense : {{ quest.reward }} points</strong></p>
+                <p>Status :</p>
+                {% if quest.completed %}
+                    <p>Complété</p>
+                {% elif quest.pending %}
+                <form method="post" action="{{ url_for('quests') }}">
+                    <input type="hidden" name="id" value="{{ quest.id }}">
+                    <button type="submit" name="action" value="accepted" class="btn-complete">Accepter</button>
+                    <button type="submit" name="action" value="rejected" class="btn-complete">Rejeter</button>
+                </form>                
+                {% elif quest.failed %}
+                    <p>Échoué</p>
+                {% elif quest.accepted %}
+                    <p>En cours</p>
+                {% elif quest.rejected %}
+                    <p>Rejeté</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Correction ici -->
+        <div class="quest-container">
+            <!-- Exemple de code HTML pour afficher la quête aléatoire -->
+            <h3>Quête Aléatoire</h3>
+            <p>Nom: {{ futur_quest }}</p>
+            <form method="post" action="{{ url_for('quests') }}">
+                <input type="hidden" name="id" value="{{ id_futur_quests }}">
+                <button type="submit" name="action" value="accept" class="btn-complete">Accepter</button>
+                <button type="submit" name="action" value="next" class="btn-complete">Rejeter</button>
+            </form> 
+        </div>
+    </main>
     <footer>
-        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
-        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
-        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
-        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
-        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+        <button class="footer-button" onclick="pageamis()"><img src="{{ url_for('static', filename='img/amis.png') }}" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="{{ url_for('static', filename='img/camera.png') }}" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="{{ url_for('static', filename='img/icons8-bulle-50.png') }}" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="{{ url_for('static', filename='img/album-photo.png') }}" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="{{ url_for('static', filename='img/parametres.png') }}" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
     <div id="account-info-popup" class="popup hidden">
@@ -430,28 +77,8 @@
             <p id="userNom">Nom : ...</p>
             <p id="userPrenom">Prénom : ...</p>
         </div>
-    </div>   
+    </div>
 
-    <script>
-        document.querySelectorAll('h3').forEach((h3) => {
-            h3.addEventListener('click', (e) => {
-                // Changer la flèche et afficher/masquer les ol
-                const ol = e.target.nextElementSibling;
-                ol.classList.toggle('show-ol');
-                e.target.classList.toggle('show-ol');
-            });
-        });
-
-        function confirmLink(nomBar, url) {
-        if (confirm("Voulez-vous vraiment aller sur la page de l'adresse " + nomBar + " ?")) {
-            window.open(url, '_blank');
-            return true;
-        } else {
-            return false;
-        }
-    }
-    </script>
-    <script src="{{ url_for('static', filename='js/online.js') }}"></script>  
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script>
 </body>
 </html>
-
