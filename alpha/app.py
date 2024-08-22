@@ -201,6 +201,7 @@ def random_quests():
 
 def reset_quests(user):
     UserQuest.query.filter_by(user_id=user.id).delete()
+    db.session.commit()
 
 def reset_daily_quests():
     with app.app_context():
@@ -529,7 +530,7 @@ def handle_message(data):
     db.session.commit()
 
     # Convertir l'heure en UTC pour l'envoyer au client
-    created_at = new_message.created_at.isoformat()
+    created_at = new_message.created_at.replace(tzinfo=timezone.utc).astimezone(timezone).isoformat()
 
     # Envoyer le message à tous les clients
     emit('message', {
