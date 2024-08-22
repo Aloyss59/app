@@ -224,17 +224,19 @@ def reset_daily_quests():
                 assigned_quest_ids = [uq.quest_id for uq in user.user_quests]
                 available_quests = [q for q in available_quests if q.id not in assigned_quest_ids]
 
-                if available_quests:
-                    for _ in range(3 - len(user.user_quests)):
-                        quest_id, quest_title = random_quests()  # Unpack the returned tuple
-                        user_quest = UserQuest(user_id=user.id, quest_id=quest_id, status='accepted')
-                        db.session.add(user_quest)
-                        available_quests = [q for q in available_quests if q.id != quest_id]  # Remove the quest by id
+            if available_quests:
+                for _ in range(3 - len(user.user_quests)):
+                    quest_id, quest_title = random_quests()  # Unpack the returned tuple
+                    user_quest = UserQuest(user_id=user.id, quest_id=quest_id, status='accepted')
+                    db.session.add(user_quest)
+                    available_quests = [q for q in available_quests if q.id != quest_id]  # Remove the quest by id
 
-        db.session.commit()
+                    db.session.commit()
+
+    db.session.commit()
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(reset_daily_quests, 'cron', hour=00, minute=00)  # Exécuter tous les jours à minuit
+scheduler.add_job(reset_daily_quests, 'cron', hour=1, minute=5)  # Exécuter tous les jours à minuit
 
 @app.route('/')
 @app.route('/home')

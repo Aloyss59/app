@@ -378,11 +378,7 @@ body.dark .icone-setting {
   filter: invert(1);
 }
 
-
-
-
-
-body.dark input[type="text"], body.dark input[type="password"], body.dark input[type="date"] {
+body.dark input[type="text"], body.dark input[type="password"], body.dark input[type="date"], body.dark input[type="email"] {
   background-color: #444;
   color: #fff;
   border-color: #333;
@@ -415,4 +411,65 @@ body.dark select:focus {
   background-repeat: no-repeat;
   border-color: #333;
   outline: 0;
+}
+
+/* Ajoutez ceci à votre fichier CSS */
+#change-password-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 2000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  color: #000;
+  text-align: left;
+}
+
+body.dark #change-password-popup, body.dark #change-email-popup, body.dark #change-phone-popup{
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(244, 242, 242, 0.123);  
+}
+
+#change-password-popup.visible, #change-email-popup.visible, #change-phone-popup.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#change-password-popup.hidden, #change-email-popup.hidden, #change-phone-popup.hidden {
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+#change-password-popup .popup-content, #change-email-popup .popup-content, #change-phone-popup .popup-content {
+  padding: 20px;
+}
+
+#change-password-popup .close, #change-email-popup .close, #change-phone-popup .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.change--button {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+body.dark .change--button {
+  background-color: #444;
+  color: white;
+  border-color: #333;
+  padding: 10px;
+  border-radius: 5px;
 }

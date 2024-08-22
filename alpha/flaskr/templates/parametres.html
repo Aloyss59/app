@@ -92,21 +92,27 @@
                 <input type="date" value="0000-00-00" min="1950-01-01" max="2014-12-31">
             </div>
             <div class="setting-item">
-                <span class="setting-name">Numéro de Téléphone</span>
+                <span class="setting-name">Mot de Passe</span>
                 <label class="input-adresse-mail">
-                    <input type="text">
+                    <button id="change-password-button" class="change--button">
+                        Changer de mot de passe
+                    </button>
                 </label>
             </div>
             <div class="setting-item">
                 <span class="setting-name">E-Mail</span>
                 <label class="input-adresse-mail">
-                    <input type="text">
+                    <button id="change-email-button" class="change--button">
+                        Changer d'adresse mail
+                    </button>
                 </label>
             </div>
             <div class="setting-item">
-                <span class="setting-name">Mot de Passe</span>
+                <span class="setting-name">Numéro de Téléphone</span>
                 <label class="input-adresse-mail">
-                    <input type="password">
+                    <button id="change-phone-button" class="change--button">
+                        Changer de numéraux de téléphone
+                    </button>                
                 </label>
             </div>
         </div>
@@ -124,6 +130,7 @@
         <button class="footer-button" onclick="pageparametre()"><img src="{{ url_for('static', filename='img/parametres.png') }}" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
+    <!-- pop up profile -->
     <div id="account-info-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-popup" class="close">&times;</span>
@@ -135,7 +142,56 @@
         </div>
     </div>   
 
+    <!-- pop up changer mdp -->
+    <div id="change-password-popup" class="popup hidden">
+        <div class="popup-content">
+        <span id="close-change-password-popup" class="close">&times;</span>
+        <h2>Changer de mot de passe</h2>
+            <form>
+                <label for="old-password">Ancien mot de passe :</label>
+                <input type="password" id="old-password" required>
+                <br>
+                <label for="new-password">Nouveau mot de passe :</label>
+                <input type="password" id="new-password" required>
+                <br>
+                <button id="change-password-button">Changer de mot de passe</button>
+            </form>
+        </div>
+    </div>       
 
+    <!-- pop up changer email -->
+    <div id="change-email-popup" class="popup hidden">
+        <div class="popup-content">
+        <span id="close-change-email-popup" class="close">&times;</span>
+        <h2>Changer de mot de passe</h2>
+            <form>
+                <label for="old-email">Ancienne adresse mail :</label>
+                <input type="email" id="old-email" required>
+                <br>
+                <label for="new-email">Nouvelle adresse mail :</label>
+                <input type="email" id="new-email" required>
+                <br>
+                <button id="change-email-button">Changer d'adresse mail</button>
+            </form>
+        </div>
+    </div>  
+
+    <!-- pop up changer num -->
+    <div id="change-phone-popup" class="popup hidden">
+        <div class="popup-content">
+        <span id="close-change-phone-popup" class="close">&times;</span>
+        <h2>Changer de mot de passe</h2>
+            <form>
+                <label for="old-phone">Ancien numéraux de téléphone :</label>
+                <input type="text" id="old-phone" required>
+                <br>
+                <label for="new-phone">Nouveau numéraux de téléphone :</label>
+                <input type="text" id="new-phone" required>
+                <br>
+                <button id="change-phone-button">Changer de numéraux de téléphone</button>
+            </form>
+        </div>
+    </div>  
 
     <script>
         const translations = {
