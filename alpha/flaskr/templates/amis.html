@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Spirit Amis</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/page-amis.css">
-    <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/page-amis.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_E-esprit.png') }}">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     <script>
         var current_user = { id: {{ current_user.id | tojson }} };
     </script>
-    <script src="../static/js/main.js"></script>
-    <script src="../static/js/theme.js"></script>
-    <script src="../static/js/ami.js"></script>
-    <script src="../static/js/profil.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ami.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profil.js') }}"></script>
 </head>
 <body class="slide-out" data-page="page1">
     <header>
@@ -22,33 +22,66 @@
         <div class="Name-page">Amis</div>
     </header>
 
-    <div class="barrerecherche">
-        <input type="search" name="rechercheamis" placeholder="Taper le nom de votre ami ou ajouter un ami avec le +"/>
-        <button class="search-button" onclick="ajamis()"><img src="../static/img/ajouteramis.png" alt="search icon"></button>
-    </div>
-    {% block content %}
-    <h2>Mes Amis</h2>
-    <div>
-        {% for friend in friends %}
-            <ul class="listeamis">
-                <div class="ami" onclick="redirectToChatPage()">
+    <form action="{{ url_for('amis') }}" method="POST" class="barrerecherche">
+        <input type="search" name="username" placeholder="Taper le nom de votre ami ou ajouter un ami avec le +" required/>
+        <button type="submit" class="search-button"><img src="{{ url_for('static', filename='img/ajouteramis.png') }}" alt="search icon"></button>
+    </form>
+
+    {% if users %}
+    <section>
+        <h2>Rechercher des utilisateurs</h2>
+        <ul>
+            {% for user in users %}
+            <li>{{ user.username }} ({{ user.first_name }} {{ user.last_name }})
+                <img src="data:image/png;base64,{{ user.avatar }}" alt="{{ user.username }}'s avatar" class="profilespictures">
+                <form action="{{ url_for('send_friend_request', user_id=user.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Ajouter</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    <section>
+        <h2>Mes Amis</h2>
+        <ul class="listeamis">
+            {% for friend in friends %}
+                <li class="ami" onclick="redirectToChatPage()">
                     <img src="data:image/png;base64,{{ friend.avatar }}" alt="pp" class="profilespictures">
                     <div class="amis-info">
                         <span class="amisname">{{ friend.username }}</span>
-                        <span class="amitemps">Votre amis depuis: ... jours</span>
+                        <span class="amitemps">Votre ami depuis: ... jours</span>
                     </div>
-                </div>
-            </ul>
-        {% endfor %}
-    </div>
-    {% endblock %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    {% if received_requests %}
+    <section>
+        <h2>Demandes d'amis reçues</h2>
+        <ul>
+            {% for request in received_requests %}
+            <li>{{ request.sender.username }} 
+                <form action="{{ url_for('accept_friend_request', request_id=request.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Accepter</button>
+                </form>
+                <form action="{{ url_for('reject_friend_request', request_id=request.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Refuser</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
 
     <footer>
-        <button class="footer-button" onclick="pageamis()"><img src="../static/img/amis.png" alt="icone-friends" class="icone-friends"></button>
-        <button class="footer-button" onclick="pagecam()"><img src="../static/img/camera.png" alt="icone-cam" class="icone-cam"></button>
-        <button class="footer-button" onclick="pagechat()"><img src="../static/img/icons8-bulle-50.png" alt="icone-discu" class="icone-discu"></button>
-        <button class="footer-button" onclick="pagealbum()"><img src="../static/img/album-photo.png" alt="icone-album" class="icone-album"></button>
-        <button class="footer-button" onclick="pageparametre()"><img src="../static/img/parametres.png" alt="icone-setting" class="icone-setting"></button>
+        <button class="footer-button" onclick="pageamis()"><img src="{{ url_for('static', filename='img/amis.png') }}" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="{{ url_for('static', filename='img/camera.png') }}" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="{{ url_for('static', filename='img/icons8-bulle-50.png') }}" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="{{ url_for('static', filename='img/album-photo.png') }}" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="{{ url_for('static', filename='img/parametres.png') }}" alt="icone-setting" class="icone-setting"></button>
     </footer>
 
     <div id="account-info-popup" class="popup hidden">
