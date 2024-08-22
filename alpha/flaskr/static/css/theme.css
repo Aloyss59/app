@@ -1,0 +1,1157 @@
+body.blueneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+  }
+  
+  body.blueneon header, body.blueneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+  }
+  
+  body.blueneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.blueneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.blueneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+  }
+  
+  body.blueneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+  }
+  
+  body.blueneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.blueneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.blueneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.blueneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.blueneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.blueneon input[type="text"], body.blueneon input[type="password"], body.blueneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.blueneon input[type="text"]:focus, body.blueneon input[type="password"]:focus, body.blueneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+  }
+  
+  
+  body.blueneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.blueneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+  
+  
+  
+  
+  
+  
+  body.greenneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 0, 0.5),
+    0 0 11px rgba(0, 255, 0, 0.5),
+    0 0 15px rgba(0, 255, 0, 0.5),
+    0 0 18px rgba(0, 255, 0, 0.5),
+    0 0 22px rgba(0, 255, 0, 0.5);
+  }
+  
+  body.greenneon header, body.greenneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 0, 0.5),
+    0 0 11px rgba(0, 255, 0, 0.5),
+    0 0 15px rgba(0, 255, 0, 0.5),
+    0 0 18px rgba(0, 255, 0, 0.5),
+    0 0 22px rgba(0, 255, 0, 0.5);
+  }
+  
+  body.greenneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.greenneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.greenneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 0, 0.5),
+    0 0 11px rgba(0, 255, 0, 0.5),
+    0 0 15px rgba(0, 255, 0, 0.5),
+    0 0 18px rgba(0, 255, 0, 0.5),
+    0 0 22px rgba(0, 255, 0, 0.5);
+  }
+  
+  body.greenneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 0, 0.5),
+    0 0 11px rgba(0, 255, 0, 0.5),
+    0 0 15px rgba(0, 255, 0, 0.5),
+    0 0 18px rgba(0, 255, 0, 0.5),
+    0 0 22px rgba(0, 255, 0, 0.5);
+  }
+  
+  body.greenneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.greenneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.greenneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.greenneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.greenneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.greenneon input[type="text"], body.greenneon input[type="password"], body.greenneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.greenneon input[type="text"]:focus, body.greenneon input[type="password"]:focus, body.greenneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 0, 0.5),
+    0 0 11px rgba(0, 255, 0, 0.5),
+    0 0 15px rgba(0, 255, 0, 0.5),
+    0 0 18px rgba(0, 255, 0, 0.5),
+    0 0 22px rgba(0, 255, 0, 0.5);
+  }
+  
+  
+  body.greenneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.greenneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+  
+  
+  body.redneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),
+    0 0 11px rgba(255, 0, 0, 0.5),
+    0 0 15px rgba(255, 0, 0, 0.5),
+    0 0 18px rgba(255, 0, 0, 0.5),
+    0 0 22px rgba(255, 0, 0, 0.5);
+  }
+  
+  body.redneon header, body.redneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),
+    0 0 11px rgba(255, 0, 0, 0.5),
+    0 0 15px rgba(255, 0, 0, 0.5),
+    0 0 18px rgba(255, 0, 0, 0.5),
+    0 0 22px rgba(255, 0, 0, 0.5);
+  }
+  
+  body.redneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.redneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.redneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),
+    0 0 11px rgba(255, 0, 0, 0.5),
+    0 0 15px rgba(255, 0, 0, 0.5),
+    0 0 18px rgba(255, 0, 0, 0.5),
+    0 0 22px rgba(255, 0, 0, 0.5);
+  }
+  
+  body.redneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),
+    0 0 11px rgba(255, 0, 0, 0.5),
+    0 0 15px rgba(255, 0, 0, 0.5),
+    0 0 18px rgba(255, 0, 0, 0.5),
+    0 0 22px rgba(255, 0, 0, 0.5);
+  }
+  
+  body.redneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.redneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.redneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.redneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.redneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.redneon input[type="text"], body.redneon input[type="password"], body.redneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.redneon input[type="text"]:focus, body.redneon input[type="password"]:focus, body.redneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),
+    0 0 11px rgba(255, 0, 0, 0.5),
+    0 0 15px rgba(255, 0, 0, 0.5),
+    0 0 18px rgba(255, 0, 0, 0.5),
+    0 0 22px rgba(255, 0, 0, 0.5);
+  }
+  
+  
+  body.redneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.redneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+  
+  
+  body.yellowneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 255, 0, 0.5),
+    0 0 11px rgba(255, 255, 0, 0.5),
+    0 0 15px rgba(255, 255, 0, 0.5),
+    0 0 18px rgba(255, 255, 0, 0.5),
+    0 0 22px rgba(255, 255, 0, 0.5);
+  }
+  
+  body.yellowneon header, body.yellowneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 255, 0, 0.5),
+    0 0 11px rgba(255, 255, 0, 0.5),
+    0 0 15px rgba(255, 255, 0, 0.5),
+    0 0 18px rgba(255, 255, 0, 0.5),
+    0 0 22px rgba(255, 255, 0, 0.5);
+  }
+  
+  body.yellowneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.yellowneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.yellowneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 255, 0, 0.5),
+    0 0 11px rgba(255, 255, 0, 0.5),
+    0 0 15px rgba(255, 255, 0, 0.5),
+    0 0 18px rgba(255, 255, 0, 0.5),
+    0 0 22px rgba(255, 255, 0, 0.5);
+  }
+  
+  body.yellowneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 255, 0, 0.5),
+    0 0 11px rgba(255, 255, 0, 0.5),
+    0 0 15px rgba(255, 255, 0, 0.5),
+    0 0 18px rgba(255, 255, 0, 0.5),
+    0 0 22px rgba(255, 255, 0, 0.5);
+  }
+  
+  body.yellowneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.yellowneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.yellowneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.yellowneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.yellowneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.yellowneon input[type="text"], body.yellowneon input[type="password"], body.yellowneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.yellowneon input[type="text"]:focus, body.yellowneon input[type="password"]:focus, body.yellowneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 255, 0, 0.5),
+    0 0 11px rgba(255, 255, 0, 0.5),
+    0 0 15px rgba(255, 255, 0, 0.5),
+    0 0 18px rgba(255, 255, 0, 0.5),
+    0 0 22px rgba(255, 255, 0, 0.5);
+  }
+  
+  
+  body.yellowneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.yellowneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+
+
+  body.cyanneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 255, 0.5),
+    0 0 11px rgba(0, 255, 255, 0.5),
+    0 0 15px rgba(0, 255, 255, 0.5),
+    0 0 18px rgba(0, 255, 255, 0.5),
+    0 0 22px rgba(0, 255, 255, 0.5);
+  }
+  
+  body.cyanneon header, body.cyanneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 255, 0.5),
+    0 0 11px rgba(0, 255, 255, 0.5),
+    0 0 15px rgba(0, 255, 255, 0.5),
+    0 0 18px rgba(0, 255, 255, 0.5),
+    0 0 22px rgba(0, 255, 255, 0.5);
+  }
+  
+  body.cyanneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.cyanneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.cyanneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 255, 0.5),
+    0 0 11px rgba(0, 255, 255, 0.5),
+    0 0 15px rgba(0, 255, 255, 0.5),
+    0 0 18px rgba(0, 255, 255, 0.5),
+    0 0 22px rgba(0, 255, 255, 0.5);
+  }
+  
+  body.cyanneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 255, 0.5),
+    0 0 11px rgba(0, 255, 255, 0.5),
+    0 0 15px rgba(0, 255, 255, 0.5),
+    0 0 18px rgba(0, 255, 255, 0.5),
+    0 0 22px rgba(0, 255, 255, 0.5);
+  }
+  
+  body.cyanneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.cyanneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.cyanneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.cyanneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.cyanneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.cyanneon input[type="text"], body.cyanneon input[type="password"], body.cyanneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.cyanneon input[type="text"]:focus, body.cyanneon input[type="password"]:focus, body.cyanneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 255, 255, 0.5),
+    0 0 11px rgba(0, 255, 255, 0.5),
+    0 0 15px rgba(0, 255, 255, 0.5),
+    0 0 18px rgba(0, 255, 255, 0.5),
+    0 0 22px rgba(0, 255, 255, 0.5);
+  }
+  
+  
+  body.cyanneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.cyanneon body.cyanneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+
+  body.pinkneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 255, 0.5),
+    0 0 11px rgba(255, 0, 255, 0.5),
+    0 0 15px rgba(255, 0, 255, 0.5),
+    0 0 18px rgba(255, 0, 255, 0.5),
+    0 0 22px rgba(255, 0, 255, 0.5);
+  }
+  
+  body.pinkneon header, body.pinkneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 255, 0.5),
+    0 0 11px rgba(255, 0, 255, 0.5),
+    0 0 15px rgba(255, 0, 255, 0.5),
+    0 0 18px rgba(255, 0, 255, 0.5),
+    0 0 22px rgba(255, 0, 255, 0.5);
+  }
+  
+  body.pinkneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.pinkneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.pinkneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 255, 0.5),
+    0 0 11px rgba(255, 0, 255, 0.5),
+    0 0 15px rgba(255, 0, 255, 0.5),
+    0 0 18px rgba(255, 0, 255, 0.5),
+    0 0 22px rgba(255, 0, 255, 0.5);
+  }
+  
+  body.pinkneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 255, 0.5),
+    0 0 11px rgba(255, 0, 255, 0.5),
+    0 0 15px rgba(255, 0, 255, 0.5),
+    0 0 18px rgba(255, 0, 255, 0.5),
+    0 0 22px rgba(255, 0, 255, 0.5);
+  }
+  
+  body.pinkneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.pinkneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.pinkneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.pinkneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.pinkneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.pinkneon input[type="text"], body.pinkneon input[type="password"], body.pinkneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.pinkneon input[type="text"]:focus, body.pinkneon input[type="password"]:focus, body.pinkneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 255, 0.5),
+    0 0 11px rgba(255, 0, 255, 0.5),
+    0 0 15px rgba(255, 0, 255, 0.5),
+    0 0 18px rgba(255, 0, 255, 0.5),
+    0 0 22px rgba(255, 0, 255, 0.5);
+  }
+  
+  
+  body.pinkneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.pinkneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+
+  body.orangeneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 127, 0, 0.5),
+    0 0 11px rgba(255, 127, 0, 0.5),
+    0 0 15px rgba(255, 127, 0, 0.5),
+    0 0 18px rgba(255, 127, 0, 0.5),
+    0 0 22px rgba(255, 127, 0, 0.5);
+  }
+  
+  body.orangeneon header, body.orangeneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 127, 0, 0.5),
+    0 0 11px rgba(255, 127, 0, 0.5),
+    0 0 15px rgba(255, 127, 0, 0.5),
+    0 0 18px rgba(255, 127, 0, 0.5),
+    0 0 22px rgba(255, 127, 0, 0.5);
+  }
+  
+  body.orangeneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.orangeneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.orangeneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 127, 0, 0.5),
+    0 0 11px rgba(255, 127, 0, 0.5),
+    0 0 15px rgba(255, 127, 0, 0.5),
+    0 0 18px rgba(255, 127, 0, 0.5),
+    0 0 22px rgba(255, 127, 0, 0.5);
+  }
+  
+  body.orangeneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 127, 0, 0.5),
+    0 0 11px rgba(255, 127, 0, 0.5),
+    0 0 15px rgba(255, 127, 0, 0.5),
+    0 0 18px rgba(255, 127, 0, 0.5),
+    0 0 22px rgba(255, 127, 0, 0.5);
+  }
+  
+  body.orangeneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.orangeneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.orangeneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.orangeneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.orangeneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.orangeneon input[type="text"], body.orangeneon input[type="password"], body.orangeneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.orangeneon input[type="text"]:focus, body.orangeneon input[type="password"]:focus, body.orangeneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 127, 0, 0.5),
+    0 0 11px rgba(255, 127, 0, 0.5),
+    0 0 15px rgba(255, 127, 0, 0.5),
+    0 0 18px rgba(255, 127, 0, 0.5),
+    0 0 22px rgba(255, 127, 0, 0.5);
+  }
+  
+  
+  body.orangeneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.orangeneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+
+  body.purpleneon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(190, 0, 255, 0.5),
+    0 0 11px rgba(190, 0, 255, 0.5),
+    0 0 15px rgba(190, 0, 255, 0.5),
+    0 0 18px rgba(190, 0, 255, 0.5),
+    0 0 22px rgba(190, 0, 255, 0.5);
+  }
+  
+  body.purpleneon header, body.purpleneon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #fff,
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(190, 0, 255, 0.5),
+    0 0 11px rgba(190, 0, 255, 0.5),
+    0 0 15px rgba(190, 0, 255, 0.5),
+    0 0 18px rgba(190, 0, 255, 0.5),
+    0 0 22px rgba(190, 0, 255, 0.5);
+  }
+  
+  body.purpleneon .username {
+    color: #f0f0f0;
+  }
+  
+  body.purpleneon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.purpleneon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(190, 0, 255, 0.5),
+    0 0 11px rgba(190, 0, 255, 0.5),
+    0 0 15px rgba(190, 0, 255, 0.5),
+    0 0 18px rgba(190, 0, 255, 0.5),
+    0 0 22px rgba(190, 0, 255, 0.5);
+  }
+  
+  body.purpleneon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(190, 0, 255, 0.5),
+    0 0 11px rgba(190, 0, 255, 0.5),
+    0 0 15px rgba(190, 0, 255, 0.5),
+    0 0 18px rgba(190, 0, 255, 0.5),
+    0 0 22px rgba(190, 0, 255, 0.5);
+  }
+  
+  body.purpleneon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.purpleneon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.purpleneon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.purpleneon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.purpleneon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.purpleneon input[type="text"], body.purpleneon input[type="password"], body.purpleneon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.purpleneon input[type="text"]:focus, body.purpleneon input[type="password"]:focus, body.purpleneon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(190, 0, 255, 0.5),
+    0 0 11px rgba(190, 0, 255, 0.5),
+    0 0 15px rgba(190, 0, 255, 0.5),
+    0 0 18px rgba(190, 0, 255, 0.5),
+    0 0 22px rgba(190, 0, 255, 0.5);
+  }
+  
+  
+  body.purpleneon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.purpleneon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+
+
+  body.multineon {
+    background-color: #010101;
+    color: #fff;
+    text-shadow:
+    0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),   /* Rouge */
+    0 0 11px rgba(255, 127, 0, 0.5), /* Orange */
+    0 0 15px rgba(255, 255, 0, 0.5), /* Jaune */
+    0 0 18px rgba(0, 255, 0, 0.5),   /* Vert */
+    0 0 22px rgba(0, 0, 255, 0.5),   /* Bleu */
+    0 0 25px rgba(75, 0, 130, 0.5),  /* Indigo */
+    0 0 28px rgba(148, 0, 211, 0.5); /* Violet */
+  }
+  
+  body.multineon header, body.multineon footer {
+    background-color: #010101;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),   /* Rouge */
+    0 0 11px rgba(255, 127, 0, 0.5), /* Orange */
+    0 0 15px rgba(255, 255, 0, 0.5), /* Jaune */
+    0 0 18px rgba(0, 255, 0, 0.5),   /* Vert */
+    0 0 22px rgba(0, 0, 255, 0.5),   /* Bleu */
+    0 0 25px rgba(75, 0, 130, 0.5),  /* Indigo */
+    0 0 28px rgba(148, 0, 211, 0.5); /* Violet */
+  }
+  
+  body.multineon .username {
+    color: #f0f0f0;
+  }
+  
+  body.multineon .Name-page {
+    color: #f0f0f0;
+  }
+  
+  body.multineon .setting-item {
+    background: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),   /* Rouge */
+    0 0 11px rgba(255, 127, 0, 0.5), /* Orange */
+    0 0 15px rgba(255, 255, 0, 0.5), /* Jaune */
+    0 0 18px rgba(0, 255, 0, 0.5),   /* Vert */
+    0 0 22px rgba(0, 0, 255, 0.5),   /* Bleu */
+    0 0 25px rgba(75, 0, 130, 0.5),  /* Indigo */
+    0 0 28px rgba(148, 0, 211, 0.5); /* Violet */
+  }
+  
+  body.multineon .popup {
+    background-color: #010101;
+    color: #fff;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),   /* Rouge */
+    0 0 11px rgba(255, 127, 0, 0.5), /* Orange */
+    0 0 15px rgba(255, 255, 0, 0.5), /* Jaune */
+    0 0 18px rgba(0, 255, 0, 0.5),   /* Vert */
+    0 0 22px rgba(0, 0, 255, 0.5),   /* Bleu */
+    0 0 25px rgba(75, 0, 130, 0.5),  /* Indigo */
+    0 0 28px rgba(148, 0, 211, 0.5); /* Violet */
+  }
+  
+  body.multineon .icone-friends {
+    filter: invert(1);
+  }
+  
+  body.multineon .icone-cam {
+    filter: invert(1);
+  }
+  
+  body.multineon .icone-discu {
+    filter: invert(1);
+  }
+  
+  body.multineon .icone-album {
+    filter: invert(1);
+  }
+  
+  body.multineon .icone-setting {
+    filter: invert(1);
+  }
+  
+  body.multineon input[type="text"], body.multineon input[type="password"], body.multineon input[type="date"] {
+    background-color: #444;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.multineon input[type="text"]:focus, body.multineon input[type="password"]:focus, body.multineon input[type="date"]:focus {
+    border-color: #333;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(255, 0, 0, 0.5),   /* Rouge */
+    0 0 11px rgba(255, 127, 0, 0.5), /* Orange */
+    0 0 15px rgba(255, 255, 0, 0.5), /* Jaune */
+    0 0 18px rgba(0, 255, 0, 0.5),   /* Vert */
+    0 0 22px rgba(0, 0, 255, 0.5),   /* Bleu */
+    0 0 25px rgba(75, 0, 130, 0.5),  /* Indigo */
+    0 0 28px rgba(148, 0, 211, 0.5); /* Violet */
+  }
+  
+  
+  body.multineon select {
+    background-color: #010101;
+    color: #fff;
+    border-color: #333;
+  }
+  
+  body.multineon select:focus {
+    background-image:
+      linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+    background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #333;
+    outline: 0;
+  }
+
+  body.blueneon .grid-item {
+    background-color: #010101;
+    box-shadow: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+    color: #fff;
+  }
+
+  body.blueneon .toggle {
+    -webkit-tap-highlight-color: 0 0 1px #ffffff85,
+    0 0 2px #ffffff85,
+    0 0 5px #ffffff85,
+    0 0 8px rgba(0, 0, 255, 0.5),
+    0 0 11px rgba(0, 0, 255, 0.5),
+    0 0 15px rgba(0, 0, 255, 0.5),
+    0 0 18px rgba(0, 0, 255, 0.5),
+    0 0 22px rgba(0, 0, 255, 0.5);
+  }

@@ -224,6 +224,10 @@ body.dark .grid-item {
     line-height: 1.5;
   }
 
+  body.dark input{
+    color: #8b8b8b;
+  }
+
   .toggle, .toggle:before, .slot__label, .curtain {
     transition-property: background-color, transform, visibility;
     transition-duration: 0.25s;
@@ -315,3 +319,6 @@ body.dark .grid-item {
     transform-origin: 50% 100%;
   }
   
+body.dark .slot{
+  -webkit-text-stroke: 0.05em #8a8a8a;
+}

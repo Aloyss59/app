@@ -315,3 +315,6 @@ body.dark .grid-item {
     transform-origin: 50% 100%;
   }
   
+  body.dark .slot{
+    -webkit-text-stroke: 0.05em #8a8a8a;
+  }

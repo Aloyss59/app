@@ -6,6 +6,7 @@
     <title>E-Spirit album</title>
     <link rel="stylesheet" type="text/css" href="../static/css/albumquests.css">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
     <script>
         var current_user = { id: {{ current_user.id | tojson }} };
