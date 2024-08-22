@@ -203,7 +203,10 @@ def reset_daily_quests():
     with app.app_context():
         all_users = User.query.all()
         for user in all_users:
-            # Check if the user has less than 3 quests
+            # Supprimer toutes les quêtes actuelles de l'utilisateur
+            UserQuest.query.filter_by(user_id=user.id).delete()
+
+            # Vérifier si l'utilisateur a moins de 3 quêtes (après suppression)
             if len(user.user_quests) < 3:
                 available_quests = Quest.query.all()
                 assigned_quest_ids = [uq.quest_id for uq in user.user_quests]
@@ -211,7 +214,7 @@ def reset_daily_quests():
 
                 if available_quests:
                     for _ in range(3 - len(user.user_quests)):
-                        quest = random.choice(available_quests)
+                        quest = random_quests()
                         user_quest = UserQuest(user_id=user.id, quest_id=quest.id, status='accepted')
                         db.session.add(user_quest)
                         available_quests.remove(quest)
@@ -219,8 +222,7 @@ def reset_daily_quests():
         db.session.commit()
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(reset_daily_quests, 'cron', hour=0, minute=0)  # Exécuter tous les jours à minuit
-scheduler.start()
+scheduler.add_job(reset_daily_quests, 'cron', hour=14, minute=38)  # Exécuter tous les jours à minuit
 
 @app.route('/')
 @app.route('/home')
@@ -715,6 +717,6 @@ if __name__ == '__main__':
         db.create_all()  # Ensure all tables are created
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
     scheduler.start()
     info = get_system_info()
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
