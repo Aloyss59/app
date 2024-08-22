@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, abort
+import sqlite3
+from flask import Flask, render_template, request, jsonify, redirect, session, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import LoginForm, RegistrationForm
@@ -6,9 +7,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import joinedload
 from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
-from datetime import datetime
+from datetime import date, datetime, timezone
 from functools import wraps
-import os, uuid, base64, pytz, psutil, time
+from apscheduler.schedulers.background import BackgroundScheduler
+import os, uuid, base64, pytz, psutil, time, random
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
@@ -22,7 +24,7 @@ login_manager.login_view = 'login'
 socketio = SocketIO(app, cors_allowed_origins="*")
 online_users = {}
 
-class User(db.Model, UserMixin):  # Inherit from UserMixin
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
@@ -74,6 +76,32 @@ class Message(db.Model):
         tz = pytz.timezone('Europe/Paris')
         return self.created_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
 
+class Quest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    reward = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    rarity = db.Column(db.Float, nullable=True)
+
+class UserQuest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    quest_id = db.Column(db.Integer, db.ForeignKey('quest.id'), nullable=False)
+    status = db.Column(db.String(20), nullable=False, default='pending')  # pending, completed, failed, accepted, rejected
+    assigned_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    assigned_date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(timezone.utc).date())
+
+    user = db.relationship('User', backref='user_quests')
+    quest = db.relationship('Quest', backref='user_quests')
+
+    def __repr__(self):
+        return f'<UserQuest {self.id} {self.status}>'
+
+    def frmat_origine_created_at(self):
+        tz = pytz.timezone('Europe/Paris')
+        return self.assigned_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
+
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -92,7 +120,6 @@ def friend_profile_picture(username):
     avatar_image = generate_avatar(username)
     return base64.b64encode(avatar_image.getvalue()).decode('utf-8')
 
-# Recherche des amis de l'utilisateur connecté
 def find_friends():
     friendships = Friendship.query.filter(
         (Friendship.user_id == current_user.id) | 
@@ -116,6 +143,27 @@ def find_friends():
             })
     return friends_data
 
+def find_quests_user():
+    user_quests = UserQuest.query.filter(
+        (UserQuest.user_id == current_user.id)
+    ).all()
+    quests_data = []
+    for user_quest in user_quests:
+        quest = user_quest.quest
+        quests_data.append({
+            'id': quest.id,
+            'title': quest.title,
+            'description': quest.description,
+            'reward': quest.reward,
+            'completed': user_quest.status == 'completed',
+            'pending': user_quest.status == 'pending',
+            'failed': user_quest.status == 'failed',
+            'accepted': user_quest.status == 'accepted',
+            'rejected': user_quest.status == 'rejected',
+            'assigned_at': user_quest.assigned_at.strftime('%Y-%m-%d %H:%M:%S')
+        })
+    return quests_data
+
 def get_system_info():
     time.sleep(3)
     cpu_percent = psutil.cpu_percent(interval=1)
@@ -129,6 +177,56 @@ def get_system_info():
     }
     
     return info
+
+def random_quests():
+    # Récupération de toutes les quêtes
+    resultats = Quest.query.all()
+
+    elements = [resultat.title for resultat in resultats]
+    poids = [resultat.rarity if resultat.rarity is not None else 1 for resultat in resultats]  # Assurez-vous que les poids ne sont pas None
+
+    if not elements:
+        return None  # Retourner None ou une autre valeur si aucune quête n'est disponible
+
+    # Sélection d'un titre de quête basé sur les poids
+    valeur_choisie = random.choices(elements, weights=poids, k=1)[0]
+
+    # Récupération de l'objet Quest correspondant pour obtenir son ID
+    quest_obj = Quest.query.filter_by(title=valeur_choisie).first()
+
+    if quest_obj:
+        return quest_obj.id, quest_obj.title
+    else:
+        return None  # Retourne None si la quête choisie n'existe pas (cas improbable)
+
+def reset_quests(user):
+    UserQuest.query.filter_by(user_id=user.id).delete()
+    db.session.commit()
+
+def reset_daily_quests():
+    with app.app_context():
+        all_users = User.query.all()
+        for user in all_users:
+            # Supprimer toutes les quêtes actuelles de l'utilisateur
+            reset_quests(user)
+
+            # Vérifier si l'utilisateur a moins de 3 quêtes (après suppression)
+            if len(user.user_quests) < 3:
+                available_quests = Quest.query.all()
+                assigned_quest_ids = [uq.quest_id for uq in user.user_quests]
+                available_quests = [q for q in available_quests if q.id not in assigned_quest_ids]
+
+                if available_quests:
+                    for _ in range(3 - len(user.user_quests)):
+                        quest_id, quest_title = random_quests()  # Unpack the returned tuple
+                        user_quest = UserQuest(user_id=user.id, quest_id=quest_id, status='accepted')
+                        db.session.add(user_quest)
+                        available_quests = [q for q in available_quests if q.id != quest_id]  # Remove the quest by id
+
+        db.session.commit()
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(reset_daily_quests, 'cron', hour=15, minute=57)  # Exécuter tous les jours à minuit
 
 @app.route('/')
 @app.route('/home')
@@ -335,8 +433,7 @@ def recherche_amis():
     if request.method == 'POST':
         username = request.form.get('username')
         if username:
-            # Rechercher les utilisateurs par nom d'utilisateur
-            users = User.query.filter(User.username.ilike(f'%{username}%')).all()
+            users = User.query.filter(User.username.ilike(f'%{username}%')).all() # Rechercher les utilisateurs par nom d'utilisateur
 
     return render_template("searchfriends.html", avatar_data=avatar_data, users=users)
 
@@ -433,7 +530,7 @@ def handle_message(data):
     db.session.commit()
 
     # Convertir l'heure en UTC pour l'envoyer au client
-    created_at = new_message.created_at.isoformat()
+    created_at = new_message.created_at.replace(tzinfo=timezone.utc).astimezone(timezone).isoformat()
 
     # Envoyer le message à tous les clients
     emit('message', {
@@ -519,11 +616,68 @@ def album_quests():
     avatar_data = profile_picture()
     return render_template("albumquests.html", avatar_data=avatar_data)
 
+@app.route('/dash-quests', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def quests():
+    if request.method == 'POST':
+        quest_id = request.form.get('id')
+        action = request.form.get('action')
+
+        if not quest_id:
+            flash("L'ID de la quête est manquant.", "danger")
+            return redirect(url_for('quests'))
+
+        if not action:
+            flash("Aucune action spécifiée.", "danger")
+            return redirect(url_for('quests'))
+
+        try:
+            user_quest = UserQuest.query.filter_by(user_id=current_user.id, quest_id=quest_id).first()
+
+            if user_quest:
+                if action == 'accepted':
+                    user_quest.status = 'accepted'
+                elif action == 'rejected':
+                    user_quest.status = 'rejected'
+                    db.session.delete(user_quest)
+                else:
+                    flash("Action non reconnue.", "danger")
+                    return redirect(url_for('quests'))
+            else:
+                existing_quest = UserQuest.query.filter_by(user_id=current_user.id, quest_id=quest_id).first()
+
+                if existing_quest:
+                    flash("Cette quête a déjà été acceptée.", "warning")
+                    return redirect(url_for('quests'))
+
+                if action == 'accept':
+                    new_user_quest = UserQuest(user_id=current_user.id, quest_id=quest_id, status='pending')
+                    db.session.add(new_user_quest)
+                elif action == 'next':
+                    id_futur_quests, futur_quest = random_quests()
+                else:
+                    flash("Action non reconnue pour une nouvelle quête.", "danger")
+                    return redirect(url_for('quests'))
+
+            db.session.commit()
+            flash("Quête mise à jour avec succès.", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erreur lors de la mise à jour de la quête: {str(e)}", "danger")
+
+    avatar_data = profile_picture()
+    quests = find_quests_user()
+    id_futur_quests, futur_quest = random_quests()
+
+    return render_template("dash-quests.html", quests=quests, avatar_data=avatar_data, futur_quest=futur_quest, id_futur_quests=id_futur_quests)
+
 @app.route('/quests')
 @login_required
-def quests():
+def daily_quests():
     avatar_data = profile_picture()
-    return render_template("quests.html", avatar_data=avatar_data)
+    quests_data = find_quests_user()  # Récupère les quêtes de l'utilisateur connecté
+    return render_template("quests.html", avatar_data=avatar_data, quests=quests_data)
 
 @app.route('/recherche-amis')
 def rechercheamis():
@@ -567,5 +721,6 @@ if __name__ == '__main__':
         db.create_all()  # Ensure all tables are created
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    scheduler.start()
     info = get_system_info()
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)

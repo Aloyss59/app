@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Spirit Paramètre</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_E-esprit.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quests.css') }}">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profil.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/langue.js') }}"></script>
+</head>
+<body>
+    <header>
+        <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
+        <h2 class="username"> {{ current_user.username }} </h2>
+        <div class="Name-page">Paramètre</div>
+    </header>
+    
+    <main>
+        <div class="quest-container">
+            {% for quest in quests %}
+            <div class="quest-card">
+                <h2>{{ quest.title }}</h2>
+                <p>{{ quest.description }}</p>
+                <p><strong>Récompense : {{ quest.reward }} points</strong></p>
+                <p>Status :</p>
+                {% if quest.completed %}
+                    <p>Complété</p>
+                {% elif quest.pending %}
+                <form method="post" action="{{ url_for('quests') }}">
+                    <input type="hidden" name="id" value="{{ quest.id }}">
+                    <button type="submit" name="action" value="accepted" class="btn-complete">Accepter</button>
+                    <button type="submit" name="action" value="rejected" class="btn-complete">Rejeter</button>
+                </form>                
+                {% elif quest.failed %}
+                    <p>Échoué</p>
+                {% elif quest.accepted %}
+                    <p>En cours</p>
+                {% elif quest.rejected %}
+                    <p>Rejeté</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Correction ici -->
+        <div class="quest-container">
+            <!-- Exemple de code HTML pour afficher la quête aléatoire -->
+            <h3>Quête Aléatoire</h3>
+            <p>Nom: {{ futur_quest }}</p>
+            <form method="post" action="{{ url_for('quests') }}">
+                <input type="hidden" name="id" value="{{ id_futur_quests }}">
+                <button type="submit" name="action" value="accept" class="btn-complete">Accepter</button>
+                <button type="submit" name="action" value="next" class="btn-complete">Rejeter</button>
+            </form> 
+        </div>
+    </main>
+    <footer>
+        <button class="footer-button" onclick="pageamis()"><img src="{{ url_for('static', filename='img/amis.png') }}" alt="icone-friends" class="icone-friends"></button>
+        <button class="footer-button" onclick="pagecam()"><img src="{{ url_for('static', filename='img/camera.png') }}" alt="icone-cam" class="icone-cam"></button>
+        <button class="footer-button" onclick="pagechat()"><img src="{{ url_for('static', filename='img/icons8-bulle-50.png') }}" alt="icone-discu" class="icone-discu"></button>
+        <button class="footer-button" onclick="pagealbum()"><img src="{{ url_for('static', filename='img/album-photo.png') }}" alt="icone-album" class="icone-album"></button>
+        <button class="footer-button" onclick="pageparametre()"><img src="{{ url_for('static', filename='img/parametres.png') }}" alt="icone-setting" class="icone-setting"></button>
+    </footer>
+
+    <div id="account-info-popup" class="popup hidden">
+        <div class="popup-content">
+            <span id="close-popup" class="close">&times;</span>
+            <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="photo" class="profil">
+            <h2>Informations du Compte</h2>
+            <p id="username"></p>
+            <p id="userNom">Nom : ...</p>
+            <p id="userPrenom">Prénom : ...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script>
+</body>
+</html>
