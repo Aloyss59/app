@@ -199,12 +199,15 @@ def random_quests():
     else:
         return None  # Retourne None si la quête choisie n'existe pas (cas improbable)
 
+def reset_quests(user):
+    UserQuest.query.filter_by(user_id=user.id).delete()
+
 def reset_daily_quests():
     with app.app_context():
         all_users = User.query.all()
         for user in all_users:
             # Supprimer toutes les quêtes actuelles de l'utilisateur
-            UserQuest.query.filter_by(user_id=user.id).delete()
+            reset_quests(user)
 
             # Vérifier si l'utilisateur a moins de 3 quêtes (après suppression)
             if len(user.user_quests) < 3:
@@ -214,15 +217,15 @@ def reset_daily_quests():
 
                 if available_quests:
                     for _ in range(3 - len(user.user_quests)):
-                        quest = random_quests()
-                        user_quest = UserQuest(user_id=user.id, quest_id=quest.id, status='accepted')
+                        quest_id, quest_title = random_quests()  # Unpack the returned tuple
+                        user_quest = UserQuest(user_id=user.id, quest_id=quest_id, status='accepted')
                         db.session.add(user_quest)
-                        available_quests.remove(quest)
+                        available_quests = [q for q in available_quests if q.id != quest_id]  # Remove the quest by id
 
         db.session.commit()
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(reset_daily_quests, 'cron', hour=14, minute=38)  # Exécuter tous les jours à minuit
+scheduler.add_job(reset_daily_quests, 'cron', hour=15, minute=57)  # Exécuter tous les jours à minuit
 
 @app.route('/')
 @app.route('/home')
