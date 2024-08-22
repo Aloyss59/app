@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import joinedload
 from flask_socketio import SocketIO, emit
 from profilePicture import generate_avatar
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
 import os, uuid, base64, pytz, psutil, time, random
@@ -143,6 +143,14 @@ def find_friends():
             })
     return friends_data
 
+def find_profil_picture_other_user(user):
+    if user:
+        username = user.username  # Obtenez le nom d'utilisateur
+        avatar_buffer = generate_avatar(username)
+        avatar_base64 = base64.b64encode(avatar_buffer.getvalue()).decode('utf-8')
+        return {'avatar': avatar_base64}
+    return {'avatar': None}
+
 def find_quests_user():
     user_quests = UserQuest.query.filter(
         (UserQuest.user_id == current_user.id)
@@ -226,7 +234,7 @@ def reset_daily_quests():
         db.session.commit()
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(reset_daily_quests, 'cron', hour=15, minute=57)  # Exécuter tous les jours à minuit
+scheduler.add_job(reset_daily_quests, 'cron', hour=00, minute=00)  # Exécuter tous les jours à minuit
 
 @app.route('/')
 @app.route('/home')
@@ -309,6 +317,8 @@ def admin_dashboard():
     return render_template('admin/admin_dashboard.html', users=users)
 
 @app.route('/update/<int:id>', methods=['POST'])
+@login_required
+@admin_required
 def update(id):
     compte = User.query.get_or_404(id)
     compte.nom = request.form.get('nom')
@@ -317,6 +327,8 @@ def update(id):
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/data')
+@login_required
+@admin_required
 def data():
     info = get_system_info()
     return jsonify(info)
@@ -424,19 +436,6 @@ def logout():
 def appareil_photo():
     return render_template("photo.html")
 
-@app.route('/recherche-amis', methods=['GET', 'POST'])
-@login_required
-def recherche_amis():
-    avatar_data = profile_picture()
-    users = []
-
-    if request.method == 'POST':
-        username = request.form.get('username')
-        if username:
-            users = User.query.filter(User.username.ilike(f'%{username}%')).all() # Rechercher les utilisateurs par nom d'utilisateur
-
-    return render_template("searchfriends.html", avatar_data=avatar_data, users=users)
-
 @app.route('/send-friend-request/<int:user_id>', methods=['POST'])
 @login_required
 def send_friend_request(user_id):
@@ -460,14 +459,32 @@ def send_friend_request(user_id):
         db.session.commit()
         flash('Demande d\'ami envoyée avec succès !', 'success')
 
-    return redirect(url_for('recherche_amis'))
+    return redirect(url_for('amis'))
 
-@app.route('/amis')
+@app.route('/amis', methods=['GET', 'POST'])
 @login_required
 def amis():
     avatar_data = profile_picture()
     friends_data = find_friends()
-    return render_template('amis.html', friends=friends_data, avatar_data=avatar_data)
+    users = []
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        if username:
+            users = User.query.filter(User.username.ilike(f'%{username}%')).all()
+            for user in users:
+                user_picture = find_profil_picture_other_user(user)
+                user.avatar = user_picture['avatar']
+
+    received_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, status='pending').all()
+
+    return render_template(
+        'amis.html',
+        friends=friends_data,
+        avatar_data=avatar_data,
+        users=users,
+        received_requests=received_requests
+    )
 
 @app.route('/accept-friend-request/<int:request_id>', methods=['POST'])
 @login_required
@@ -484,7 +501,7 @@ def accept_friend_request(request_id):
         return redirect(url_for('amis'))
     else:
         flash('Demande d\'ami invalide.', 'danger')
-    return redirect(url_for('demandes_amis'))
+    return redirect(url_for('amis'))
 
 @app.route('/reject-friend-request/<int:request_id>', methods=['POST'])
 @login_required
@@ -499,15 +516,7 @@ def reject_friend_request(request_id):
     else:
         flash('Demande d\'ami invalide.', 'danger')
 
-    return redirect(url_for('demandes_amis'))
-
-@app.route('/demandes-amis')
-@login_required
-def demandes_amis():
-    avatar_data = profile_picture()
-    # Récupérer les demandes d'amis en attente reçues par l'utilisateur connecté
-    received_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, status='pending').all()
-    return render_template('demandes_amis.html', received_requests=received_requests, avatar_data=avatar_data)
+    return redirect(url_for('amis'))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -678,11 +687,6 @@ def daily_quests():
     avatar_data = profile_picture()
     quests_data = find_quests_user()  # Récupère les quêtes de l'utilisateur connecté
     return render_template("quests.html", avatar_data=avatar_data, quests=quests_data)
-
-@app.route('/recherche-amis')
-def rechercheamis():
-    avatar_data = profile_picture()
-    return render_template("searchfriends.html", avatar_data=avatar_data)
 
 @app.route('/api/usernames')
 @login_required
