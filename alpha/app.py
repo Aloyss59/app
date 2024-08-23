@@ -1,7 +1,9 @@
+import logging
 import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect, session, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_migrate import Migrate
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import joinedload
@@ -19,6 +21,7 @@ with open('config_secrets.txt', 'r') as f:
 app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -236,7 +239,7 @@ def reset_daily_quests():
     db.session.commit()
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(reset_daily_quests, 'cron', hour=1, minute=5)  # Exécuter tous les jours à minuit
+scheduler.add_job(reset_daily_quests, 'cron', hour=00, minute=00)  # Exécuter tous les jours à minuit
 
 @app.route('/')
 @app.route('/home')
@@ -603,11 +606,48 @@ def parametre():
     avatar_data = profile_picture()
     return render_template("parametres.html", avatar_data=avatar_data)
 
-@app.route('/parametre')
+@app.route('/parametre', methods=['GET'])
 @login_required
 def reglage():
     avatar_data = profile_picture()
     return render_template("parametres.html", avatar_data=avatar_data)
+
+@app.route('/parametre/update-email', methods=['POST'])
+@login_required
+def update_email():
+    data = request.get_json()
+    
+    old_email = data.get('old_email')
+    new_email = data.get('new_email')
+    password = data.get('password')
+    user = current_user
+    
+    try:
+        # Vérifiez si l'ancienne adresse email correspond
+        if old_email != user.email:
+            print(f"Erreur: Ancienne adresse email fournie ({old_email}) ne correspond pas à celle de l'utilisateur ({user.email})")
+            return jsonify({'error': 'L\'ancienne adresse email ne correspond pas.'}), 400
+        
+        # Vérifiez le mot de passe
+        if not check_password_hash(user.password, password):
+            print("Erreur: Mot de passe fourni est incorrect.")
+            return jsonify({'error': 'Mot de passe incorrect.'}), 400
+        
+        # Vérifiez si le nouvel email est déjà utilisé
+        if User.query.filter_by(email=new_email).first():
+            print(f"Erreur: Nouvelle adresse email ({new_email}) est déjà utilisée.")
+            return jsonify({'error': 'Cette adresse email est déjà utilisée.'}), 400
+
+        # Met à jour l'email et valide les modifications
+        user.email = new_email
+        db.session.commit()
+        
+        return jsonify({'success': 'Adresse email mise à jour avec succès!'}), 200
+    
+    except Exception as e:
+        db.session.rollback()  # Annule les changements en cas d'erreur
+        print(f"Erreur lors de la mise à jour de l'email : {e}")
+        return jsonify({'error': 'Une erreur est survenue lors de la mise à jour de l\'email.'}), 500
 
 @app.route('/album-photo')
 @login_required

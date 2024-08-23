@@ -162,25 +162,63 @@
     <!-- pop up changer email -->
     <div id="change-email-popup" class="popup hidden">
         <div class="popup-content">
-        <span id="close-change-email-popup" class="close">&times;</span>
-        <h2>Changer de mot de passe</h2>
-            <form>
+            <span id="close-change-email-popup" class="close">&times;</span>
+            <h2>Changer d'adresse mail</h2>
+            <form id="change-email-form">
                 <label for="old-email">Ancienne adresse mail :</label>
-                <input type="email" id="old-email" required>
+                <input type="email" id="old-email" name="old_email" required>
                 <br>
                 <label for="new-email">Nouvelle adresse mail :</label>
-                <input type="email" id="new-email" required>
+                <input type="email" id="new-email" name="new_email" required>
                 <br>
-                <button id="change-email-button">Changer d'adresse mail</button>
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button id="change-email-button" type="submit">Changer d'adresse mail</button>
             </form>
         </div>
-    </div>  
+    </div>
+
+    <script>
+        document.getElementById('change-email-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const oldEmail = document.getElementById('old-email').value;
+            const newEmail = document.getElementById('new-email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/parametre/update-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    old_email: oldEmail,
+                    new_email: newEmail,
+                    password: password,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else if (data.success) {
+                    alert(data.success);
+                    location.reload();  // Recharger la page après la mise à jour
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
+    </script>
+
 
     <!-- pop up changer num -->
     <div id="change-phone-popup" class="popup hidden">
         <div class="popup-content">
         <span id="close-change-phone-popup" class="close">&times;</span>
-        <h2>Changer de mot de passe</h2>
+        <h2>Changer de numéraux de téléphone</h2>
             <form>
                 <label for="old-phone">Ancien numéraux de téléphone :</label>
                 <input type="text" id="old-phone" required>
