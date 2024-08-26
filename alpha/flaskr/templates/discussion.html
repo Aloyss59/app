@@ -19,7 +19,7 @@
         </div>
     </header>
 
-    <ul id="messages" class="p-3 centered-blocks">
+    <ul id="messages" class="p-3">
         {% for message in messages %}
             {% if message.sender_id == current_user.id %}
                 <div class="block response">
@@ -36,6 +36,8 @@
             {% endif %}
         {% endfor %}
     </ul>
+    
+    
     
     <div class="chat-input-container">
         <input class="chat-input" type="text" placeholder="Tapez votre message...">

@@ -201,24 +201,27 @@
     {% block content %}
     <div>
         {% for friend in friends %}
-            <ul class="conversation">
-                <div class="chat">
-                    <img src="data:image/png;base64,{{ friend.avatar }}" alt="pp" class="profilespictures">
-                    <div class="chat-info">
-                        <a href="{{ url_for('chat_with_user', user_id=friend.friend_id) }}"><span class="chat-name">{{ friend.username }}</span></a>
-                        <div class="no-wrap">
-                            <span class="chat-temps">temps</span>   
-                            <span class="chat-message">/ Cet endroit corespo...</span>
+            <a href="{{ url_for('chat_with_user', user_id=friend.friend_id) }}" class="url">
+                <ul class="conversation">
+                    <div class="chat">
+                        <img src="data:image/png;base64,{{ friend.avatar }}" alt="pp" class="profilespictures">
+                        <div class="chat-info">
+                            <span class="chat-name">{{ friend.username }}</span>
+                            <div class="no-wrap">
+                                <span class="chat-temps">temps</span>   
+                                <span class="chat-message">/ Cet endroit corespo...</span>
+                            </div>
+                        </div>
+                        <div class="reglage-button" onclick="handleReglageClick()">
+                            <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
                         </div>
                     </div>
-                    <div class="reglage-button" onclick="handleReglageClick()">
-                        <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
-                    </div>
-                </div>
-            </ul>
+                </ul>
+            </a>
         {% endfor %}
     </div>
-    {% endblock %}
+{% endblock %}
+
 
 
     <footer>

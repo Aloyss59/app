@@ -248,85 +248,44 @@ body.dark .chat-message{
 .username {
     display: block;
 }
-.chat-message-container {
-    text-align: left;
-    margin: 10px 0;
-  }
-
-.chat-message-container-you {
-    text-align: right;
-    margin: 10px 0;
-}
-
-.chat-message {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #f7f7f7;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 
-.chat-message.you .username {
-    color: #337ab7; /* bleu pour votre nom d'utilisateur */
-}
-
-.chat-message:not(.you) .username {
-    color: #262424; /* gris pour le nom des autres utilisateurs */
-}
-
-.chat-message-container small {
-    color: #999; /* couleur pour l'heure */
-}
-
+/* Style de base pour la liste des messages */
 #messages {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* align items to the center */
-    justify-content: center; /* align items to the center vertically */
-    max-width: 100%; /* take full width without creating a horizontal scrollbar */
+    flex-direction: column; /* Empiler verticalement les messages */
+    max-width: 100%; /* S'assurer que la liste prenne toute la largeur disponible */
+    padding: 10px;
+    list-style-type: none; /* Supprimer les puces des éléments de liste */
+    margin: 0;
+    padding: 0;
 }
-.chat-message-container:not(.chat-message-container-you) {
-    justify-content: flex-start;
-  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-  .centered-blocks {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    justify-content: flex-start; /* nouvelle propriété */
-}
-  
-  .block {
+/* Style pour chaque bloc de message */
+.block {
     padding: 10px;
     border-radius: 20px;
-    max-width: 40%; /* largeur maximale du block */
-    display: inline-block; /* pour que le block prenne la largeur du texte */
-  }
-  
-  .block.message {
+    max-width: 40%; /* Limiter la largeur maximale d'un bloc de message */
+    margin: 10px; /* Espacement autour des messages */
+    word-wrap: break-word; /* Permettre au texte de passer à la ligne */
+}
+
+/* Style pour les messages des autres utilisateurs (à gauche) */
+.block.message {
     background-color: #aaaaaab4;
-    margin-right: 750px; /* pour aligner à gauche */
-  }
-  
-  .block.response {
+    margin-left: 0; /* Coller à gauche */
+    align-self: flex-start; /* Aligner à gauche dans le conteneur flex */
+}
+
+/* Style pour vos propres messages (à droite) */
+.block.response {
     background-color: blue;
-    margin-left: auto; /* pour aligner à droite */
-  }
+    color: white; /* Rendre le texte lisible sur un fond bleu */
+    margin-right: 0; /* Coller à droite */
+    align-self: flex-end; /* Aligner à droite dans le conteneur flex */
+}
+
+
   
   .block span {
     font-size: 14px;

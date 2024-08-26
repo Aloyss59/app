@@ -28,3 +28,8 @@ function trierAmis() {
   
   // Exécuter la fonction trierAmis() une fois que le contenu de la page est chargé
   document.addEventListener('DOMContentLoaded', trierAmis);
+
+  
+  function ajamis() {
+    window.location.href = "/recherche-amis";
+}

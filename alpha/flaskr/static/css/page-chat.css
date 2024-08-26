@@ -170,6 +170,12 @@ footer {
 	text-align: left;
 }
   
+.url{
+  color: inherit; /* Utilise la couleur du texte environnant */
+  text-decoration: none; /* Enlève le soulignement */
+}
+
+
 .chat-message {
 	font-size: 16px;
 	color: #666;
