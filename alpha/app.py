@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, session, u
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
+from flask_mail import Mail, Message
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import joinedload
@@ -16,7 +17,7 @@ app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./fla
 app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
 # with open('config_secrets.txt', 'r') as f:
 #     secret_key = f.read().strip()
-
+mail = Mail(app) # Configuration de l'envoi de mail
 app.config['SECRET_KEY'] = "b'hu\x8c\x98\xac\xde\xf7%\x03\xf8\xc0|sv$5\xbd-\xb0\xce\x82<1\xf9'"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
@@ -261,7 +262,6 @@ def verify_email():
         return redirect(url_for('index'))
     else:
         return 'Code de vérification incorrect'
-
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
@@ -684,6 +684,10 @@ def update_email():
             if User.query.filter_by(email=new_email).first():
                 flash("Cette adresse email est déjà utilisée.", 'error')
                 return redirect(url_for('reglage'))
+
+            # Générer un code de vérification
+            verification_code = ''.join(random.choices(string.digits, k=6))
+            user.verification_code = verification_code
 
             # Met à jour l'email et valide les modifications
             user.email = new_email
