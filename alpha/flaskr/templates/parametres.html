@@ -24,6 +24,27 @@
         <div class="Name-page">Paramètre</div>
     </header>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessage = document.querySelector('.flash-message');
+            if (flashMessage) {
+                alert(flashMessage.textContent);
+            }
+        });
+    </script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+        {% for category, message in messages %}
+            <div class="flash-message {{ category }}">
+            {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
     <main>
         <h3 id="applicationparametre" data-translate="applicationParametre">Application</h3>
         <div class="settings-list">
@@ -145,88 +166,59 @@
     <!-- pop up changer mdp -->
     <div id="change-password-popup" class="popup hidden">
         <div class="popup-content">
-        <span id="close-change-password-popup" class="close">&times;</span>
-        <h2>Changer de mot de passe</h2>
-            <form>
+            <span id="close-change-password-popup" class="close">&times;</span>
+            <h2>Changer de mot de passe</h2>
+            <form id="change-password-form" method="post" action="/parametre/update-param">
                 <label for="old-password">Ancien mot de passe :</label>
-                <input type="password" id="old-password" required>
+                <input type="password" id="old-password" name="old-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
                 <br>
                 <label for="new-password">Nouveau mot de passe :</label>
-                <input type="password" id="new-password" required>
+                <input type="password" id="new-password" name="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
                 <br>
-                <button id="change-password-button">Changer de mot de passe</button>
+                <label for="new-password-confirm">Confirmations du nouveau mot de passe :</label>
+                <input type="password" id="new-password-confirm" name="new-password-confirm" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+                <br>
+                <button id="change-password-button" name="update-mdp" type="submit">Changer de mot de passe</button>
             </form>
         </div>
-    </div>       
+    </div>
 
     <!-- pop up changer email -->
     <div id="change-email-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-change-email-popup" class="close">&times;</span>
             <h2>Changer d'adresse mail</h2>
-            <form id="change-email-form">
+            <form id="change-email-form" method="post" action="/parametre/update-param">
                 <label for="old-email">Ancienne adresse mail :</label>
-                <input type="email" id="old-email" name="old_email" required>
+                <input type="email" id="old-email" name="old_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                 <br>
                 <label for="new-email">Nouvelle adresse mail :</label>
-                <input type="email" id="new-email" name="new_email" required>
+                <input type="email" id="new-email" name="new_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                 <br>
                 <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
                 <br>
-                <button id="change-email-button" type="submit">Changer d'adresse mail</button>
+                <button id="change-email-button" name="update-email" type="submit">Changer d'adresse mail</button>
             </form>
         </div>
     </div>
 
-    <script>
-        document.getElementById('change-email-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const oldEmail = document.getElementById('old-email').value;
-            const newEmail = document.getElementById('new-email').value;
-            const password = document.getElementById('password').value;
-
-            fetch('/parametre/update-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    old_email: oldEmail,
-                    new_email: newEmail,
-                    password: password,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else if (data.success) {
-                    alert(data.success);
-                    location.reload();  // Recharger la page après la mise à jour
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-            });
-        });
-    </script>
-
-
     <!-- pop up changer num -->
     <div id="change-phone-popup" class="popup hidden">
         <div class="popup-content">
-        <span id="close-change-phone-popup" class="close">&times;</span>
-        <h2>Changer de numéraux de téléphone</h2>
-            <form>
+            <span id="close-change-phone-popup" class="close">&times;</span>
+            <h2>Changer de numéraux de téléphone</h2>
+            <form id="change-phone-form" method="post" action="/parametre/update-param">
                 <label for="old-phone">Ancien numéraux de téléphone :</label>
-                <input type="text" id="old-phone" required>
+                <input type="tel" id="old-phone" name="old-phone" placeholder="+<location> <number>" pattern="^\+?[1-9]\d{1,14}$" required>
                 <br>
                 <label for="new-phone">Nouveau numéraux de téléphone :</label>
-                <input type="text" id="new-phone" required>
+                <input type="tel" id="new-phone" name="new-phone" placeholder="+<location> <number>" pattern="^\+?[1-9]\d{1,14}$" required>
                 <br>
-                <button id="change-phone-button">Changer de numéraux de téléphone</button>
+                <label for="password-phone">Mot de passe :</label>
+                <input type="password" id="password-phone" name="password-phone" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+                <br>
+                <button id="change-phone-button" name="update-phone" type="submit">Changer de numéraux de téléphone</button>
             </form>
         </div>
     </div>  

@@ -72,4 +72,29 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('fr', 'en', 'es', 'de');
         document.body.classList.add(selectedLangue);
     });
+
+    // Gestion des pop-ups
+
+    function handlePopup(buttonId, popupId, closeId) {
+        const button = document.getElementById(buttonId);
+        const popup = document.getElementById(popupId);
+        const closeButton = document.getElementById(closeId);
+
+        if (!button || !popup || !closeButton) return;
+
+        button.addEventListener('click', function() {
+            popup.classList.remove('hidden');
+            popup.classList.add('visible');
+        });
+
+        closeButton.addEventListener('click', function() {
+            popup.classList.remove('visible');
+            popup.classList.add('hidden');
+        });
+    }
+
+    handlePopup('change-password-button', 'change-password-popup', 'close-change-password-popup');
+    handlePopup('change-email-button', 'change-email-popup', 'close-change-email-popup');
+    handlePopup('change-phone-button', 'change-phone-popup', 'close-change-phone-popup');
+
 });
