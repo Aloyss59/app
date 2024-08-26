@@ -163,65 +163,102 @@
         </div>
     </div>   
 
-    <!-- pop up changer mdp -->
-    <div id="change-password-popup" class="popup hidden">
-        <div class="popup-content">
-            <span id="close-change-password-popup" class="close">&times;</span>
-            <h2>Changer de mot de passe</h2>
-            <form id="change-password-form" method="post" action="/parametre/update-param">
-                <label for="old-password">Ancien mot de passe :</label>
-                <input type="password" id="old-password" name="old-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+<!-- Popup pour changer le mot de passe -->
+<div id="change-password-popup" class="popup hidden">
+    <div class="popup-content">
+        <span id="close-change-password-popup" class="close">&times;</span>
+        <h2>Changer de mot de passe</h2>
+        <form id="change-password-form" method="post" action="/parametre/update-password">
+            <label for="old-password">Ancien mot de passe :</label>
+            <input type="password" id="old-password" name="old-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+            <br>
+            <label for="new-password">Nouveau mot de passe :</label>
+            <input type="password" id="new-password" name="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+            <br>
+            <label for="new-password-confirm">Confirmation du nouveau mot de passe :</label>
+            <input type="password" id="new-password-confirm" name="new-password-confirm" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+            <br>
+            <!-- Champ OTP masqué par défaut -->
+            <div id="opt-password-field" style="display: block;">
+                <label for="opt-password">Code de double authentification :</label>
+                <input type="text" name="opt-password" id="opt-password" maxlength="6">
                 <br>
-                <label for="new-password">Nouveau mot de passe :</label>
-                <input type="password" id="new-password" name="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
-                <br>
-                <label for="new-password-confirm">Confirmations du nouveau mot de passe :</label>
-                <input type="password" id="new-password-confirm" name="new-password-confirm" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
-                <br>
-                <button id="change-password-button" name="update-mdp" type="submit">Changer de mot de passe</button>
-            </form>
-        </div>
+            </div>
+            <button id="change-password-button" name="update-mdp" type="submit">Changer de mot de passe</button>
+        </form>
     </div>
+</div>
 
-    <!-- pop up changer email -->
-    <div id="change-email-popup" class="popup hidden">
-        <div class="popup-content">
-            <span id="close-change-email-popup" class="close">&times;</span>
-            <h2>Changer d'adresse mail</h2>
-            <form id="change-email-form" method="post" action="/parametre/update-param">
-                <label for="old-email">Ancienne adresse mail :</label>
-                <input type="email" id="old-email" name="old_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+<!-- Popup pour changer l'adresse mail -->
+<div id="change-email-popup" class="popup hidden">
+    <div class="popup-content">
+        <span id="close-change-email-popup" class="close">&times;</span>
+        <h2>Changer d'adresse mail</h2>
+        <form id="change-email-form" method="post" action="/parametre/update-email">
+            <label for="old-email">Ancienne adresse mail :</label>
+            <input type="email" id="old-email" name="old_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z0-9]{2,}$" required>
+            <br>
+            <label for="new-email">Nouvelle adresse mail :</label>
+            <input type="email" id="new-email" name="new_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z0-9]{2,}$" required>
+            <br>
+            <label for="password-email">Mot de passe :</label>
+            <input type="password" id="password-email" name="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+            <br>
+            <!-- Champ OTP masqué par défaut -->
+            <div id="opt-email-field" style="display: block;">
+                <label for="opt-email">Code de double authentification :</label>
+                <input type="text" name="opt-email" id="opt-email" maxlength="6">
                 <br>
-                <label for="new-email">Nouvelle adresse mail :</label>
-                <input type="email" id="new-email" name="new_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
-                <br>
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
-                <br>
-                <button id="change-email-button" name="update-email" type="submit">Changer d'adresse mail</button>
-            </form>
-        </div>
+            </div>
+            <button id="change-email-button" name="update-email" type="submit">Changer d'adresse mail</button>
+        </form>
     </div>
+</div>
 
-    <!-- pop up changer num -->
-    <div id="change-phone-popup" class="popup hidden">
-        <div class="popup-content">
-            <span id="close-change-phone-popup" class="close">&times;</span>
-            <h2>Changer de numéraux de téléphone</h2>
-            <form id="change-phone-form" method="post" action="/parametre/update-param">
-                <label for="old-phone">Ancien numéraux de téléphone :</label>
-                <input type="tel" id="old-phone" name="old-phone" placeholder="+<location> <number>" pattern="^\+?[1-9]\d{1,14}$" required>
+<!-- Popup pour changer le numéro de téléphone -->
+<div id="change-phone-popup" class="popup hidden">
+    <div class="popup-content">
+        <span id="close-change-phone-popup" class="close">&times;</span>
+        <h2>Changer de numéro de téléphone</h2>
+        <form id="change-phone-form" method="post" action="/parametre/update-phone">
+            <label for="old-phone">Ancien numéro de téléphone :</label>
+            <input type="tel" id="old-phone" name="old-phone" placeholder="+<location> <number>" pattern="^\+?[1-9]\d{1,14}$" required>
+            <br>
+            <label for="new-phone">Nouveau numéro de téléphone :</label>
+            <input type="tel" id="new-phone" name="new-phone" placeholder="+<location> <number>" pattern="^\+?[1-9]\d{1,14}$" required>
+            <br>
+            <label for="password-phone">Mot de passe :</label>
+            <input type="password" id="password-phone" name="password-phone" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
+            <br>
+            <!-- Champ OTP masqué par défaut -->
+            <div id="opt-phone-field" style="display: block;">
+                <label for="opt-phone">Code de double authentification :</label>
+                <input type="text" name="opt-phone" id="opt-phone" maxlength="6">
                 <br>
-                <label for="new-phone">Nouveau numéraux de téléphone :</label>
-                <input type="tel" id="new-phone" name="new-phone" placeholder="+<location> <number>" pattern="^\+?[1-9]\d{1,14}$" required>
-                <br>
-                <label for="password-phone">Mot de passe :</label>
-                <input type="password" id="password-phone" name="password-phone" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}" required>
-                <br>
-                <button id="change-phone-button" name="update-phone" type="submit">Changer de numéraux de téléphone</button>
-            </form>
-        </div>
-    </div>  
+            </div>
+            <button id="change-phone-button" name="update-phone" type="submit">Changer de numéro de téléphone</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function handleButtonClick(event) {
+        const buttonId = this.id;
+        const popupId = buttonId.replace('button', 'popup');
+        const optFieldId = `opt-${popupId.split('-').pop()}-field`;
+
+        if (document.getElementById(optFieldId).style.display === 'none') {
+            event.preventDefault();
+            document.getElementById(optFieldId).style.display = 'block';
+            this.type = 'submit'; // 'this' fait référence au bouton cliqué
+        }
+    }
+
+    document.getElementById('change-password-button').addEventListener('click', handleButtonClick);
+    document.getElementById('change-email-button').addEventListener('click', handleButtonClick);
+    document.getElementById('change-phone-button').addEventListener('click', handleButtonClick);
+</script>
+
 
     <script>
         const translations = {

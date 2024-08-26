@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vérification OTP</title>
+</head>
+<body>
+    <h1>Vérification du code OTP</h1>
+    <p>Un code de vérification a été envoyé à votre adresse email.</p>
+    <form method="POST" action="{{ url_for('verify_otp') }}">
+        <label for="otp">Entrez le code OTP :</label>
+        <input type="text" name="otp" id="otp" required><br><br>
+        <button type="submit">Vérifier</button>
+    </form>
+</body>
+</html>
