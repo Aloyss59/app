@@ -97,26 +97,4 @@ document.addEventListener('DOMContentLoaded', () => {
     handlePopup('change-email-button', 'change-email-popup', 'close-change-email-popup');
     handlePopup('change-phone-button', 'change-phone-popup', 'close-change-phone-popup');
 
-    // Gestion des soumissions de formulaires
-
-    document.getElementById('change-password-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const oldPassword = document.getElementById('old-password').value;
-        const newPassword = document.getElementById('new-password').value;
-        // Code pour envoyer la requête de changement de mot de passe ici
-    });
-
-    document.getElementById('change-email-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const oldEmail = document.getElementById('old-email').value;
-        const newEmail = document.getElementById('new-email').value;
-        // Code pour envoyer la requête de changement d'email ici
-    });
-
-    document.getElementById('change-phone-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const oldPhone = document.getElementById('old-phone').value;
-        const newPhone = document.getElementById('new-phone').value;
-        // Code pour envoyer la requête de changement de numéro de téléphone ici
-    });
 });

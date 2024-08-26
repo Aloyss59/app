@@ -378,13 +378,13 @@ body.dark .icone-setting {
   filter: invert(1);
 }
 
-body.dark input[type="text"], body.dark input[type="password"], body.dark input[type="date"], body.dark input[type="email"] {
+body.dark input[type="text"], body.dark input[type="password"], body.dark input[type="date"], body.dark input[type="email"], body.dark input[type="tel"] {
   background-color: #444;
   color: #fff;
   border-color: #333;
 }
 
-body.dark input[type="text"]:focus, body.dark input[type="password"]:focus, body.dark input[type="date"]:focus {
+body.dark input[type="text"]:focus, body.dark input[type="password"]:focus, body.dark input[type="date"]:focus input[type="tel"]:focus {
   border-color: #333;
   box-shadow: 0 0 10px #444;
 }
@@ -472,4 +472,24 @@ body.dark .change--button {
   border-color: #333;
   padding: 10px;
   border-radius: 5px;
+}
+
+.flash-messages {
+  margin: 20px;
+}
+
+.flash-message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.flash-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }

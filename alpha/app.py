@@ -1,5 +1,3 @@
-import logging
-import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect, session, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -12,19 +10,28 @@ from profilePicture import generate_avatar
 from datetime import datetime, timezone
 from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
-import os, uuid, base64, pytz, psutil, time, random
+import os, uuid, base64, pytz, psutil, time, random, ssl, string
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
-with open('config_secrets.txt', 'r') as f:
-    secret_key = f.read().strip()
-app.config['SECRET_KEY'] = secret_key
+# with open('config_secrets.txt', 'r') as f:
+#     secret_key = f.read().strip()
+
+app.config['SECRET_KEY'] = "b'hu\x8c\x98\xac\xde\xf7%\x03\xf8\xc0|sv$5\xbd-\xb0\xce\x82<1\xf9'"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 socketio = SocketIO(app, cors_allowed_origins="*")
+# Charger le certificat SSL/TLS
+# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+# context.load_cert_chain('cert.pem', 'key.pem')
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'society.realese@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Scocity.realese#20@04--08'
 online_users = {}
 
 class User(db.Model, UserMixin):
@@ -240,6 +247,20 @@ def reset_daily_quests():
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(reset_daily_quests, 'cron', hour=00, minute=00)  # Exécuter tous les jours à minuit
+
+@app.route('/verify_email', methods=['POST'])
+@login_required
+def verify_email():
+    email = request.form['email']
+    verification_code = request.form['verification_code']
+    user = User.query.filter_by(email=email).first()
+    if user and user.verification_code == verification_code:
+        # Autoriser la modification
+        user.email = request.form['new_email']
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        return 'Code de vérification incorrect'
 
 @app.route('/')
 @app.route('/home')
@@ -600,11 +621,11 @@ def send_message(user_id):
     flash('Le message ne peut pas être vide.', 'danger')
     return redirect(url_for('chat_with_user', user_id=user_id))
 
-@app.route('/discussion/parametre')
-@login_required
-def parametre():
-    avatar_data = profile_picture()
-    return render_template("parametres.html", avatar_data=avatar_data)
+# @app.route('/discussion/parametre')
+# @login_required
+# def parametre():
+#     avatar_data = profile_picture()
+#     return render_template("parametres.html", avatar_data=avatar_data)
 
 @app.route('/parametre', methods=['GET'])
 @login_required
@@ -612,42 +633,88 @@ def reglage():
     avatar_data = profile_picture()
     return render_template("parametres.html", avatar_data=avatar_data)
 
-@app.route('/parametre/update-email', methods=['POST'])
+@app.route('/parametre/update-param', methods=['POST'])
 @login_required
 def update_email():
-    data = request.get_json()
-    
-    old_email = data.get('old_email')
-    new_email = data.get('new_email')
-    password = data.get('password')
-    user = current_user
-    
-    try:
-        # Vérifiez si l'ancienne adresse email correspond
-        if old_email != user.email:
-            print(f"Erreur: Ancienne adresse email fournie ({old_email}) ne correspond pas à celle de l'utilisateur ({user.email})")
-            return jsonify({'error': 'L\'ancienne adresse email ne correspond pas.'}), 400
-        
-        # Vérifiez le mot de passe
-        if not check_password_hash(user.password, password):
-            print("Erreur: Mot de passe fourni est incorrect.")
-            return jsonify({'error': 'Mot de passe incorrect.'}), 400
-        
-        # Vérifiez si le nouvel email est déjà utilisé
-        if User.query.filter_by(email=new_email).first():
-            print(f"Erreur: Nouvelle adresse email ({new_email}) est déjà utilisée.")
-            return jsonify({'error': 'Cette adresse email est déjà utilisée.'}), 400
+    if request.method == 'POST':
+        if 'update-mdp' in request.form:
+            user = User.query.get(current_user.id)
+            old_password = request.form['old-password']
+            new_password = request.form['new-password']
+            new_password_confirm = request.form['new-password-confirm']
 
-        # Met à jour l'email et valide les modifications
-        user.email = new_email
-        db.session.commit()
+            # Vérifiez le mot de passe
+            if not check_password_hash(user.password, old_password):
+                flash("Mot de passe incorrect.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Vérifiez si les mots de passe sont identiques
+            if new_password != new_password_confirm:
+                flash("Les mots de passe ne sont pas identiques.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Vérifiez si le nouveau mot de passe est suffisamment fort
+            if len(new_password) < 3:
+                flash("Le mot de passe doit contenir au moins 8 caractères.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Met à jour le mot de passe et valide les modifications
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            flash("Mot de passe mis à jour avec succès!", 'success')
+            return redirect(url_for('reglage'))
         
-        return jsonify({'success': 'Adresse email mise à jour avec succès!'}), 200
-    
-    except Exception as e:
-        db.session.rollback()  # Annule les changements en cas d'erreur
-        print(f"Erreur lors de la mise à jour de l'email : {e}")
-        return jsonify({'error': 'Une erreur est survenue lors de la mise à jour de l\'email.'}), 500
+        elif 'update-email' in request.form:
+            user = User.query.get(current_user.id)
+            old_email = request.form['old_email']
+            new_email = request.form['new_email']
+            password = request.form['password']
+
+            # Vérifiez si l'ancienne adresse email correspond
+            if old_email != user.email:
+                flash("L'ancienne adresse email ne correspond pas.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Vérifiez le mot de passe
+            if not check_password_hash(user.password, password):
+                flash("Mot de passe incorrect.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Vérifiez si le nouvel email est déjà utilisé
+            if User.query.filter_by(email=new_email).first():
+                flash("Cette adresse email est déjà utilisée.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Met à jour l'email et valide les modifications
+            user.email = new_email
+            db.session.commit()
+            flash("Adresse email mise à jour avec succès!", 'success')
+            return redirect(url_for('reglage'))
+        
+        elif 'update-phone' in request.form:
+            user = User.query.get(current_user.id)
+            old_phone = request.form['old-phone']
+            new_phone = request.form['new-phone']
+            password = request.form['password-phone']
+
+            # Verrifier si l'ancien numéraux de téléphone correspond
+            if old_phone != user.phone:
+                flash("L'ancien numéro de téléphone ne correspond pas.", 'error')
+                return redirect(url_for('reglage'))
+
+            # Vérifiez le mot de passe
+            if not check_password_hash(user.password, password):
+                flash("Mot de passe incorrect.", 'error')
+                return redirect(url_for('reglage'))    
+
+            user.phone = new_phone
+            db.session.commit()
+            flash("Numéro de portable mis à jour avec succès!", 'success')
+            return redirect(url_for('reglage'))         
+        
+    else:
+        flash("Mauvaise requête.", 'error')
+        return redirect(url_for('reglage')) 
 
 @app.route('/album-photo')
 @login_required
