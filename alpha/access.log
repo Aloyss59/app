@@ -1,0 +1,66 @@
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 375-723-613
+INFO:werkzeug: * Detected change in 'C:\\Users\\delet\\Desktop\\dev\\Python\\co-op\\app\\alpha\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 375-723-613
+ERROR:apscheduler.executors.default:Job "reset_daily_quests (trigger: cron[hour='16', minute='11'], next run at: 2024-08-27 16:11:00 CEST)" raised an exception
+Traceback (most recent call last):
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\delet\Desktop\dev\Python\co-op\app\alpha\app.py", line 264, in reset_daily_quests
+    db.session.commit()
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\scoping.py", line 197, in _proxied
+    return self.registry()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\util\_collections.py", line 632, in __call__
+    key = self.scopefunc()
+          ^^^^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask_sqlalchemy\session.py", line 111, in _app_ctx_id
+    return id(app_ctx._get_current_object())  # type: ignore[attr-defined]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\local.py", line 519, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+ERROR:apscheduler.executors.default:Job "reset_daily_quests (trigger: cron[hour='16', minute='11'], next run at: 2024-08-27 16:11:00 CEST)" raised an exception
+Traceback (most recent call last):
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\apscheduler\executors\base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\delet\Desktop\dev\Python\co-op\app\alpha\app.py", line 264, in reset_daily_quests
+    db.session.commit()
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\orm\scoping.py", line 197, in _proxied
+    return self.registry()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\sqlalchemy\util\_collections.py", line 632, in __call__
+    key = self.scopefunc()
+          ^^^^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask_sqlalchemy\session.py", line 111, in _app_ctx_id
+    return id(app_ctx._get_current_object())  # type: ignore[attr-defined]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\delet\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\local.py", line 519, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+INFO:werkzeug: * Detected change in 'C:\\Users\\delet\\Desktop\\dev\\Python\\co-op\\app\\alpha\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 375-723-613
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 375-723-613

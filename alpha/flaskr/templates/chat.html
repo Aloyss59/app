@@ -197,7 +197,6 @@
 
 
 
-
     {% block content %}
     <div>
         {% for friend in friends %}
@@ -213,14 +212,14 @@
                             </div>
                         </div>
                         <div class="reglage-button" onclick="handleReglageClick()">
-                            <img src="../static/img/trois-points-plus-indicateur.png" alt="reglage" class="reglage">
+                            <img src="{{ url_for('static', filename='img/trois-points-plus-indicateur.png') }}" alt="reglage" class="reglage">
                         </div>
                     </div>
                 </ul>
             </a>
         {% endfor %}
     </div>
-{% endblock %}
+    {% endblock %}
 
 
 

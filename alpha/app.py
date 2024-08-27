@@ -2,23 +2,25 @@ from flask import Flask, render_template, request, jsonify, redirect, session, u
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
-from flask_mail import Mail, Message
+from flask_bcrypt import Bcrypt
 from forms import LoginForm, RegistrationForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.orm import joinedload
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
 from flask_socketio import SocketIO, emit
+from sqlalchemy.orm import joinedload
 from profilePicture import generate_avatar
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
-import os, uuid, base64, pytz, psutil, time, random, ssl, string, pyotp
+import os, uuid, base64, pytz, psutil, time, random, ssl, string, pyotp, logging
 
 app = Flask(__name__, template_folder='./flaskr/templates', static_folder='./flaskr/static')
 app.config['UPLOAD_FOLDER'] = r'flaskr/static/uploads'
 with open('config_secrets.txt', 'r') as f:
     secret_key = f.read().strip()
 app.config['SECRET_KEY'] = secret_key
-# app.config['SECRET_KEY'] = "b'hu\x8c\x98\xac\xde\xf7%\x03\xf8\xc0|sv$5\xbd-\xb0\xce\x82<1\xf9'"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///compte.db'
 app.secret_key = os.urandom(24)
 db = SQLAlchemy(app)
@@ -32,11 +34,17 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'society.realese@gmail.com'  # Remplacez par votre email
-app.config['MAIL_PASSWORD'] = 'csry ogtb bpco zzll'  # Remplacez par votre mot de passe spécifique à l'application
+app.config['MAIL_USERNAME'] = 'society.realese@gmail.com'
+with open('config_secret2.txt', 'r') as f:
+    secret_key2 = f.read().strip()
+app.config['MAIL_PASSWORD'] = secret_key2
 app.config['MAIL_DEFAULT_SENDER'] = 'society.realese@gmail.com'
-mail = Mail(app)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=120)
+bcrypt = Bcrypt(app)
 online_users = {}
+limiter = Limiter(get_remote_address, app=app, default_limits=["25 per minute"])
+csrf = CSRFProtect(app)
+logging.basicConfig(filename='access.log', level=logging.WARNING)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,24 +76,24 @@ class Friendship(db.Model):
     user = db.relationship('User', foreign_keys=[user_id], backref='friendships')
     friend = db.relationship('User', foreign_keys=[friend_id], backref='friends_with')
 
-class Message(db.Model):
+class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     text = db.Column(db.String(2000), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     origine_created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
+
     sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
     receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
 
     def __repr__(self):
-        return f'Message({self.id}, {self.sender_id}, {self.receiver_id}, {self.text})'
+        return f'Messages({self.id}, {self.sender_id}, {self.receiver_id}, {self.text})'
 
     def format_created_at(self):
         tz = pytz.timezone('Europe/Paris')
         return self.created_at.astimezone(tz).strftime('%H:%M')
-    
+
     def frmat_origine_created_at(self):
         tz = pytz.timezone('Europe/Paris')
         return self.created_at.astimezone(tz).strftime('%Y-%m-%d %H:%M:%S')
@@ -119,8 +127,14 @@ class UserQuest(db.Model):
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash("Vous devez être connecté pour accéder à cette page.", 'warning')
+            return redirect(url_for('login'))
+        
         if not current_user.is_admin:
-            abort(403)  # Accès refusé
+            log_action(f"Accès non autorisé tenté par l'utilisateur", current_user)
+            abort(403)  # Forbidden access
+
         return f(*args, **kwargs)
     return decorated_function
 
@@ -252,13 +266,6 @@ def reset_daily_quests():
 scheduler = BackgroundScheduler()
 scheduler.add_job(reset_daily_quests, 'cron', hour=00, minute=00)  # Exécuter tous les jours à minuit
 
-from flask_mail import Mail, Message
-
-def send_otp(email, otp_code):
-    msg = Message(subject='Votre code de vérification', recipients=[email])
-    msg.body = f'Votre code OTP est {otp_code}.'
-    mail.send(msg)
-
 def verify_otp(otp):
     otp_secret = session.get('otp_secret')
 
@@ -273,6 +280,10 @@ def verify_otp(otp):
         return True
     else:
         return False
+
+def log_action(action, user):
+    logging.info(f"Action: {action}, User: {user.username}, Time: {datetime.now()}")
+
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
@@ -284,7 +295,8 @@ def home():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db.session.get(User, int(user_id))
+    with app.app_context():
+        return db.session.query(User).get(int(user_id))
 
 @socketio.on('connect')
 def handle_connect():
@@ -297,9 +309,20 @@ def handle_connect():
 @login_required
 @admin_required
 def admin_dashboard():
+    if not current_user.is_admin:
+        flash("Vous n'avez pas les droits nécessaires pour accéder à cette section.", 'danger')
+        log_action("Essaie de ce connecter sans etre autoriser au /admin", current_user)
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         if 'add' in request.form:
-            hashed_password = generate_password_hash(request.form['password'])
+            # Ajout d'un utilisateur par un administrateur
+            if not current_user.is_admin:
+                log_action("Tentative d'ajout d'utilisateur non autorisé dans /admin", current_user)
+                flash("Action non autorisée.", 'danger')
+                return redirect(url_for('admin_dashboard'))
+            
+            hashed_password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
             user = User(
                 first_name=request.form['first_name'],
                 last_name=request.form['last_name'],
@@ -314,10 +337,10 @@ def admin_dashboard():
             db.session.commit()
             flash("Utilisateur ajouté avec succès", "success")
 
-        elif 'update' in request.form:
+        elif 'update' in request.form:            
+            # Mise à jour d'un utilisateur par un administrateur
             user = User.query.get(request.form['id'])
-
-            if user:
+            if user and current_user.is_admin:
                 user.first_name = request.form['first_name']
                 user.last_name = request.form['last_name']
                 user.phone = request.form['phone']
@@ -325,31 +348,43 @@ def admin_dashboard():
                 user.email = request.form['email']
 
                 if request.form['password']:
-                    user.password = generate_password_hash(request.form['password'])
+                    user.password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
 
                 if request.form['solde']:
                     user.solde = float(request.form['solde'])
 
                 user.is_admin = 'is_admin' in request.form
-
                 db.session.commit()
                 flash("Utilisateur mis à jour avec succès", "success")
-
             else:
-                flash("Utilisateur introuvable", "error")
-
+                if user is None:
+                    log_action("Tentative de misa a jour sans présence d'un user", current_user)
+                    flash("user inexsitant", 'danger')
+                    return redirect(url_for('admin_dashboard'))
+                if not current_user.is_admin:
+                    log_action("Tentative de mise à jour non autorisée par", current_user)
+                    flash("Action non autorisée.", "danger")
+                    return redirect(url_for('home'))
+            
         elif 'delete' in request.form:
+            # Suppression d'un utilisateur par un administrateur
             user = User.query.get(request.form['id'])
-            if user:
+            if user and current_user.is_admin:
                 db.session.delete(user)
                 db.session.commit()
                 flash("Utilisateur supprimé avec succès", "success")
-
             else:
-                flash("Utilisateur introuvable", "error")
+                if user is None:
+                    log_action("Tentative de suppression sans séance d'un user", current_user)
+                    flash("user inexsitant", 'danger')
+                    return redirect(url_for('admin_dashboard'))
+                if not current_user.is_admin:
+                    log_action(f"Tentative de suppression non autorisée", current_user)
+                    flash("Action non autorisée.", "danger")
+                    return redirect(url_for('home'))
 
         return redirect(url_for('admin_dashboard'))
-    
+
     users = User.query.all()
     return render_template('admin/admin_dashboard.html', users=users)
 
@@ -367,8 +402,15 @@ def update(id):
 @login_required
 @admin_required
 def data():
-    info = get_system_info()
-    return jsonify(info)
+    if current_user.is_admin:
+        info = get_system_info()
+        if info is not None:
+            return jsonify(info)
+        else:
+            return jsonify({})
+    else:
+        log_action("Tentative de récupération de données serveur.", current_user)
+        return  redirect(url_for('home'))
 
 @socketio.on('disconnect')
 def handle_disconnect():
@@ -385,17 +427,21 @@ def handle_disconnect():
 @login_required
 @admin_required
 def get_online_users():
-    user_ids = list(online_users.keys())
-    users = User.query.filter(User.id.in_(user_ids)).all()
-    online_user_data = [
-        {
-            'id': user.id,
-            'username': user.username,
-            'admin': user.is_admin if user.is_admin is not None else False
-        }
-        for user in users
-    ]
-    return jsonify(online_user_data)
+    if current_user.is_admin:
+        user_ids = list(online_users.keys())
+        users = User.query.filter(User.id.in_(user_ids)).all()
+        online_user_data = [
+            {
+                'id': user.id,
+                'username': user.username,
+                'admin': user.is_admin if user.is_admin is not None else False
+            }
+            for user in users
+        ]
+        return jsonify(online_user_data)
+    else:
+        log_action("Tentative de récupération des utilisateurs connectés.", current_user)
+        return redirect(url_for('home'))
 
 def get_user_info():
     user = User.query.first()
@@ -419,47 +465,55 @@ def user_info():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if request.method == "POST":
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    else:
+        form = LoginForm()
         if form.validate_on_submit():
             user = User.query.filter_by(username=form.username.data).first()
             if user and check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash("Connexion réussie !", "success")
                 return redirect(url_for('home'))
-            else:
-                flash('Nom d\'utilisateur ou mot de passe incorrect', 'danger')
-        else:
-            flash('Formulaire invalide. Veuillez vérifier vos informations.', 'danger')
-    return render_template('auth/login.html', form=form)
+            elif user is not None:
+                user = User.query.filter_by(email=form.email.data).first()
+                if user and check_password_hash(user.password, form.password.data):
+                    login_user(user)
+                    flash("Connexion réussie !", "success")
+                    return redirect(url_for('home'))
+        return render_template('auth/login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit() and request.method == "POST":
-        username_exists = User.query.filter_by(username=form.username.data).first()
-        email_exists = User.query.filter_by(email=form.email.data).first()
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    else:
+        form = RegistrationForm()
+        if form.validate_on_submit() and request.method == "POST":
+            username_exists = User.query.filter_by(username=form.username.data).first()
+            email_exists = User.query.filter_by(email=form.email.data).first()
 
-        if username_exists:
-            flash('Le nom d\'utilisateur est déjà pris. Veuillez en choisir un autre.', 'danger')
-        elif email_exists:
-            flash('L\'adresse e-mail est déjà utilisée. Veuillez en choisir une autre.', 'danger')
-        else:
-            hashed_password = generate_password_hash(form.password.data)
-            new_user = User(
-                first_name=form.first_name.data,
-                last_name=form.last_name.data,
-                username=form.username.data,
-                email=form.email.data,
-                password=hashed_password,
-                is_admin=False
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Votre compte a été créé ! Vous pouvez maintenant vous connecter.', 'success')
-            return redirect(url_for('login'))
+            if username_exists:
+                flash('Le nom d\'utilisateur est déjà pris. Veuillez en choisir un autre.', 'danger')
+            elif email_exists:
+                flash('L\'adresse e-mail est déjà utilisée. Veuillez en choisir une autre.', 'danger')
+            else:
+                hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+                new_user = User(
+                    first_name=form.first_name.data,
+                    last_name=form.last_name.data,
+                    phone=form.phone.data,
+                    username=form.username.data,
+                    email=form.email.data,
+                    password=hashed_password,
+                    is_admin=False
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                flash('Votre compte a été créé ! Vous pouvez maintenant vous connecter.', 'success')
+                return redirect(url_for('login'))
     
-    return render_template('auth/register.html', form=form)
+        return render_template('auth/register.html', form=form)
 
 @app.route('/logout')
 @login_required
@@ -476,26 +530,28 @@ def appareil_photo():
 @app.route('/send-friend-request/<int:user_id>', methods=['POST'])
 @login_required
 def send_friend_request(user_id):
-    # Vérifier si une demande d'ami existe déjà dans les deux sens
-    existing_request = FriendRequest.query.filter(
-        (FriendRequest.sender_id == current_user.id) & 
-        (FriendRequest.receiver_id == user_id) |
-        (FriendRequest.sender_id == user_id) & 
-        (FriendRequest.receiver_id == current_user.id)
-    ).first()
+    if request.method == "POST":
+        # Vérifier si une demande d'ami existe déjà dans les deux sens
+        existing_request = FriendRequest.query.filter(
+            (FriendRequest.sender_id == current_user.id) & 
+            (FriendRequest.receiver_id == user_id) |
+            (FriendRequest.sender_id == user_id) & 
+            (FriendRequest.receiver_id == current_user.id)
+        ).first()
 
-    if existing_request:
-        if existing_request.sender_id == current_user.id:
-            flash('Vous avez déjà envoyé une demande à cet utilisateur.', 'warning')
+        if existing_request:
+            if existing_request.sender_id == current_user.id:
+                flash('Vous avez déjà envoyé une demande à cet utilisateur.', 'warning')
+            else:
+                flash('Cet utilisateur vous a déjà envoyé une demande d\'ami.', 'warning')
         else:
-            flash('Cet utilisateur vous a déjà envoyé une demande d\'ami.', 'warning')
-    else:
-        # Créer une nouvelle demande d'ami
-        friend_request = FriendRequest(sender_id=current_user.id, receiver_id=user_id)
-        db.session.add(friend_request)
-        db.session.commit()
-        flash('Demande d\'ami envoyée avec succès !', 'success')
+            # Créer une nouvelle demande d'ami
+            friend_request = FriendRequest(sender_id=current_user.id, receiver_id=user_id)
+            db.session.add(friend_request)
+            db.session.commit()
+            flash('Demande d\'ami envoyée avec succès !', 'success')
 
+        return redirect(url_for('amis'))
     return redirect(url_for('amis'))
 
 @app.route('/amis', methods=['GET', 'POST'])
@@ -526,39 +582,36 @@ def amis():
 @app.route('/accept-friend-request/<int:request_id>', methods=['POST'])
 @login_required
 def accept_friend_request(request_id):
-    friend_request = FriendRequest.query.get(request_id)
-    if friend_request and friend_request.receiver_id == current_user.id:
-        # Créer une relation d'amitié
-        friendship = Friendship(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id)
-        db.session.add(friendship)
-        # Mettre à jour le statut de la demande d'ami
-        friend_request.status = 'accepted'
-        db.session.commit()
-        flash('Demande d\'ami acceptée.', 'success')
-        return redirect(url_for('amis'))
-    else:
-        flash('Demande d\'ami invalide.', 'danger')
+    if request.method == "POST":
+        friend_request = FriendRequest.query.get(request_id)
+        if friend_request and friend_request.receiver_id == current_user.id:
+            # Créer une relation d'amitié
+            friendship = Friendship(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id)
+            db.session.add(friendship)
+            # Mettre à jour le statut de la demande d'ami
+            friend_request.status = 'accepted'
+            db.session.commit()
+            flash('Demande d\'ami acceptée.', 'success')
+            return redirect(url_for('amis'))
+        else:
+            flash('Demande d\'ami invalide.', 'danger')
     return redirect(url_for('amis'))
 
 @app.route('/reject-friend-request/<int:request_id>', methods=['POST'])
 @login_required
 def reject_friend_request(request_id):
-    friend_request = FriendRequest.query.get(request_id)
-    if friend_request and friend_request.receiver_id == current_user.id:
-        # Mettre à jour le statut de la demande d'ami
-        friend_request.status = 'rejected'
-        db.session.commit()
-        flash('Demande d\'ami refusée.', 'info')
-        return redirect(url_for('chat'))
-    else:
-        flash('Demande d\'ami invalide.', 'danger')
+    if request.method == "POST":
+        friend_request = FriendRequest.query.get(request_id)
+        if friend_request and friend_request.receiver_id == current_user.id:
+            # Mettre à jour le statut de la demande d'ami
+            friend_request.status = 'rejected'
+            db.session.commit()
+            flash('Demande d\'ami refusée.', 'info')
+            return redirect(url_for('chat'))
+        else:
+            flash('Demande d\'ami invalide.', 'danger')
 
     return redirect(url_for('amis'))
-
-@login_manager.user_loader
-def load_user(user_id):
-    with app.app_context():
-        return db.session.get(User, int(user_id))
 
 @socketio.on('message')
 def handle_message(data):
@@ -589,42 +642,34 @@ def handle_message(data):
 @app.route('/chat/<int:user_id>', methods=['GET'])
 @login_required
 def chat_with_user(user_id):
-    try:
-        avatar_data = profile_picture()
-        current_user_id = current_user.id
+    avatar_data = profile_picture()  # Assurez-vous que cette fonction renvoie un dict avec une clé 'avatar'
+    current_user_id = current_user.id
 
-        # Vérifiez si l'utilisateur cible est le même que l'utilisateur actuel
-        if user_id == current_user_id:
-            flash('Vous ne pouvez pas discuter avec vous-même.', 'warning')
-            return redirect(url_for('home'))
-
-        # Vérifiez si l'utilisateur cible existe
-        target_user = User.query.get(user_id)
-        if not target_user:
-            flash('Utilisateur non trouvé.', 'danger')
-            return redirect(url_for('home'))
-
-        # Récupérez les messages avec les utilisateurs associés
-        messages = Message.query.options(
-            joinedload(Message.sender),
-            joinedload(Message.receiver)
-        ).filter(
-            ((Message.sender_id == current_user_id) & (Message.receiver_id == user_id)) |
-            ((Message.sender_id == user_id) & (Message.receiver_id == current_user_id))
-        ).order_by(Message.created_at.asc()).all()
-
-        return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data)
-
-    except Exception as e:
-        flash('Une erreur est survenue : {}'.format(str(e)), 'danger')
+    if user_id == current_user_id:
+        flash('Vous ne pouvez pas discuter avec vous-même.', 'warning')
         return redirect(url_for('home'))
+
+    target_user = User.query.get(user_id)
+    if not target_user:
+        flash('Utilisateur non trouvé.', 'danger')
+        return redirect(url_for('home'))
+    
+    messages = db.session.query(Messages).options(
+        joinedload(Messages.sender),
+        joinedload(Messages.receiver)
+    ).filter(
+        (Messages.sender_id == current_user_id) & (Messages.receiver_id == user_id) |
+        (Messages.sender_id == user_id) & (Messages.receiver_id == current_user_id)
+    ).order_by(Messages.created_at.asc()).all()
+
+    return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data)
 
 @app.route('/send_message/<int:user_id>', methods=['POST'])
 @login_required
 def send_message(user_id):
     message_text = request.form.get('message', '')
     if message_text is not None and request.method == "POST":
-        new_message = Message(text=message_text, sender_id=current_user.id, receiver_id=user_id)
+        new_message = Messages(text=message_text, sender_id=current_user.id, receiver_id=user_id)
         db.session.add(new_message)
         db.session.commit()
         return redirect(url_for('chat_with_user', user_id=user_id))
@@ -644,20 +689,27 @@ def reglage():
     avatar_data = profile_picture()
     return render_template("parametres.html", avatar_data=avatar_data)
 
+from flask_mail import Mail, Message
+mail = Mail(app)
+def send_otp(email, otp_code):
+    msg = Message(subject='Votre code de vérification', recipients=[email])
+    msg.body = f'Votre code OTP est {otp_code}.'
+    mail.send(msg)
+
 @app.route('/parametre/update-password', methods=['POST'])
 @login_required
 def update_password():
     if request.method == 'POST':
-        user = User.query.get(current_user.id)
+        user = current_user
         old_password = request.form['old-password']
         new_password = request.form['new-password']
         new_password_confirm = request.form['new-password-confirm']
-        otp = request.form.get('opt', '')
+        otp = request.form.get('opt-password', '')
 
         # Vérifiez le mot de passe
-        if not check_password_hash(user.password, old_password):
-            flash("Mot de passe incorrect.", 'error')
-            return redirect(url_for('reglage'))
+        if not user or check_password_hash(user.password, old_password):
+            flash("Identifiants invalides. Veuillez réessayer.", 'error')
+            return redirect(url_for('login'))
 
         # Vérifiez si les mots de passe sont identiques
         if new_password != new_password_confirm:
@@ -665,50 +717,51 @@ def update_password():
             return redirect(url_for('reglage'))
 
         # Vérifiez si le nouveau mot de passe est suffisamment fort
-        if len(new_password) < 8:
+        if len(new_password) < 3:
             flash("Le mot de passe doit contenir au moins 8 caractères.", 'error')
             return redirect(url_for('reglage'))
 
         # Vérification et envoi OTP
         if not otp:
-            if 'otp' not in session:
+            if 'opt-password' not in session:
                 verification_code = ''.join(random.choices(string.digits, k=6))
-                session['otp'] = verification_code
-                email = current_user.email
+                session['opt-password'] = verification_code
+                email = user.email
                 send_otp(email, verification_code)
                 flash("Un code de vérification a été envoyé à votre email.", 'info')
-            # if 'opt' in session:
-            #     otp = request.form['opt']
-            #     if otp:
-            #         user.password = generate_password_hash(new_password)
-            #         db.session.commit()
-            #         flash("Mot de passe modifier avec succès", 'success')
-            #         return redirect(url_for('reglage'))
+            if 'opt-password' in session:
+                otp = request.form['opt-password']
+                if otp:
+                    user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+                    db.session.commit()
+                    flash("Mot de passe modifier avec succès", 'success')
+                    return redirect(url_for('reglage'))
             
             flash("Veuillez entrer le code de vérification envoyé à votre email.", 'info')
             return redirect(url_for('reglage'))
 
         # Vérification de l'OTP
-        if otp != session.get('otp'):
+        if otp != session.get('opt-password'):
             flash("Code de vérification incorrect.", 'error')
             return redirect(url_for('reglage'))
 
         # Mise à jour du mot de passe
-        user.password = generate_password_hash(new_password)
+        user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
         db.session.commit()
-        session.pop('otp', None)  # Supprimer l'OTP de la session après l'utilisation
+        session.pop('opt-password', None)  # Supprimer l'OTP de la session après l'utilisation
         flash("Mot de passe mis à jour avec succès!", 'success')
         return redirect(url_for('reglage'))
+    return redirect(url_for('reglage'))
 
 @app.route('/parametre/update-email', methods=['POST'])
 @login_required
 def update_email():
-    if request.method == 'POST':
-        user = User.query.get(current_user.id)
-        old_email = request.form['old_email']
-        new_email = request.form['new_email']
-        password = request.form['password']
-        otp = request.form.get('opt', '')
+    if request.method == "POST":
+        user = current_user
+        old_email = request.form.get('old_email')
+        new_email = request.form.get('new_email')
+        password = request.form.get('password')
+        otp = request.form.get('opt-email', '')
 
         # Vérifiez si l'ancienne adresse email correspond
         if old_email != user.email:
@@ -716,39 +769,65 @@ def update_email():
             return redirect(url_for('reglage'))
 
         # Vérifiez le mot de passe
-        if not check_password_hash(user.password, password):
-            flash("Mot de passe incorrect.", 'error')
-            return redirect(url_for('reglage'))
-
+        if not user or not check_password_hash(user.password, password):
+            flash("Identifiants invalides. Veuillez réessayer.", 'error')
+            return redirect(url_for('login'))
+        
         # Vérifiez si le nouvel email est déjà utilisé
         if User.query.filter_by(email=new_email).first():
             flash("Cette adresse email est déjà utilisée.", 'error')
             return redirect(url_for('reglage'))
 
-        # Vérification et envoi OTP
+        # Gestion de l'OTP
         if not otp:
-            if 'otp' not in session:
+            # Génère un nouveau code OTP et envoie-le par e-mail
+            if 'opt-email' not in session:
                 verification_code = ''.join(random.choices(string.digits, k=6))
-                session['otp'] = verification_code
+                session['opt-email'] = verification_code
                 email = current_user.email
                 send_otp(email, verification_code)
                 flash("Un code de vérification a été envoyé par mail.", 'info')
+                return redirect(url_for('reglage'))
+            if 'opt-email' in session:
+                otp = request.form['opt-email']
+                if otp:
+                    user.email = new_email
+                    db.session.commit()
+                    session.pop('opt-email', None)
+                    flash("Adresse email mise à jour avec succès!", 'success')
+                    return redirect(url_for('reglage'))
+                else:
+                    flash("Code de verrification incorrect.", 'error')
+                    return redirect(url_for('reglage'))
+
+            # Redirige si le code OTP n'est pas encore saisi
+            flash("Veuillez entrer le code de vérification envoyé par mail.", 'info')
+            return redirect(url_for('reglage'))
+    
+
+        # Vérification de l'OTP
+        if otp != session.get('opt-email'):
+            flash("Code de vérification incorrect.", 'error')
+            return redirect(url_for('reglage'))
 
         # Met à jour l'email
         user.email = new_email
         db.session.commit()
-        session.pop('otp', None)
+        session.pop('opt-email', None)
         flash("Adresse email mise à jour avec succès!", 'success')
         return redirect(url_for('reglage'))
+    return redirect(url_for('reglage'))
 
 @app.route('/parametre/update-phone', methods=['POST'])
 @login_required
 def update_phone():
     if request.method == 'POST':
         user = User.query.get(current_user.id)
+
         old_phone = request.form['old-phone']
         new_phone = request.form['new-phone']
         password = request.form['password-phone']
+        otp = request.form.get('opt-phone', '')
 
         # Vérifiez si l'ancien numéro de téléphone correspond
         if old_phone != user.phone:
@@ -756,16 +835,39 @@ def update_phone():
             return redirect(url_for('reglage'))
 
         # Vérifiez le mot de passe
-        if not check_password_hash(user.password, password):
-            flash("Mot de passe incorrect.", 'error')
-            return redirect(url_for('reglage'))
+        if not user or not check_password_hash(user.password, password):
+            flash("Identifiants invalides. Veuillez réessayer.", 'error')
+            return redirect(url_for('login'))
+
+        # Gestion de l'OTP
+        if not otp:
+            # Génère un nouveau code OTP et envoie-le par e-mail
+            if 'opt-phone' not in session:
+                verification_code = ''.join(random.choices(string.digits, k=6))
+                session['opt-phone'] = verification_code
+                email = current_user.email
+                send_otp(email, verification_code)
+                flash("Un code de vérification a été envoyé par mail.", 'info')
+                return redirect(url_for('reglage'))
+            if 'opt-phone' in session:
+                otp = request.form['opt-phone']
+                if otp:
+                    user.phone = new_phone
+                    db.session.commit()
+                    session.pop('opt-phone', None)
+                    flash("Adresse email mise à jour avec succès!", 'success')
+                    return redirect(url_for('reglage'))
+                else:
+                    flash("Code de verrification incorrect.", 'error')
+                    return redirect(url_for('reglage'))
 
         # Met à jour le numéro de téléphone
         user.phone = new_phone
         db.session.commit()
+        session.pop('opt-phone', None)
         flash("Numéro de téléphone mis à jour avec succès!", 'success')
         return redirect(url_for('reglage'))
-
+    return redirect(url_for('reglage'))
 
 @app.route('/album-photo')
 @login_required
@@ -833,6 +935,8 @@ def quests():
             flash("Quête mise à jour avec succès.", "success")
         except Exception as e:
             db.session.rollback()
+            if db.session.is_active:
+                db.session.close()
             flash(f"Erreur lors de la mise à jour de la quête: {str(e)}", "danger")
 
     avatar_data = profile_picture()
@@ -863,23 +967,6 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html')
 
-@app.route('/upload', methods=['POST'])
-@login_required
-def upload():
-    data = request.get_json()
-    if 'image' not in data:
-        return jsonify({'error': 'No image part in the request'}), 400
-
-    image_data = data['image'].split(",")[1]
-    file_data = base64.b64decode(image_data)
-    filename = f"{uuid.uuid4().hex}.png"
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-    with open(file_path, "wb") as f:
-        f.write(file_data)
-    
-    return jsonify({'url': f"../static/uploads/{filename}"}), 200
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Ensure all tables are created
@@ -887,4 +974,7 @@ if __name__ == '__main__':
         os.makedirs(app.config['UPLOAD_FOLDER'])
     scheduler.start()
     info = get_system_info()
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    try:
+        socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    except Exception as e:
+        print(f"Erreur lors du démarrage du serveur: {str(e)}")
