@@ -437,9 +437,23 @@ dialog::backdrop {
     display: block;
   }
 
-
-
-
-
-
-
+  .flash-messages {
+    margin: 20px;
+  }
+  
+  .flash-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  

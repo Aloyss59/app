@@ -48,7 +48,6 @@ online_users = {}
 limiter = Limiter(
     get_remote_address,
     app=app,
-    storage_uri="redis://localhost:6379/0",
     default_limits=["25 per minute"]
 )
 csrf = CSRFProtect(app)
@@ -66,6 +65,8 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     is_admin = db.Column(db.Boolean, default=False)
     solde = db.Column(db.Float, default=0)
+    is_suspended = db.Column(db.Boolean, default=False)  # Champ pour indiquer si l'utilisateur est suspendu
+    suspension_end = db.Column(db.DateTime, nullable=True)  # Date de fin de suspension
 
 class FriendRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -310,7 +311,10 @@ def home():
 @login_manager.user_loader
 def load_user(user_id):
     with app.app_context():
-        return db.session.get(User, int(user_id))
+        user = db.session.get(User, int(user_id))
+        if user and (user.is_suspended and (not user.suspension_end or user.suspension_end > datetime.utcnow())):
+            return None  # Ne charge pas l'utilisateur s'il est suspendu
+        return user
 
 @socketio.on('connect')
 def handle_connect():
@@ -397,7 +401,39 @@ def admin_dashboard():
                     flash("Action non autorisée.", "danger")
                     return redirect(url_for('home'))
 
-        return redirect(url_for('admin_dashboard'))
+        elif 'ban' in request.form:
+            user = User.query.get(request.form['id'])
+            if user:
+                if user.is_admin:
+                    flash("Impossible de suspendre un administrateur.", "danger")
+                    return redirect(url_for('admin_dashboard'))
+
+                suspension_duration = request.form.get('duration', None)
+                if suspension_duration:  # Si une durée est spécifiée
+                    suspension_duration = int(suspension_duration)
+                    if suspension_duration > 0:
+                        user.is_suspended = True
+                        user.suspension_end = datetime.utcnow() + timedelta(days=suspension_duration)
+                    else:
+                        flash("Durée de suspension invalide.", "danger")
+                        return redirect(url_for('admin_dashboard'))
+                else:  # Suspension permanente
+                    user.is_suspended = True
+                    user.suspension_end = None
+                
+                db.session.commit()
+                flash("Utilisateur suspendu avec succès", "success")
+            else:
+                flash("Utilisateur inexistant.", "danger")
+
+            return redirect(url_for('admin_dashboard'))
+
+        elif 'unban' in request.form:
+            user = User.query.get(request.form['id'])
+            if user:
+                user.is_suspended = False
+                user.suspension_end = None
+                db.session.commit()
 
     users = User.query.all()
     return render_template('admin/admin_dashboard.html', users=users)
@@ -457,26 +493,6 @@ def get_online_users():
         log_action("Tentative de récupération des utilisateurs connectés.", current_user)
         return redirect(url_for('home'))
 
-def get_user_info():
-    user = User.query.first()
-    if user:
-        return {
-            "nom": current_user.last_name,
-            "prenom": current_user.first_name,
-            "username" : current_user.username,
-        }
-    return {}
-
-@app.route('/get_user_info', methods=['GET'])
-@login_required
-def user_info():
-    user_info = {
-        "nom": current_user.last_name,
-        "prenom": current_user.first_name,
-        "username": current_user.username,
-    }
-    return jsonify(user_info)
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -486,15 +502,17 @@ def login():
         if form.validate_on_submit():
             user = User.query.filter_by(username=form.username.data).first()
             if user and check_password_hash(user.password, form.password.data):
+                # Vérifier si l'utilisateur est suspendu
+                if user.is_suspended:
+                    # Vérifier si la suspension est toujours en cours
+                    if not user.suspension_end or user.suspension_end > datetime.utcnow():
+                        flash("Votre compte est suspendu.", "danger")
+                        return redirect(url_for('login'))
+                # Connecter l'utilisateur
                 login_user(user)
                 flash("Connexion réussie !", "success")
                 return redirect(url_for('home'))
-            elif user is not None:
-                user = User.query.filter_by(email=form.email.data).first()
-                if user and check_password_hash(user.password, form.password.data):
-                    login_user(user)
-                    flash("Connexion réussie !", "success")
-                    return redirect(url_for('home'))
+            flash("Identifiants invalides.", "danger")
         return render_template('auth/login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -658,6 +676,7 @@ def handle_message(data):
 def chat_with_user(user_id):
     avatar_data = profile_picture()  # Assurez-vous que cette fonction renvoie un dict avec une clé 'avatar'
     current_user_id = current_user.id
+    other_user = User.query.get_or_404(user_id)
 
     if user_id == current_user_id:
         flash('Vous ne pouvez pas discuter avec vous-même.', 'warning')
@@ -675,8 +694,8 @@ def chat_with_user(user_id):
         (Messages.sender_id == current_user_id) & (Messages.receiver_id == user_id) |
         (Messages.sender_id == user_id) & (Messages.receiver_id == current_user_id)
     ).order_by(Messages.created_at.asc()).all()
-
-    return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data)
+    
+    return render_template("discussion.html", messages=messages, user_id=user_id, avatar_data=avatar_data, other_user=other_user)
 
 @app.route('/send_message/<int:user_id>', methods=['POST'])
 @login_required
@@ -958,13 +977,6 @@ def daily_quests():
     avatar_data = profile_picture()
     quests_data = find_quests_user()  # Récupère les quêtes de l'utilisateur connecté
     return render_template("quests.html", avatar_data=avatar_data, quests=quests_data)
-
-@app.route('/api/usernames')
-@login_required
-def get_usernames():
-    users = User.query.all()
-    user_dict = {user.id: user.username for user in users}
-    return jsonify(user_dict)
 
 @app.errorhandler(404)
 def page_not_found(e):

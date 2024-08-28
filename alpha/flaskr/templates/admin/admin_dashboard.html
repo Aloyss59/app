@@ -27,8 +27,10 @@
         <input type="text" name="username" placeholder="Nom d'utilisateur" required class="form-input">
         <input type="email" name="email" placeholder="Email" required class="form-input">
         <input type="password" name="password" placeholder="Mot de passe" required class="form-input">
-        <input type="text" name="admin" placeholder="Admin" class="form-input">
-        <input type="text" name="solde", placeholder="Solde", class="form-input">
+        <label>
+            <input type="checkbox" name="is_admin"> Admin
+        </label>
+        <input type="text" name="solde" placeholder="Solde" class="form-input">
         <button type="submit" name="add" class="submit-button">Ajouter</button>
     </form>
 
@@ -43,9 +45,10 @@
                 <th>Téléphone</th>
                 <th>Nom d'utilisateur</th>
                 <th>Email</th>
-                <th>Mot de passe</th>
+                <th>Password</th>
                 <th>Admin</th>
                 <th>Solde</th>
+                <th>Suspension</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -54,6 +57,7 @@
             <tr>
                 <form method="post">
                     <input type="hidden" name="id" value="{{ user.id }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <td>{{ user.id }}</td>
                     <td><input type="text" name="first_name" value="{{ user.first_name }}" class="form-input" required></td>
                     <td><input type="text" name="last_name" value="{{ user.last_name }}" class="form-input" required></td>
@@ -64,6 +68,11 @@
                     <td><input type="checkbox" name="is_admin" value="True" {% if user.is_admin %}checked{% endif %}></td>
                     <td><input type="text" name="solde" value="{{ user.solde }}" class="form-input"></td>
                     <td>
+                        <input type="checkbox" value="True" {% if user.is_suspended %}checked{% endif %}>
+                        <input type="number" name="duration" placeholder="Durée de suspension (jours)">
+                        <button type="submit" name="ban">Suspendre</button><button type="submit" name="unban">Rétablir</button>
+                    </td>
+                    <td>
                         <button type="submit" name="update" class="submit-button">Mettre à jour</button>
                         <button type="submit" name="delete" class="submit-button">Supprimer</button>
                     </td>
@@ -72,6 +81,7 @@
             {% endfor %}
         </tbody>
     </table>
+
     <h1>Server Component Statistics</h1>
     <div>
         <canvas id="myChart" class="myChart"></canvas>

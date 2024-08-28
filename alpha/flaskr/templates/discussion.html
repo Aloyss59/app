@@ -6,6 +6,9 @@
     <title>E-Spirit Chat</title>
     <link rel="stylesheet" type="text/css" href="../static/css/page-discussion.css?v=1.0">
     <link rel="icon" type="image/png" href="../static/img/logo_E-esprit.png">
+    <script>
+        var current_user = { id: {{ current_user.id | tojson }} };
+    </script>
     <script src="../static/js/main.js"></script>
     <script src="../static/js/theme.js"></script>
     <script src="../static/js/profil.js"></script>
@@ -15,7 +18,7 @@
         <button class="back-button" onclick="pagechat()">➔</button>
         <img src="data:image/png;base64,{{ avatar_data.avatar }}" alt="Photo" class="ta-pp">
         <div class="Name-page">
-            <span>Chat avec {{ current_user.username }}</span>
+            <span>Chat avec {{ other_user.username }}</span>
         </div>
     </header>
 
@@ -137,6 +140,7 @@
             <p id="userNom">Nom : ...</p>
             <p id="userPrenom">Prénom : ...</p>
         </div>
-    </div>  
+    </div> 
+    <script src="{{ url_for('static', filename='js/online.js') }}"></script> 
 </body>
 </html>
