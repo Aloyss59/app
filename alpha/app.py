@@ -9,6 +9,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
 from flask_socketio import SocketIO, emit
+from flask_mail import Mail, Message
 from sqlalchemy.orm import joinedload
 from profilePicture import generate_avatar
 from datetime import datetime, timedelta, timezone
@@ -42,8 +43,16 @@ app.config['MAIL_DEFAULT_SENDER'] = 'society.realese@gmail.com'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=120)
 bcrypt = Bcrypt(app)
 online_users = {}
-limiter = Limiter(get_remote_address, app=app, default_limits=["25 per minute"])
+# limiter = Limiter(get_remote_address, app=app, default_limits=["25 per minute"])
+# Configure Flask-Limiter with Redis as storage backend
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    storage_uri="redis://localhost:6379/0",
+    default_limits=["25 per minute"]
+)
 csrf = CSRFProtect(app)
+mail = Mail(app)
 logging.basicConfig(filename='access.log', level=logging.WARNING)
 
 class User(db.Model, UserMixin):
@@ -284,6 +293,11 @@ def verify_otp(otp):
 def log_action(action, user):
     logging.info(f"Action: {action}, User: {user.username}, Time: {datetime.now()}")
 
+def send_otp(email, otp_code):
+    msg = Message(subject='Votre code de vérification', recipients=[email])
+    msg.body = f'Votre code OTP est {otp_code}.'
+    mail.send(msg)
+
 @app.route('/')
 @app.route('/home')
 @app.route('/acceuil')
@@ -296,7 +310,7 @@ def home():
 @login_manager.user_loader
 def load_user(user_id):
     with app.app_context():
-        return db.session.query(User).get(int(user_id))
+        return db.session.get(User, int(user_id))
 
 @socketio.on('connect')
 def handle_connect():
@@ -688,13 +702,6 @@ def send_message(user_id):
 def reglage():
     avatar_data = profile_picture()
     return render_template("parametres.html", avatar_data=avatar_data)
-
-from flask_mail import Mail, Message
-mail = Mail(app)
-def send_otp(email, otp_code):
-    msg = Message(subject='Votre code de vérification', recipients=[email])
-    msg.body = f'Votre code OTP est {otp_code}.'
-    mail.send(msg)
 
 @app.route('/parametre/update-password', methods=['POST'])
 @login_required
